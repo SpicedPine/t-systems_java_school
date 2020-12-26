@@ -1,47 +1,41 @@
-package persistant;
+package com.noskov.school.persistant;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "patients")
+@Table(name = "PATIENTS")
 public class PatientPO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "first_name", nullable = false)
+    @Column(name = "FIRST_NAME", nullable = false)
     private String firstName;
 
-    @Column(name = "last_name", nullable = false)
+    @Column(name = "LAST_NAME", nullable = false)
     private String lastName;
 
-    @Column(name = "diagnose", nullable = false)
+    @Column(name = "DIAGNOSE", nullable = false)
     private String diagnose;
 
-    @Column(name = "social_number", nullable = false)
+    @Column(name = "SOCIAL_NUMBER", nullable = false)
     private int socialNumber;
 
-    @Column(name = "physician", nullable = false)
+    @Column(name = "PHYSICIAN", nullable = false)
     private String physician;
 
     /**
      * true->treated
      * false->treating
      */
-    @Column(name = "status", nullable = false)
+    @Column(name = "STATUS", nullable = false)
     private boolean status;
 
-    /**
-     * List with prescriptions for a certain patient
-     */
     @OneToMany(mappedBy = "patient")
     List<PrescriptionPO> prescriptionList = new ArrayList<>();
 
-    /**
-     * List of events for a certain patient
-     */
     @OneToMany(mappedBy = "patient")
     List<EventPO> eventList = new ArrayList<>();
 }

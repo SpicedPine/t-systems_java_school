@@ -1,24 +1,24 @@
-package persistant;
+package com.noskov.school.persistant;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "proc_and_med")
+@Table(name = "PROC_AND_MED")
 public class ProcedureAndMedicinePO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name",nullable = false)
+    @Column(name = "NAME",nullable = false)
     private String name;
 
     /**
      * true->procedure
      * false->medicine
      */
-    @Column(name = "type",nullable = false)
+    @Column(name = "TYPE",nullable = false)
     private boolean type;
 
     /**

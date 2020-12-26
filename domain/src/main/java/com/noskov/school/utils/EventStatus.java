@@ -1,4 +1,4 @@
-package utils;
+package com.noskov.school.utils;
 
 public enum EventStatus {
     PLANNED("planned"),

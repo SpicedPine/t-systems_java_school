@@ -1,10 +1,10 @@
-package persistant;
+package com.noskov.school.persistant;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "prescriptions")
+@Table(name = "PRESCRIPTIONS")
 public class PrescriptionPO {
 
     @Id
@@ -12,19 +12,19 @@ public class PrescriptionPO {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "patient_id", nullable = false)
+    @JoinColumn(name = "PATIENT_ID", nullable = false)
     private PatientPO patient;
 
     @ManyToOne
-    @JoinColumn(name = "proc_or_med_id", nullable = false)
+    @JoinColumn(name = "PROC_OR_MED_ID", nullable = false)
     private ProcedureAndMedicinePO prescriptionType;
 
-    @Column(name = "time_pattern",nullable = false)
+    @Column(name = "TIME_PATTERN",nullable = false)
     private String timePattern;
 
-    @Column(name = "period", nullable = false)
+    @Column(name = "PERIOD", nullable = false)
     private Date period;
 
-    @Column(name = "dose", nullable = true)
+    @Column(name = "DOSE", nullable = true)
     private float dose;
 }

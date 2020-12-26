@@ -1,29 +1,29 @@
-package persistant;
+package com.noskov.school.persistant;
 
-import utils.EventStatus;
+import com.noskov.school.utils.EventStatus;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "events")
+@Table(name = "EVENTS")
 public class EventPO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "patient_id",nullable = false)
+    @JoinColumn(name = "PATIENT_ID",nullable = false)
     private PatientPO patient;
 
-    @Column(name = "date_and_time",  nullable = false)
+    @Column(name = "DATE_AND_TIME",  nullable = false)
     private Date dateAndTime;
 
-    @Column(name = "status", nullable = false)
+    @Column(name = "STATUS", nullable = false)
     @Enumerated(EnumType.STRING)
     private EventStatus status;
 
     @ManyToOne
-    @JoinColumn(name = "proc_or_medic_id",nullable = false)
+    @JoinColumn(name = "PROC_OR_MED_ID",nullable = false)
     private ProcedureAndMedicinePO eventType;
 }
