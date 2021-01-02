@@ -1,9 +1,7 @@
-package com.noskov.school.persistant;
+package com.noskov.school.persistent;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.*;
 @Entity
 @Table(name = "PATIENTS")
 public class PatientPO {
@@ -38,5 +36,11 @@ public class PatientPO {
 
     @OneToMany(mappedBy = "patient")
     List<EventPO> eventList = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(name = "PATIENT_MEDICAL_STAFF",
+            joinColumns = @JoinColumn(name = "PATIENT_ID"),
+            inverseJoinColumns = @JoinColumn(name = "MEDICAL_STAFF_ID"))
+    HashSet<MedicalStaffPO> physitians = new HashSet<>();
 }
 
