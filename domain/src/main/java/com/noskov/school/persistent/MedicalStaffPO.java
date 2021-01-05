@@ -25,5 +25,5 @@ public class MedicalStaffPO {
     @JoinTable(name = "PATIENT_MEDICAL_STAFF",
             joinColumns = @JoinColumn(name = "MEDICAL_STAFF_ID"),
             inverseJoinColumns = @JoinColumn(name = "PATIENT_ID"))
-    HashSet<PatientPO> patients = new HashSet<>();
+    private HashSet<PatientPO> patients = new HashSet<>();
 }

@@ -23,11 +23,11 @@ public class ProcedureAndMedicinePO {
      * List of events for certain procedure or medicine
      */
     @OneToMany(mappedBy = "eventType")
-    List<EventPO> eventList = new ArrayList<>();
+    private List<EventPO> eventList = new ArrayList<>();
 
     /**
      * List of prescriptions for certain procedure or medicine
      */
     @OneToMany(mappedBy = "prescriptionType")
-    List<PrescriptionPO> prescriptionList = new ArrayList<>();
+    private List<PrescriptionPO> prescriptionList = new ArrayList<>();
 }

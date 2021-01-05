@@ -32,15 +32,15 @@ public class PatientPO {
     private boolean status;
 
     @OneToMany(mappedBy = "patient")
-    List<PrescriptionPO> prescriptionList = new ArrayList<>();
+    private List<PrescriptionPO> prescriptionList = new ArrayList<>();
 
     @OneToMany(mappedBy = "patient")
-    List<EventPO> eventList = new ArrayList<>();
+    private List<EventPO> eventList = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(name = "PATIENT_MEDICAL_STAFF",
             joinColumns = @JoinColumn(name = "PATIENT_ID"),
             inverseJoinColumns = @JoinColumn(name = "MEDICAL_STAFF_ID"))
-    HashSet<MedicalStaffPO> physitians = new HashSet<>();
+    private HashSet<MedicalStaffPO> physitians = new HashSet<>();
 }
 

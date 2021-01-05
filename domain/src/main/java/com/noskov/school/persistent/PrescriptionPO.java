@@ -20,10 +20,4 @@ public class PrescriptionPO {
 
     @Column(name = "FORMED_PRESCRIPTION",nullable = false)
     private String formedPrescription;
-
-    /*@Column(name = "PERIOD", nullable = false)
-    private Date period;
-
-    @Column(name = "DOSE", nullable = true)
-    private float dose;*/
 }
