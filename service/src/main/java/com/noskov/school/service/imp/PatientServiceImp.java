@@ -18,11 +18,21 @@ public class PatientServiceImp implements PatientService {
         this.sessionFactory = sessionFactory;
     }
 
-
     @Override
     public List<PatientPO> getAllPatients() {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("from PatientPO").list();
+    }
+
+    @Override
+    public PatientPO getById(Long id) throws NullPointerException {
+        Session session = sessionFactory.getCurrentSession();
+        PatientPO patient = (PatientPO) session.get(PatientPO.class, id);
+        if(patient != null){
+            return patient;
+        } else{
+            throw new NullPointerException("from getById in PatientServiceImp");
+        }
     }
 
     @Override
