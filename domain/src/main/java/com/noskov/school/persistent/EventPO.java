@@ -1,4 +1,4 @@
-package com.noskov.school.persistant;
+package com.noskov.school.persistent;
 
 import com.noskov.school.utils.EventStatus;
 

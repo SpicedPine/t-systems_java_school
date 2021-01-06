@@ -1,4 +1,6 @@
-package com.noskov.school.persistant;
+package com.noskov.school.persistent;
+
+import com.noskov.school.utils.TherapyType;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,23 +16,18 @@ public class ProcedureAndMedicinePO {
     @Column(name = "NAME",nullable = false)
     private String name;
 
-    /**
-     * true->procedure
-     * false->medicine
-     */
     @Column(name = "TYPE",nullable = false)
-    private boolean type;
+    private TherapyType type;
 
     /**
      * List of events for certain procedure or medicine
      */
     @OneToMany(mappedBy = "eventType")
-    List<EventPO> eventList = new ArrayList<>();
+    private List<EventPO> eventList = new ArrayList<>();
 
     /**
-     * List of prescriptions for certain prescription or medicine
+     * List of prescriptions for certain procedure or medicine
      */
     @OneToMany(mappedBy = "prescriptionType")
-    List<PrescriptionPO> prescriptionList = new ArrayList<>();
-
+    private List<PrescriptionPO> prescriptionList = new ArrayList<>();
 }

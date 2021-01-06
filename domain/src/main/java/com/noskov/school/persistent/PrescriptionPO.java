@@ -1,7 +1,6 @@
-package com.noskov.school.persistant;
+package com.noskov.school.persistent;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Table(name = "PRESCRIPTIONS")
@@ -19,12 +18,6 @@ public class PrescriptionPO {
     @JoinColumn(name = "PROC_OR_MED_ID", nullable = false)
     private ProcedureAndMedicinePO prescriptionType;
 
-    @Column(name = "TIME_PATTERN",nullable = false)
-    private String timePattern;
-
-    @Column(name = "PERIOD", nullable = false)
-    private Date period;
-
-    @Column(name = "DOSE", nullable = true)
-    private float dose;
+    @Column(name = "FORMED_PRESCRIPTION",nullable = false)
+    private String formedPrescription;
 }
