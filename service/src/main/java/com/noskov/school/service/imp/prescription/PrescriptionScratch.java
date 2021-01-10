@@ -1,6 +1,7 @@
-package com.noskov.school.utils.prescription;
+package com.noskov.school.service.imp.prescription;
 
-import com.noskov.school.utils.TherapyType;
+import com.noskov.school.enums.TherapyType;
+import com.noskov.school.enums.TimePeriods;
 
 public class PrescriptionScratch {
     private Type type;
@@ -49,6 +50,10 @@ public class PrescriptionScratch {
         public TherapyType getTherapyType() {
             return therapyType;
         }
+
+        public void setTherapyType(TherapyType therapyType) {
+            this.therapyType = therapyType;
+        }
     }
 
     class TimePattern{
@@ -71,12 +76,20 @@ public class PrescriptionScratch {
             this.quantity = quantity;
         }
 
+        public int getQuantity() {
+            return quantity;
+        }
+
         public void setFrequency(TimePeriods frequency) {
             this.frequency = frequency;
         }
 
         public void setAdditionalInformation(String additionalInformation) {
             this.additionalInformation = additionalInformation;
+        }
+
+        public void addAdditionalInformation(String informationToAdd){
+            this.additionalInformation+=" "+informationToAdd;
         }
     }
 
