@@ -1,16 +1,16 @@
-package com.noskov.school.service.imp;
+package com.noskov.school.dao.imp;
 
 import com.noskov.school.persistent.PatientPO;
-import com.noskov.school.service.api.PatientService;
+import com.noskov.school.dao.api.PatientDAO;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Service
-public class PatientServiceImp implements PatientService {
+@Repository
+public class PatientDAOImp implements PatientDAO {
     private SessionFactory sessionFactory;
 
     @Autowired
@@ -36,8 +36,20 @@ public class PatientServiceImp implements PatientService {
     }
 
     @Override
+    public void delete(PatientPO patient) {
+        Session session = sessionFactory.getCurrentSession();
+        session.delete("PatientPO", patient);
+    }
+
+    @Override
     public void add(PatientPO patient) {
         Session session = sessionFactory.getCurrentSession();
         session.persist(patient);
+    }
+
+    @Override
+    public void update(PatientPO patient) {
+        Session session = sessionFactory.getCurrentSession();
+        session.update("PatientPO", patient);
     }
 }

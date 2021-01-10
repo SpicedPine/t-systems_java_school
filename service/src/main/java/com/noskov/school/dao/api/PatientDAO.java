@@ -1,11 +1,13 @@
-package com.noskov.school.service.api;
+package com.noskov.school.dao.api;
 
 import com.noskov.school.persistent.PatientPO;
 
 import java.util.List;
 
-public interface PatientService {
+public interface PatientDAO {
     List<PatientPO> getAllPatients();
     void add(PatientPO patient);
     PatientPO getById(Long id);
+    void delete(PatientPO patient);
+    void update(PatientPO patient);
 }
