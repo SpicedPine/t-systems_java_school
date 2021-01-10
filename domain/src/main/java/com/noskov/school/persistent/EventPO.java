@@ -1,6 +1,6 @@
 package com.noskov.school.persistent;
 
-import com.noskov.school.utils.EventStatus;
+import com.noskov.school.enums.EventStatus;
 
 import javax.persistence.*;
 import java.util.Date;

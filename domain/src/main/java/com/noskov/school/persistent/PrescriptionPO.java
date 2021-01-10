@@ -20,4 +20,36 @@ public class PrescriptionPO {
 
     @Column(name = "FORMED_PRESCRIPTION",nullable = false)
     private String formedPrescription;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public PatientPO getPatient() {
+        return patient;
+    }
+
+    public void setPatient(PatientPO patient) {
+        this.patient = patient;
+    }
+
+    public ProcedureAndMedicinePO getPrescriptionType() {
+        return prescriptionType;
+    }
+
+    public void setPrescriptionType(ProcedureAndMedicinePO prescriptionType) {
+        this.prescriptionType = prescriptionType;
+    }
+
+    public String getFormedPrescription() {
+        return formedPrescription;
+    }
+
+    public void setFormedPrescription(String formedPrescription) {
+        this.formedPrescription = formedPrescription;
+    }
 }
