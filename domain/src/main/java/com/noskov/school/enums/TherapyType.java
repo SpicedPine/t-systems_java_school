@@ -1,4 +1,4 @@
-package com.noskov.school.utils;
+package com.noskov.school.enums;
 
 public enum TherapyType {
     PROCEDURE("procedure"),
@@ -8,10 +8,6 @@ public enum TherapyType {
 
     public String getType() {
         return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     TherapyType(String type) {

@@ -1,4 +1,4 @@
-package com.noskov.school.utils.prescription;
+package com.noskov.school.enums;
 
 public enum TimePeriods {
     DAY("day"),

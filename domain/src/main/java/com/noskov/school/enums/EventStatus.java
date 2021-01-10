@@ -1,4 +1,4 @@
-package com.noskov.school.utils;
+package com.noskov.school.enums;
 
 public enum EventStatus {
     PLANNED("planned"),
@@ -13,10 +13,6 @@ public enum EventStatus {
 
     public String getStatus() {
         return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     @Override

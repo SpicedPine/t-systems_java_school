@@ -1,6 +1,6 @@
 package com.noskov.school.persistent;
 
-import com.noskov.school.utils.TherapyType;
+import com.noskov.school.enums.TherapyType;
 
 import javax.persistence.*;
 import java.util.ArrayList;
