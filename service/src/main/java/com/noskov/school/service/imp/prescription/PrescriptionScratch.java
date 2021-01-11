@@ -35,6 +35,18 @@ public class PrescriptionScratch {
         return dose;
     }
 
+    public void setTimePattern(TimePattern timePattern) {
+        this.timePattern = timePattern;
+    }
+
+    public void setPeriod(Period period) {
+        this.period = period;
+    }
+
+    public void setDose(Dose dose) {
+        this.dose = dose;
+    }
+
     class Type{
         private TherapyType therapyType;
 
@@ -90,6 +102,10 @@ public class PrescriptionScratch {
 
         public void addAdditionalInformation(String informationToAdd){
             this.additionalInformation+=" "+informationToAdd;
+        }
+
+        public TimePeriods getFrequency() {
+            return frequency;
         }
     }
 

@@ -2,24 +2,35 @@ package com.noskov.school.service.imp.prescription;
 
 import com.noskov.school.enums.TimePeriods;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class TimePeriodParser {
-    public static List<String> parseDay(PrescriptionScratch scratch, List<String> list){
-        scratch.getTimePattern().setFrequency(TimePeriods.DAY);
-        list.remove(0);
-        return list;
+
+    public static TimePeriods parseTimePatternTimePeriod(String prescription){
+        List<String> list = Arrays.asList(prescription.split(" "));
+        String timePeriod = list.get(2);
+        if(timePeriod.equals(TimePeriods.DAY.toString())){
+            return TimePeriods.DAY;
+        } else if (timePeriod.equals(TimePeriods.WEEK.toString())){
+            return TimePeriods.WEEK;
+        } else if (timePeriod.equals(TimePeriods.Month.toString())){
+            return TimePeriods.Month;
+        } else throw new RuntimeException("timePatternTimePeriod parsing exception");
     }
 
-    public static List<String> parseWeek(PrescriptionScratch scratch, List<String> list){
-        scratch.getTimePattern().setFrequency(TimePeriods.WEEK);
-        list.remove(0);
-        return list;
-    }
-
-    public static List<String> parseMonth(PrescriptionScratch scratch, List<String> list){
-        scratch.getTimePattern().setFrequency(TimePeriods.Month);
-        list.remove(0);
-        return list;
+    public static TimePeriods parsePeriodTimePeriod(String prescription){
+        List<String> list = Arrays.asList(prescription.split(" "));
+        String timePeriod = "";
+        for (int i = 3; i < list.size()-1; i++) {
+            if(timePeriod.equals(TimePeriods.DAY.toString())){
+                return TimePeriods.DAY;
+            } else if (timePeriod.equals(TimePeriods.WEEK.toString())){
+                return TimePeriods.WEEK;
+            } else if (timePeriod.equals(TimePeriods.Month.toString())){
+                return TimePeriods.Month;
+            }
+        }
+        throw new RuntimeException("periodTimePeriod parsing exception");
     }
 }

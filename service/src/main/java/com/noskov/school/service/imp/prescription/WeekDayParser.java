@@ -7,13 +7,12 @@ import java.util.stream.Collectors;
 
 public class WeekDayParser {
 
-    public static List<String> parseWeekDays(PrescriptionScratch scratch, List<String> list){
+    public static String parseWeekDays(String prescription){
+        List<String> list = Arrays.asList(prescription.split(" "));
         StringJoiner weekDayInformation = new StringJoiner(" ","on", "");
         Set<String> weekDaySet = WeekDay.getStringSet();
         List<String> containingDays = list.stream().filter(weekDaySet::contains).collect(Collectors.toList());
         containingDays.forEach(weekDayInformation::add);
-        scratch.getTimePattern().addAdditionalInformation(weekDayInformation.toString());
-        list.removeAll(containingDays);
-        return list;
+        return weekDayInformation.toString();
     }
 }

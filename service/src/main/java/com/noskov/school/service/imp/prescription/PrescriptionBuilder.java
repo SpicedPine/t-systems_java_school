@@ -28,44 +28,30 @@ public class PrescriptionBuilder implements TimeManagement {
     }
 
     @Override
-    public PrescriptionScratch parsePrescription(String prescription) throws Exception {
-        PrescriptionScratch scratch = new PrescriptionScratch();
-        List<String> list = Arrays.asList(prescription.split(" "));
-        if (list.get(0).equalsIgnoreCase(TherapyType.PROCEDURE.toString())){
-            list = ProcedureParser.parseProcedure(scratch, list);
-        } else if (list.get(0).equalsIgnoreCase(TherapyType.MEDICINE.toString())){
-            list = MedicineParser.parseMedicine(scratch, list);
-            list = MedicineParser.parseDose(scratch, list);
+    public PrescriptionScratch parsePrescription(String prescription) {
+        PrescriptionScratch scratch = null;
+        TherapyType therapyType = extractType(prescription);
+        if(therapyType == TherapyType.PROCEDURE){
+            scratch = ProcedureParser.parseProcedure(prescription);
+        } else if (therapyType == TherapyType.MEDICINE){
+            scratch = MedicineParser.parseMedicine(prescription);
         }
+        if (scratch != null){
+            return scratch;
+        } else throw new RuntimeException("prescription parsing exception");
+    }
 
-        list = QuantityParser.parseQuantity(scratch, list);
+    private static TherapyType extractType(String prescription) {
+        List<String> list = getPrescriptionStringList(prescription);
+        String type = list.get(0);
+        if (type.equals(TherapyType.PROCEDURE.toString())){
+            return TherapyType.PROCEDURE;
+        } else if (type.equals(TherapyType.MEDICINE.toString())){
+            return TherapyType.MEDICINE;
+        } else throw new RuntimeException("type parsing Exception");
+    }
 
-        if (list.get(0).equals(TimePeriods.DAY.toString()+"s")
-            || list.get(0).equals(TimePeriods.DAY.toString())){
-                list = TimePeriodParser.parseDay(scratch, list);
-        } else if (list.get(0).equals(TimePeriods.WEEK.toString()+"s")
-            || list.get(0).equals(TimePeriods.WEEK.toString())){
-                list = TimePeriodParser.parseWeek(scratch, list);
-                list = WeekDayParser.parseWeekDays(scratch, list);
-        } else if (list.get(0).equals(TimePeriods.Month.toString()+"s")
-            || list.get(0).equals(TimePeriods.Month.toString())){
-                list = TimePeriodParser.parseMonth(scratch, list);
-        }
-
-        list = AdditionalInformationParser.parseCommonAdditionalInformation(scratch, list);
-        list = QuantityParser.parseQuantity(scratch,list);
-
-        if (list.get(0).equals(TimePeriods.DAY.toString()+"s")
-                || list.get(0).equals(TimePeriods.DAY.toString())){
-            list = TimePeriodParser.parseDay(scratch, list);
-        } else if (list.get(0).equals(TimePeriods.WEEK.toString()+"s")
-                || list.get(0).equals(TimePeriods.WEEK.toString())){
-            list = TimePeriodParser.parseWeek(scratch, list);
-        } else if (list.get(0).equals(TimePeriods.Month.toString()+"s")
-                || list.get(0).equals(TimePeriods.Month.toString())){
-            list = TimePeriodParser.parseMonth(scratch, list);
-        }
-
-        return scratch;
+    public static List<String> getPrescriptionStringList(String prescrition){
+        return Arrays.asList(prescrition.split(" "));
     }
 }
