@@ -3,7 +3,7 @@ package com.noskov.school.persistent;
 import com.noskov.school.enums.EventStatus;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "EVENTS")
@@ -17,7 +17,7 @@ public class EventPO {
     private PatientPO patient;
 
     @Column(name = "DATE_AND_TIME",  nullable = false)
-    private Date dateAndTime;
+    private LocalDateTime dateAndTime;
 
     @Column(name = "STATUS", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -26,4 +26,11 @@ public class EventPO {
     @ManyToOne
     @JoinColumn(name = "PROC_OR_MED_ID",nullable = false)
     private ProcedureAndMedicinePO eventType;
+
+    public EventPO(PatientPO patient, LocalDateTime dateAndTime, EventStatus status, ProcedureAndMedicinePO eventType) {
+        this.patient = patient;
+        this.dateAndTime = dateAndTime;
+        this.status = status;
+        this.eventType = eventType;
+    }
 }

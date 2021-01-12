@@ -7,12 +7,11 @@ import java.util.stream.Collectors;
 
 public class WeekDayParser {
 
-    public static String parseWeekDays(String prescription){
+    public static Set<String> parseWeekDays(String prescription){
         List<String> list = Arrays.asList(prescription.split(" "));
-        StringJoiner weekDayInformation = new StringJoiner(" ","on", "");
         Set<String> weekDaySet = WeekDay.getStringSet();
-        List<String> containingDays = list.stream().filter(weekDaySet::contains).collect(Collectors.toList());
-        containingDays.forEach(weekDayInformation::add);
-        return weekDayInformation.toString();
+        Set<String> containingDays = list.stream().filter(weekDaySet::contains).collect(Collectors.toSet());
+        containingDays.forEach(String::toUpperCase);
+        return containingDays;
     }
 }
