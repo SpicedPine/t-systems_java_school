@@ -47,16 +47,39 @@ public class PrescriptionScratch {
         this.dose = dose;
     }
 
+    public int getTimePatternQuantity() { return timePattern.getQuantity(); }
+
+    public TimePeriods getTimePatternTimePeriod(){ return timePattern.getFrequency(); }
+
+    public String getTimePatternAdditionalInformation(){ return timePattern.getAdditionalInformation(); }
+
+    public TimePeriods getPeriodTimePeriod(){ return period.getTimePeriod(); }
+
+    public int getPeriodsQuantity(){ return period.getQuantity(); }
+
+    public String getDoseDose(){ return dose.getDose(); }
+
     class Type{
         private TherapyType therapyType;
 
-        public Type(TherapyType therapyType) {
+        private String therapyName;
+
+        public Type(TherapyType therapyType, String therapyName) {
             this.therapyType = therapyType;
+            this.therapyName = therapyName;
         }
 
         @Override
         public String toString(){
-            return therapyType.toString();
+            return therapyType.toString() + " " + therapyName;
+        }
+
+        public String getTherapyName() {
+            return therapyName;
+        }
+
+        public void setTherapyName(String therapyName) {
+            this.therapyName = therapyName;
         }
 
         public TherapyType getTherapyType() {
@@ -107,6 +130,10 @@ public class PrescriptionScratch {
         public TimePeriods getFrequency() {
             return frequency;
         }
+
+        public String getAdditionalInformation() {
+            return additionalInformation;
+        }
     }
 
     class Period{
@@ -130,6 +157,14 @@ public class PrescriptionScratch {
         public void setTimePeriod(TimePeriods timePeriod) {
             this.timePeriod = timePeriod;
         }
+
+        public int getQuantity() {
+            return quantity;
+        }
+
+        public TimePeriods getTimePeriod() {
+            return timePeriod;
+        }
     }
 
     class Dose{
@@ -146,6 +181,10 @@ public class PrescriptionScratch {
 
         public void setDose(String dose) {
             this.dose = dose;
+        }
+
+        public String getDose() {
+            return dose;
         }
     }
 }
