@@ -80,9 +80,9 @@ public class EventGenerationServiceImp implements EventGenerationService {
             }
         } else if(timePatternTimePeriod == TimePeriods.Month){
             for (int i = 0; i < periodsQuantity; i++) {
-                LocalDate mounthDate = date.plus(1,ChronoUnit.DAYS);
+                LocalDate monthDate = date.plus(1,ChronoUnit.DAYS);
                 timeList.forEach(time ->{
-                    EventPO event = new EventPO(patient,LocalDateTime.of(mounthDate,time),EventStatus.PLANNED,therapyType);
+                    EventPO event = new EventPO(patient,LocalDateTime.of(monthDate,time),EventStatus.PLANNED,therapyType);
                     generatedEvents.add(event);
                 });
                 date = date.plus(1,ChronoUnit.MONTHS);
