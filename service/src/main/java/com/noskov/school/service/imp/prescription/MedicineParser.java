@@ -12,6 +12,7 @@ public class MedicineParser {
     public static PrescriptionScratch parseMedicine(String prescription){
         PrescriptionScratch scratch = new PrescriptionScratch();
         scratch.getType().setTherapyType(TherapyType.MEDICINE);
+        scratch.getType().setTherapyName(TypeParser.parseTherapyTypeName(prescription));
         scratch.setTimePattern(parseTimePattern(prescription, scratch));
         scratch.setPeriod(parsePeriod(prescription, scratch));
         scratch.getDose().setDose(parseDose(prescription));

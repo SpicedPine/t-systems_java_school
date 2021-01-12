@@ -10,6 +10,7 @@ public class ProcedureParser {
     public static PrescriptionScratch parseProcedure(String prescription){
         PrescriptionScratch scratch = new PrescriptionScratch();
         scratch.getType().setTherapyType(TherapyType.PROCEDURE);
+        scratch.getType().setTherapyName(TypeParser.parseTherapyTypeName(prescription));
         scratch.setTimePattern(parseTimePattern(prescription, scratch));
         scratch.setPeriod(parsePeriod(prescription, scratch));
         scratch.setDose(null);
