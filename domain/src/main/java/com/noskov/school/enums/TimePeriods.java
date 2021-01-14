@@ -1,14 +1,20 @@
 package com.noskov.school.enums;
 
 public enum TimePeriods {
-    DAY("day"),
-    WEEK("week"),
-    Month("month");
+    DAY("day",1),
+    WEEK("week",7),
+    Month("month",30);
 
     private String timePeriod;
+    private int daysInPeriod;
 
-    TimePeriods(String timePeriod) {
+    TimePeriods(String timePeriod, int daysInPeriod) {
         this.timePeriod = timePeriod;
+        this.daysInPeriod = daysInPeriod;
+    }
+
+    public int getDaysInPeriod() {
+        return daysInPeriod;
     }
 
     public String getTimePeriod() {
