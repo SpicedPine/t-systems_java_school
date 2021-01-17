@@ -1,6 +1,6 @@
 package com.noskov.school.persistent;
 
-import com.noskov.school.utils.StaffPost;
+import com.noskov.school.enums.StaffPost;
 
 import javax.persistence.*;
 import java.util.HashSet;

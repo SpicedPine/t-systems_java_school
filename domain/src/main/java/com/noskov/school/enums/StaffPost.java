@@ -1,4 +1,4 @@
-package com.noskov.school.utils;
+package com.noskov.school.enums;
 
 public enum StaffPost {
     PHYSITIAN("physitian"),
@@ -12,10 +12,6 @@ public enum StaffPost {
 
     public String getType() {
         return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     @Override
