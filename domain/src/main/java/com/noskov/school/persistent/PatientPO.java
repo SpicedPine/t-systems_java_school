@@ -1,5 +1,7 @@
 package com.noskov.school.persistent;
 
+import com.noskov.school.enums.PatientStatus;
+
 import javax.persistence.*;
 import java.util.*;
 @Entity
@@ -24,12 +26,8 @@ public class PatientPO {
     @Column(name = "PHYSICIAN", nullable = false)
     private String physician;
 
-    /**
-     * true->treated
-     * false->treating
-     */
     @Column(name = "STATUS", nullable = false)
-    private boolean status;
+    private PatientStatus status;
 
     @OneToMany(mappedBy = "patient")
     private List<PrescriptionPO> prescriptionList = new ArrayList<>();
@@ -41,6 +39,78 @@ public class PatientPO {
     @JoinTable(name = "PATIENT_MEDICAL_STAFF",
             joinColumns = @JoinColumn(name = "PATIENT_ID"),
             inverseJoinColumns = @JoinColumn(name = "MEDICAL_STAFF_ID"))
-    private HashSet<MedicalStaffPO> physitians = new HashSet<>();
+    private HashSet<MedicalStaffPO> physicians = new HashSet<>();
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getDiagnose() {
+        return diagnose;
+    }
+
+    public void setDiagnose(String diagnose) {
+        this.diagnose = diagnose;
+    }
+
+    public int getSocialNumber() {
+        return socialNumber;
+    }
+
+    public void setSocialNumber(int socialNumber) {
+        this.socialNumber = socialNumber;
+    }
+
+    public String getPhysician() {
+        return physician;
+    }
+
+    public void setPhysician(String physician) {
+        this.physician = physician;
+    }
+
+    public PatientStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(PatientStatus status) {
+        this.status = status;
+    }
+
+    public List<PrescriptionPO> getPrescriptionList() {
+        return prescriptionList;
+    }
+
+    public void setPrescriptionList(List<PrescriptionPO> prescriptionList) {
+        this.prescriptionList = prescriptionList;
+    }
+
+    public List<EventPO> getEventList() {
+        return eventList;
+    }
+
+    public void setEventList(List<EventPO> eventList) {
+        this.eventList = eventList;
+    }
+
+    public HashSet<MedicalStaffPO> getPhysicians() {
+        return physicians;
+    }
+
+    public void setPhysicians(HashSet<MedicalStaffPO> physicians) {
+        this.physicians = physicians;
+    }
 }
 
