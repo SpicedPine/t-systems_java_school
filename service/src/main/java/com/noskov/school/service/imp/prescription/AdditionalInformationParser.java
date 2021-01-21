@@ -1,12 +1,34 @@
 package com.noskov.school.service.imp.prescription;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.StringJoiner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class AdditionalInformationParser {
+    static String MORNING_BEFORE_MEAL = "07:45:00";
+    static String EVENING_BEFORE_MEAL = "17:45:00";
+    static String MORNING_AFTER_MEAL = "8:40:00";
+    static String EVENING_AFTER_MEAL = "18:40:00";
+    static String MORNING = "9:00:00";
+    static String EVENING = "20:00:00";
+
+    static String MORNING_PATTERN = ".* morning.*";
+    static String EVENING_PATTERN = ".* evening.*";
+    static String BEFORE_MEAL_PATTERN = ".* before meal.*";
+    static String AFTER_MEAL_PATTERN = ".* after meal.*";
+    static String MORNING_PLUS_EVENING_PATTERN = ".* morning and evening.*";
+    
+    static Map<String, List<String>> MAP_OF_DAY_TIMES = Map.of(
+            "ME_B", List.of(MORNING_BEFORE_MEAL, EVENING_BEFORE_MEAL),
+            "ME_A", List.of(MORNING_AFTER_MEAL, EVENING_AFTER_MEAL),
+            "M_B", List.of(MORNING_BEFORE_MEAL),
+            "M_A", List.of(MORNING_AFTER_MEAL),
+            "E_B", List.of(EVENING_BEFORE_MEAL),
+            "E_A", List.of(EVENING_AFTER_MEAL),
+            "M", List.of(MORNING),
+            "E", List.of(EVENING)
+    );
+
     public static String parseAdditionalInformation(String prescription){
         List<String> list = Arrays.asList(prescription.split(" "));
         int lastIndex = -1;
@@ -28,49 +50,31 @@ public class AdditionalInformationParser {
     }
 
     public static List<LocalTime> parseDayTime(String additionalInformation){
-        ArrayList<LocalTime> list = new ArrayList<>();
-        String morningPattern = ".* morning.*";
-        String eveningPattern = ".* evening.*";
-        String beforeMealPattern = ".* before meal.*";
-        String afterMealPattern = ".* after meal.*";
-        String morningPlusEveningPattern = ".* morning and evening.*";
+       String keyForPattern = extractPatterns(additionalInformation);
 
-        if(additionalInformation.contains(morningPlusEveningPattern)
-                && additionalInformation.contains(beforeMealPattern)){
-            list.add(LocalTime.parse("07:45:00"));
-            list.add(LocalTime.parse("17:45:00"));
-            return list;
-        } else if(additionalInformation.contains(morningPlusEveningPattern)
-                && additionalInformation.contains(afterMealPattern)){
-            list.add(LocalTime.parse("8:40:00"));
-            list.add(LocalTime.parse("18:40:00"));
-            return list;
-        } else if(additionalInformation.contains(morningPlusEveningPattern)){
-            list.add(LocalTime.parse("9:00:00"));
-            list.add(LocalTime.parse("20:00:00"));
-            return list;
-        } else if(additionalInformation.contains(morningPattern)
-                && additionalInformation.contains(beforeMealPattern)){
-            list.add(LocalTime.parse("07:45:00"));
-            return list;
-        } else if(additionalInformation.contains(morningPattern)
-                && additionalInformation.contains(afterMealPattern)){
-            list.add(LocalTime.parse("08:40:00"));
-            return list;
-        } else if(additionalInformation.contains(eveningPattern)
-                && additionalInformation.contains(beforeMealPattern)){
-            list.add(LocalTime.parse("17:45:00"));
-            return list;
-        } else if(additionalInformation.contains(eveningPattern)
-                && additionalInformation.contains(afterMealPattern)){
-            list.add(LocalTime.parse("18:40:00"));
-            return list;
-        } else if(additionalInformation.contains(morningPattern)){
-            list.add(LocalTime.parse("9:00:00"));
-            return list;
-        } else if(additionalInformation.contains(eveningPattern)){
-            list.add(LocalTime.parse("20:00:00"));
+        return MAP_OF_DAY_TIMES.get(keyForPattern).stream()
+                .map(LocalTime::parse)
+                .collect(Collectors.toList());
+    }
+
+    private static String extractPatterns(String additionalInformation) {
+        StringJoiner key = new StringJoiner("_");
+        if (additionalInformation.contains(MORNING_PLUS_EVENING_PATTERN)) {
+            key.add("ME");
+        } else  if (additionalInformation.contains(MORNING_PATTERN)) {
+            key.add("M");
+        }  else if (additionalInformation.contains(EVENING_PATTERN)) {
+            key.add("E");
+        } else throw new RuntimeException("dayTime parsing exception");
+
+        if (additionalInformation.contains(BEFORE_MEAL_PATTERN)) {
+            key.add("B");
         }
-        throw new RuntimeException("dayTime parsing exception");
+
+        if (additionalInformation.contains(AFTER_MEAL_PATTERN)) {
+            key.add("A");
+        }
+
+        return key.toString();
     }
 }
