@@ -1,4 +1,4 @@
-package com.noskov.school.config;
+package com.noskov.scchool.config;
 
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -7,13 +7,12 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class<?>[]{
-                WebConfig.class
+                AppConfig.class
         };
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-
         return new Class<?>[]{
                 WebConfig.class
         };

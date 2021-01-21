@@ -1,4 +1,4 @@
-package com.noskov.school.config;
+package com.noskov.scchool.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
