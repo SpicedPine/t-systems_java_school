@@ -1,4 +1,4 @@
-package com.noskov.scchool.config;
+package com.noskov.school.config;
 
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
