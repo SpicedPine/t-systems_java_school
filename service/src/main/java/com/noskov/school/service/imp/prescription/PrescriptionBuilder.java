@@ -1,13 +1,14 @@
 package com.noskov.school.service.imp.prescription;
 
 import com.noskov.school.enums.TherapyType;
-import com.noskov.school.enums.TimePeriods;
 import com.noskov.school.service.api.time.TimeManagement;
+import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.StringJoiner;
 
+@Service
 public class PrescriptionBuilder implements TimeManagement {
     @Override
     public String buildPrescription(PrescriptionScratch scratch) {

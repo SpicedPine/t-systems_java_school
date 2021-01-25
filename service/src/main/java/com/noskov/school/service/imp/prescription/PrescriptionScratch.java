@@ -53,11 +53,31 @@ public class PrescriptionScratch {
 
     public String getTimePatternAdditionalInformation(){ return timePattern.getAdditionalInformation(); }
 
+    /*public void setTimePatternQuantity(int quantity) { timePattern.setQuantity(quantity); }
+
+    public void setTimePatternTimePeriod(TimePeriods timePeriod){ timePattern.setFrequency(timePeriod); }
+
+    public void setTimePatternAdditionalInformation(String additionalInformation){ timePattern.setAdditionalInformation(additionalInformation); }
+*/
     public TimePeriods getPeriodTimePeriod(){ return period.getTimePeriod(); }
 
     public int getPeriodsQuantity(){ return period.getQuantity(); }
 
-    public String getDoseDose(){ return dose.getDose(); }
+    /*public void setPeriodTimePeriod(TimePeriods timePeriod){ period.setTimePeriod(timePeriod); }
+
+    public void setPeriodsQuantity(int quantity){ period.setQuantity(quantity); }
+*/
+    public String getDoseDescription(){ return dose.getDose(); }
+
+    /*public void setDoseDescription(String doseDescription){ dose.setDose(doseDescription); }
+
+    public TherapyType getTypeTherapy(){ return type.getTherapyType();}
+
+    public String getTypeTherapyName(){ return type.getTherapyName();}
+
+    public void setTypeTherapy(TherapyType therapyType){ type.setTherapyType(therapyType);}
+
+    public void setTypeTherapyName(String therapyName){ type.setTherapyName(therapyName);}*/
 
     class Type{
         private TherapyType therapyType;
