@@ -6,10 +6,12 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Repository
+@Transactional
 public class EventDAOImp implements EventDAO {
     private SessionFactory sessionFactory;
 
@@ -33,7 +35,7 @@ public class EventDAOImp implements EventDAO {
     @Override
     public EventPO getById(Long id) {
         Session session = sessionFactory.getCurrentSession();
-        return (EventPO) session.get(EventPO.class, id);
+        return session.get(EventPO.class, id);
      }
 
     @Override

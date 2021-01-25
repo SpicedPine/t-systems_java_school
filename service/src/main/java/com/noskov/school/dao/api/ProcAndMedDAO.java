@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface ProcAndMedDAO {
     List<ProcedureAndMedicinePO> getAllProceduresAndMedicines();
+    List<ProcedureAndMedicinePO> getAllProcedures();
+    List<ProcedureAndMedicinePO> getAllMedicines();
     void add(ProcedureAndMedicinePO procedureOrMedicine);
     ProcedureAndMedicinePO getById(Long id);
     void delete(ProcedureAndMedicinePO procedureOrMedicine);
