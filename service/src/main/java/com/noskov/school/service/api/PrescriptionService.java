@@ -1,18 +1,18 @@
 package com.noskov.school.service.api;
 
-import com.noskov.school.persistent.PatientPO;
-import com.noskov.school.persistent.PrescriptionPO;
+
+import com.noskov.school.dto.PrescriptionDTO;
 
 import java.util.List;
 
 public interface PrescriptionService {
-    List<PrescriptionPO> getAll();
+    List<PrescriptionDTO> getAll();
 
-    PrescriptionPO getOne(Long id);
+    PrescriptionDTO getOne(Long id);
 
-    void add(PrescriptionPO prescription);
+    void add(PrescriptionDTO prescription);
 
     void delete(Long id);
 
-    void update(PrescriptionPO prescription);
+    void update(PrescriptionDTO prescription);
 }

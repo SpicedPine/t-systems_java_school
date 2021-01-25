@@ -1,8 +1,8 @@
 package com.noskov.school.controller;
 
 
+import com.noskov.school.dto.PrescriptionDTO;
 import com.noskov.school.persistent.PatientPO;
-import com.noskov.school.persistent.PrescriptionPO;
 import com.noskov.school.service.api.PatientService;
 import com.noskov.school.service.api.PrescriptionService;
 import com.noskov.school.service.api.ProcAndMedService;
@@ -57,7 +57,7 @@ public class PatientController {
 
     @GetMapping("/profile/{id}")
     public ModelAndView getPatientPrescription(@PathVariable Long id){
-        PrescriptionPO prescription = prescriptionService.getOne(id);
+        PrescriptionDTO prescription = prescriptionService.getOne(id);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("prescription/edit_page");
         modelAndView.addObject("prescription",prescriptionService.getOne(id));
