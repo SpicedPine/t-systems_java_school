@@ -13,7 +13,6 @@
                 <th>Surname</th>
                 <th>Diagnose</th>
                 <th>Social number</th>
-                <th>Physician</th>
                 <th>Status</th>
             </tr>
         </thead>
@@ -24,8 +23,9 @@
                 <td>${patient.lastName}</td>
                 <td>${patient.diagnose}</td>
                 <td>${patient.socialNumber}</td>
-                <td>${patient.physician}</td>
                 <td>${patient.status}</td>
+                <td><button id="release" onclick="releasePatient.js">release</button></td>
+                <td><button id="peek" onclick="toProfile.js">profile</button></td>
             </tr>
         </c:forEach>
         </tbody>

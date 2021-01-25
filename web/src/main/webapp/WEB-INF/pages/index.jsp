@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Igor
@@ -12,6 +13,6 @@
 </head>
 <body>
     <h1>REHA documentation application</h1>
-    <h2><a href="${pageContext.request.contextPath}/patient/">Patients page (only for physicians)</a></h2>
+    <h2><a href="<c:url value='patient/'/>">Patients page (only for physicians)</a></h2>
 </body>
 </html>
