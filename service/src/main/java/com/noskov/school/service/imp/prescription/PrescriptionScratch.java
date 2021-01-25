@@ -3,6 +3,7 @@ package com.noskov.school.service.imp.prescription;
 import com.noskov.school.enums.TherapyType;
 import com.noskov.school.enums.TimePeriods;
 
+//todo move to DTO package
 public class PrescriptionScratch {
     private Type type;
     private TimePattern timePattern;
