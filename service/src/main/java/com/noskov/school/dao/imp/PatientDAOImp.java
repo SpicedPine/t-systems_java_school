@@ -25,7 +25,7 @@ public class PatientDAOImp implements PatientDAO {
     @Override
     public List<PatientPO> getAllPatients() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("select PatientPO from PatientPO").list();
+        return session.createQuery("from PatientPO").list();
     }
 
     @Override

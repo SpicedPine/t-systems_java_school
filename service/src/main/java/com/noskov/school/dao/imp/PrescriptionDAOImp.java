@@ -31,7 +31,7 @@ public class PrescriptionDAOImp implements PrescriptionDAO {
     @Override
     public List<PrescriptionPO> getAllPrescriptions() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("select PrescriptionPO from PrescriptionPO").list();
+        return session.createQuery("from PrescriptionPO").list();
     }
 
     @Override
