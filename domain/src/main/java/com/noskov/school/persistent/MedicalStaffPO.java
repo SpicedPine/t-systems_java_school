@@ -4,6 +4,7 @@ import com.noskov.school.enums.StaffPost;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "STAFF")
@@ -25,5 +26,5 @@ public class MedicalStaffPO {
     @JoinTable(name = "PATIENT_MEDICAL_STAFF",
             joinColumns = @JoinColumn(name = "MEDICAL_STAFF_ID"),
             inverseJoinColumns = @JoinColumn(name = "PATIENT_ID"))
-    private HashSet<PatientPO> patients = new HashSet<>();
+    private Set<PatientPO> patients = new HashSet<>();
 }

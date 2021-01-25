@@ -33,4 +33,8 @@ public class EventPO {
         this.status = status;
         this.eventType = eventType;
     }
+
+    public EventPO() {
+
+    }
 }

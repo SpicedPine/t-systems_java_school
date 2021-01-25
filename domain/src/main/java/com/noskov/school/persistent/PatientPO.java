@@ -39,7 +39,7 @@ public class PatientPO {
     @JoinTable(name = "PATIENT_MEDICAL_STAFF",
             joinColumns = @JoinColumn(name = "PATIENT_ID"),
             inverseJoinColumns = @JoinColumn(name = "MEDICAL_STAFF_ID"))
-    private HashSet<MedicalStaffPO> physicians = new HashSet<>();
+    private Set<MedicalStaffPO> physicians = new HashSet<>();
 
     public String getFirstName() {
         return firstName;
@@ -105,7 +105,7 @@ public class PatientPO {
         this.eventList = eventList;
     }
 
-    public HashSet<MedicalStaffPO> getPhysicians() {
+    public Set<MedicalStaffPO> getPhysicians() {
         return physicians;
     }
 
