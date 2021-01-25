@@ -5,6 +5,7 @@ import com.noskov.school.persistent.PatientPO;
 import com.noskov.school.persistent.PrescriptionPO;
 import com.noskov.school.service.api.PatientService;
 import com.noskov.school.service.api.PrescriptionService;
+import com.noskov.school.service.api.ProcAndMedService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +21,9 @@ public class PatientController {
 
     @Autowired
     PrescriptionService prescriptionService;
+
+    @Autowired
+    ProcAndMedService procAndMedService;
 
     @GetMapping("")
     public String allPatients(Model model){
@@ -57,6 +61,8 @@ public class PatientController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("prescription/edit_page");
         modelAndView.addObject("prescription",prescriptionService.getOne(id));
+        modelAndView.addObject("medicines",procAndMedService.getAllMedicines());
+        modelAndView.addObject("procedures",procAndMedService.getAllProcedures());
         return modelAndView;
     }
 }
