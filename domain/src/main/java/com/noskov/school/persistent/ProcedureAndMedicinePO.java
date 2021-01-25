@@ -30,4 +30,36 @@ public class ProcedureAndMedicinePO {
      */
     @OneToMany(mappedBy = "prescriptionType")
     private List<PrescriptionPO> prescriptionList = new ArrayList<>();
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public TherapyType getType() {
+        return type;
+    }
+
+    public void setType(TherapyType type) {
+        this.type = type;
+    }
+
+    public List<EventPO> getEventList() {
+        return eventList;
+    }
+
+    public void setEventList(List<EventPO> eventList) {
+        this.eventList = eventList;
+    }
+
+    public List<PrescriptionPO> getPrescriptionList() {
+        return prescriptionList;
+    }
+
+    public void setPrescriptionList(List<PrescriptionPO> prescriptionList) {
+        this.prescriptionList = prescriptionList;
+    }
 }

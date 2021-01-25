@@ -52,4 +52,13 @@ public class PrescriptionPO {
     public void setFormedPrescription(String formedPrescription) {
         this.formedPrescription = formedPrescription;
     }
+
+    public PrescriptionPO(PatientPO patient, ProcedureAndMedicinePO prescriptionType, String formedPrescription) {
+        this.patient = patient;
+        this.prescriptionType = prescriptionType;
+        this.formedPrescription = formedPrescription;
+    }
+
+    public PrescriptionPO() {
+    }
 }

@@ -1,10 +1,10 @@
-package com.noskov.school.dao.api;
+package com.noskov.school.service.api;
 
 import com.noskov.school.persistent.ProcedureAndMedicinePO;
 
 import java.util.List;
 
-public interface ProcAndMedDAO {
+public interface ProcAndMedService {
     List<ProcedureAndMedicinePO> getAllProceduresAndMedicines();
     List<ProcedureAndMedicinePO> getAllProcedures();
     List<ProcedureAndMedicinePO> getAllMedicines();

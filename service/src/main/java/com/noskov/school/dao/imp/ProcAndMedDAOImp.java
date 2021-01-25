@@ -2,14 +2,18 @@ package com.noskov.school.dao.imp;
 
 import com.noskov.school.dao.api.ProcAndMedDAO;
 import com.noskov.school.persistent.ProcedureAndMedicinePO;
+import com.noskov.school.enums.TherapyType;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Repository
+@Transactional
 public class ProcAndMedDAOImp implements ProcAndMedDAO {
     private SessionFactory sessionFactory;
 
@@ -22,6 +26,22 @@ public class ProcAndMedDAOImp implements ProcAndMedDAO {
     public List<ProcedureAndMedicinePO> getAllProceduresAndMedicines() {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("from ProcedureAndMedicinePO").list();
+    }
+
+    @Override
+    public List<ProcedureAndMedicinePO> getAllProcedures(){
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select ProcedureAndMedicinePO from ProcedureAndMedicinePO where type= :type");
+        query.setParameter("type", TherapyType.PROCEDURE);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<ProcedureAndMedicinePO> getAllMedicines(){
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select ProcedureAndMedicinePO from ProcedureAndMedicinePO where type= :type");
+        query.setParameter("type", TherapyType.MEDICINE);
+        return query.getResultList();
     }
 
     @Override
