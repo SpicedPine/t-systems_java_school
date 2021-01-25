@@ -1,3 +1,5 @@
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -6,7 +8,7 @@
 </head>
 <body>
 <h1>Adding page</h1>
-<form>
+<form:form method="POST" action="add" id="submitButton">
     <label for="firstName">Patient's first name:</label>
     <input id="firstName" type="text" placeholder="first name"><br>
     <label for="lastName">Patient's last name:</label>
@@ -18,8 +20,10 @@
     <select id="status">
         <option>treating</option>
         <option>treated</option>
-    </select><label for="status">Patient's status</label>
-    <button id="submitButton" type="submit">Submit</button>
-</form>
+    </select>
+    <label for="status">Patient's status</label>
+    <input type="submit" value="Submit228"/>
+
+</form:form>
 </body>
 </html>
