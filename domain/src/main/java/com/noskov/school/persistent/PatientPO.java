@@ -23,7 +23,7 @@ public class PatientPO {
     @Column(name = "SOCIAL_NUMBER", nullable = false)
     private int socialNumber;
 
-    @Column(name = "PHYSICIAN", nullable = false)
+    @Column(name = "PHYSICIAN", nullable = true)
     private String physician;
 
     @Column(name = "STATUS", nullable = false)
