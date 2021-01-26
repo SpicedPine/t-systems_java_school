@@ -4,6 +4,7 @@ import com.noskov.school.dao.api.EventDAO;
 import com.noskov.school.persistent.EventPO;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,5 +49,12 @@ public class EventDAOImp implements EventDAO {
     public void update(EventPO event) {
         Session session = sessionFactory.getCurrentSession();
         session.update("EventPO", event);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("delete from EventPO where id = :id").setParameter("id",id);
+        query.executeUpdate();
     }
 }

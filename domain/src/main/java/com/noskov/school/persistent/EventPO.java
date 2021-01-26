@@ -37,4 +37,36 @@ public class EventPO {
     public EventPO() {
 
     }
+
+    public PatientPO getPatient() {
+        return patient;
+    }
+
+    public void setPatient(PatientPO patient) {
+        this.patient = patient;
+    }
+
+    public LocalDateTime getDateAndTime() {
+        return dateAndTime;
+    }
+
+    public void setDateAndTime(LocalDateTime dateAndTime) {
+        this.dateAndTime = dateAndTime;
+    }
+
+    public EventStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(EventStatus status) {
+        this.status = status;
+    }
+
+    public ProcedureAndMedicinePO getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(ProcedureAndMedicinePO eventType) {
+        this.eventType = eventType;
+    }
 }

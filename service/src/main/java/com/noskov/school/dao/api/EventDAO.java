@@ -9,5 +9,6 @@ public interface EventDAO {
     void add(EventPO eventPO);
     EventPO getById(Long id);
     void delete(EventPO event);
+    void deleteById(Long id);
     void update(EventPO event);
 }

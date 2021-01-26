@@ -14,5 +14,6 @@
 <body>
     <h1>REHA documentation application</h1>
     <h2><a href="<c:url value='patient/'/>">Patients page (only for physicians)</a></h2>
+    <h2><a href="<c:url value='/event/' />">Events page (only for nurses)</a></h2>
 </body>
 </html>
