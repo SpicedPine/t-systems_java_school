@@ -32,12 +32,13 @@ public class PatientController {
     }
 
     @GetMapping("/add")
-    public String addPatient(){
+    public String addPatient(Model model){
+        model.addAttribute("patient", new PatientPO());
         return "patient/add";
     }
 
     @PostMapping("/add")
-    public String addPatient(@ModelAttribute("patient") PatientPO patient){
+    public String addPatient(@ModelAttribute(name = "patient") PatientPO patient){
         patientService.add(patient);
         return "patient/patients";
     }
@@ -57,7 +58,6 @@ public class PatientController {
 
     @GetMapping("/profile/{id}")
     public ModelAndView getPatientPrescription(@PathVariable Long id){
-        PrescriptionDTO prescription = prescriptionService.getOne(id);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("prescription/edit_page");
         modelAndView.addObject("prescription",prescriptionService.getOne(id));
