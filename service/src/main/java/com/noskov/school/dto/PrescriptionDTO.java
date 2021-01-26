@@ -9,6 +9,13 @@ public class PrescriptionDTO {
     private PatientPO patient;
     private ProcedureAndMedicinePO procOrMedicine;
 
+    public PrescriptionDTO() {
+    }
+
+    public PrescriptionDTO(PatientPO patient) {
+        this.patient = patient;
+    }
+
     public PrescriptionDTO(PrescriptionScratch scratch, PatientPO patient, ProcedureAndMedicinePO procOrMedicine) {
         this.scratch = scratch;
         this.patient = patient;

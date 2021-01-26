@@ -65,4 +65,11 @@ public class PatientController {
         modelAndView.addObject("procedures",procAndMedService.getAllProcedures());
         return modelAndView;
     }
+
+    @GetMapping("/profile/add_prescription")
+    public ModelAndView addPatientPrescription(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("prescription/add_page");
+        return modelAndView;
+    }
 }
