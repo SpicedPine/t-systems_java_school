@@ -6,7 +6,10 @@ import com.noskov.school.service.api.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EventServiceImp implements EventService {
@@ -20,12 +23,22 @@ public class EventServiceImp implements EventService {
 
     @Override
     public List<EventPO> getEventsForDay() {
-        return null;
+        List<EventPO> eventList = eventDAO.getAllEvents();
+        LocalTime nextHour = LocalTime.now().plusHours(1);
+        eventList = eventList.stream()
+                .filter(e -> e.getDateAndTime().toLocalTime().isBefore(nextHour))
+                .collect(Collectors.toList());
+        return eventList;
     }
 
     @Override
     public List<EventPO> getEventsForHour() {
-        return null;
+        List<EventPO> eventList = eventDAO.getAllEvents();
+        LocalDate nextDay = LocalDate.now().plusDays(1);
+        eventList = eventList.stream()
+                .filter(e -> e.getDateAndTime().toLocalDate().isBefore(nextDay))
+                .collect(Collectors.toList());
+        return eventList;
     }
 
     @Override
