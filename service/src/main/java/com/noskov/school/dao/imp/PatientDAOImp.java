@@ -60,7 +60,7 @@ public class PatientDAOImp implements PatientDAO {
     @Override
     public void deleteById(Long id) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("delete from PatientPO where id = :id").setParameter("id",id);
+        Query query = session.createQuery("delete from PatientPO as p where p.id = :id").setParameter("id",id);
         query.executeUpdate();
     }
 }

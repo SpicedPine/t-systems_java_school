@@ -31,7 +31,7 @@ public class ProcAndMedDAOImp implements ProcAndMedDAO {
     @Override
     public List<ProcedureAndMedicinePO> getAllProcedures(){
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select ProcedureAndMedicinePO from ProcedureAndMedicinePO where type= :type");
+        Query query = session.createQuery("from ProcedureAndMedicinePO as p where p.type= :type");
         query.setParameter("type", TherapyType.PROCEDURE);
         return query.getResultList();
     }
@@ -39,7 +39,7 @@ public class ProcAndMedDAOImp implements ProcAndMedDAO {
     @Override
     public List<ProcedureAndMedicinePO> getAllMedicines(){
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select ProcedureAndMedicinePO from ProcedureAndMedicinePO where type= :type");
+        Query query = session.createQuery("from ProcedureAndMedicinePO as p where p.type= :type");
         query.setParameter("type", TherapyType.MEDICINE);
         return query.getResultList();
     }

@@ -54,7 +54,7 @@ public class EventDAOImp implements EventDAO {
     @Override
     public void deleteById(Long id) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("delete from EventPO where id = :id").setParameter("id",id);
+        Query query = session.createQuery("delete from EventPO as e where e.id = :id").setParameter("id",id);
         query.executeUpdate();
     }
 }
