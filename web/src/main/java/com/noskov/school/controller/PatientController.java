@@ -40,24 +40,24 @@ public class PatientController {
     @PostMapping("/add")
     public String addPatient(@ModelAttribute(name = "patient") PatientPO patient){
         patientService.add(patient);
-        return "patient/patients";
+        return "redirect:/patient/";
     }
 
-    @PostMapping("/{id}/release")
-    public String releasePatient(@RequestParam("id") Long id){
+    @GetMapping("/{id}/release")
+    public String releasePatient(@PathVariable("id") Long id){
         patientService.delete(id);
-        return "patient/patients";
+        return "redirect:/patient/";
     }
 
-    @GetMapping("/{id}")
-    public String getPatientProfile(@PathVariable("id") Long id, Model model){
+    @GetMapping("/{patientId}")
+    public String getPatientProfile(@PathVariable("patientId") Long id, Model model){
         model.addAttribute("patient", patientService.getOne(id));
         model.addAttribute("prescriptions",patientService.getOne(id).getPrescriptionList());
         return "patient/profile";
     }
 
-    @GetMapping("/profile/{id}")
-    public ModelAndView getPatientPrescription(@PathVariable Long id){
+    @GetMapping("/profile/{prescriptionId}")
+    public ModelAndView getPatientPrescription(@PathVariable("prescriptionId") Long id){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("prescription/edit_page");
         modelAndView.addObject("prescription",prescriptionService.getOne(id));
@@ -66,9 +66,14 @@ public class PatientController {
         return modelAndView;
     }
 
-    @GetMapping("/profile/add_prescription")
-    public ModelAndView addPatientPrescription(){
+    @GetMapping("/{patientId}/add_prescription")
+    public ModelAndView addPrescription(@PathVariable("patientId") Long id){
+        PatientPO patient = patientService.getOne(id);
         ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("patient", patient);
+        modelAndView.addObject("prescription", new PrescriptionDTO());
+        modelAndView.addObject("medicines",procAndMedService.getAllMedicines());
+        modelAndView.addObject("procedures",procAndMedService.getAllProcedures());
         modelAndView.setViewName("prescription/add_page");
         return modelAndView;
     }
