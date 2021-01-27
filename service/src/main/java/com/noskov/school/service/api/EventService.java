@@ -1,6 +1,9 @@
 package com.noskov.school.service.api;
 
 import com.noskov.school.persistent.EventPO;
+import com.noskov.school.persistent.PatientPO;
+import com.noskov.school.persistent.ProcedureAndMedicinePO;
+
 import java.util.List;
 
 public interface EventService {
@@ -17,4 +20,6 @@ public interface EventService {
     void delete(Long id);
 
     void update(EventPO event);
+
+    void deleteByPatientAndTherapy(PatientPO patientPO, ProcedureAndMedicinePO therapy);
 }

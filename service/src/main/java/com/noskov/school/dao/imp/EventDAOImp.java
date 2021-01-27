@@ -2,6 +2,8 @@ package com.noskov.school.dao.imp;
 
 import com.noskov.school.dao.api.EventDAO;
 import com.noskov.school.persistent.EventPO;
+import com.noskov.school.persistent.PatientPO;
+import com.noskov.school.persistent.ProcedureAndMedicinePO;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -55,6 +57,15 @@ public class EventDAOImp implements EventDAO {
     public void deleteById(Long id) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("delete from EventPO as e where e.id = :id").setParameter("id",id);
+        query.executeUpdate();
+    }
+
+    @Override
+    public void deleteByPatientAndTherapy(PatientPO patientPO, ProcedureAndMedicinePO therapy) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("delete from EventPO as e where e.patient =:patientPO and e.eventType =:therapy");
+        query.setParameter("patientPO", patientPO);
+        query.setParameter("therapy", therapy);
         query.executeUpdate();
     }
 }

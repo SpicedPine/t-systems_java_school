@@ -22,12 +22,12 @@ public class TimePeriodParser {
     public static TimePeriods parsePeriodTimePeriod(String prescription){
         List<String> list = Arrays.asList(prescription.split(" "));
         String timePeriod = "";
-        for (int i = 4; i < list.size()-1; i++) {
-            if(timePeriod.equals(TimePeriods.DAY.toString())){
+        for (int i = 4; i < list.size(); i++) {
+            if(list.get(i).equals(TimePeriods.DAY.toString())){
                 return TimePeriods.DAY;
-            } else if (timePeriod.equals(TimePeriods.WEEK.toString())){
+            } else if (list.get(i).equals(TimePeriods.WEEK.toString())){
                 return TimePeriods.WEEK;
-            } else if (timePeriod.equals(TimePeriods.Month.toString())){
+            } else if (list.get(i).equals(TimePeriods.Month.toString())){
                 return TimePeriods.Month;
             }
         }

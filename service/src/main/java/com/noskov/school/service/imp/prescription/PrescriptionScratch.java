@@ -136,7 +136,11 @@ public class PrescriptionScratch {
 
         @Override
         public String toString(){
-            return quantity + " " + frequency.toString() + " " + additionalInformation;
+            if(additionalInformation==null || additionalInformation.isEmpty()){
+                return quantity + " " + frequency.toString();
+            }else{
+                return quantity + " " + frequency.toString() + " " + additionalInformation;
+            }
         }
 
         public void setQuantity(int quantity) {

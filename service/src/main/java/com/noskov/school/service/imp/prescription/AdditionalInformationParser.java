@@ -44,7 +44,7 @@ public class AdditionalInformationParser {
             throw new RuntimeException("additionalInformation parsing exception");
         } else {
             StringJoiner additionalInformation = new StringJoiner(" "," ","");
-            list.stream().limit(lastIndex).forEach(additionalInformation::add);
+            list.stream().skip(4).limit(lastIndex-4).forEach(additionalInformation::add);
             return additionalInformation.toString();
         }
     }
@@ -52,9 +52,12 @@ public class AdditionalInformationParser {
     public static List<LocalTime> parseDayTime(String additionalInformation){
        String keyForPattern = extractPatterns(additionalInformation);
 
-        return MAP_OF_DAY_TIMES.get(keyForPattern).stream()
-                .map(LocalTime::parse)
-                .collect(Collectors.toList());
+       if(!keyForPattern.isEmpty()){
+           return MAP_OF_DAY_TIMES.get(keyForPattern).stream()
+                   .map(LocalTime::parse)
+                   .collect(Collectors.toList());
+       }
+       return new ArrayList<>();
     }
 
     private static String extractPatterns(String additionalInformation) {
@@ -65,7 +68,7 @@ public class AdditionalInformationParser {
             key.add("M");
         }  else if (additionalInformation.contains(EVENING_PATTERN)) {
             key.add("E");
-        } else throw new RuntimeException("dayTime parsing exception");
+        }
 
         if (additionalInformation.contains(BEFORE_MEAL_PATTERN)) {
             key.add("B");

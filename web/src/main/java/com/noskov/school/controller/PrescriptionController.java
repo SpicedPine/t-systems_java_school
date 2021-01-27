@@ -23,7 +23,7 @@ public class PrescriptionController {
         return "prescription/add_page";
     }
 
-    @PostMapping("/add_page")
+    @PostMapping("")
     public String addPrescription(@ModelAttribute("prescription") PrescriptionDTO prescription){
         prescriptionService.add(prescription);
         return "redirect:patient/profile";

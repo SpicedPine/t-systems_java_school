@@ -2,6 +2,8 @@ package com.noskov.school.service.imp;
 
 import com.noskov.school.dao.api.EventDAO;
 import com.noskov.school.persistent.EventPO;
+import com.noskov.school.persistent.PatientPO;
+import com.noskov.school.persistent.ProcedureAndMedicinePO;
 import com.noskov.school.service.api.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,5 +61,10 @@ public class EventServiceImp implements EventService {
     @Override
     public void update(EventPO event) {
         eventDAO.update(event);
+    }
+
+    @Override
+    public void deleteByPatientAndTherapy(PatientPO patientPO, ProcedureAndMedicinePO therapy) {
+        eventDAO.deleteByPatientAndTherapy(patientPO,therapy);
     }
 }

@@ -10,6 +10,7 @@ public interface ProcAndMedService {
     List<ProcedureAndMedicinePO> getAllMedicines();
     void add(ProcedureAndMedicinePO procedureOrMedicine);
     ProcedureAndMedicinePO getById(Long id);
+    ProcedureAndMedicinePO getByName(String name);
     void delete(ProcedureAndMedicinePO procedureOrMedicine);
     void update(ProcedureAndMedicinePO procedureOrMedicine);
 }

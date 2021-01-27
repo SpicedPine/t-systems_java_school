@@ -12,4 +12,5 @@ public interface ProcAndMedDAO {
     ProcedureAndMedicinePO getById(Long id);
     void delete(ProcedureAndMedicinePO procedureOrMedicine);
     void update(ProcedureAndMedicinePO procedureOrMedicine);
+    ProcedureAndMedicinePO getByName(String name);
 }

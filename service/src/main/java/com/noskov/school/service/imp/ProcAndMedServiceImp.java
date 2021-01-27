@@ -48,4 +48,9 @@ public class ProcAndMedServiceImp implements ProcAndMedService {
     public void update(ProcedureAndMedicinePO procedureOrMedicine) {
         procAndMedDAO.update(procedureOrMedicine);
     }
+
+    @Override
+    public ProcedureAndMedicinePO getByName(String name) {
+        return procAndMedDAO.getByName(name);
+    }
 }

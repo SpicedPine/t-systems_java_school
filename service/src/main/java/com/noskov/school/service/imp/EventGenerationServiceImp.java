@@ -95,9 +95,10 @@ public class EventGenerationServiceImp implements EventGenerationService {
         for (int i = 0; i < periodsQuantity; i++) {
             if (weekDaysSet.isEmpty()){
                 addEventsByQuantity(date, generatedEvents, therapyType, patient, quantityInPeriod, timePatternTimePeriod, timeList);
+                date = date.plus(1, ChronoUnit.valueOf(periodTimePeriod.toString().toUpperCase()+"S"));
             } else {
                 addEventsByWeekDaysSet(date, generatedEvents, therapyType, patient, timeList, weekDaysSet);
-                date = date.plus(1, ChronoUnit.valueOf(periodTimePeriod.toString().toUpperCase()+"s"));
+                date = date.plus(1, ChronoUnit.valueOf(periodTimePeriod.toString().toUpperCase()+"S"));
             }
         }
     }
@@ -115,7 +116,9 @@ public class EventGenerationServiceImp implements EventGenerationService {
 
     private void addEventsByQuantity(LocalDate date, List<EventPO> generatedEvents, ProcedureAndMedicinePO therapyType, PatientPO patient, int quantityInPeriod, TimePeriods timePatternTimePeriod, List<LocalTime> timeList) {
         for (int j = 0; j < quantityInPeriod; j++) {
-            LocalDate nextDate = date.plus(timePatternTimePeriod.getDaysInPeriod() / quantityInPeriod, ChronoUnit.DAYS);
+            int daysToAdd = timePatternTimePeriod.getDaysInPeriod()/quantityInPeriod;
+            LocalDate nextDate = date.plus(daysToAdd, ChronoUnit.DAYS);
+            date = date.plus(daysToAdd, ChronoUnit.DAYS);
             if (timeList.isEmpty()) {
                 addSingleEventWithDefaultTime(generatedEvents, therapyType, patient, nextDate);
             } else {

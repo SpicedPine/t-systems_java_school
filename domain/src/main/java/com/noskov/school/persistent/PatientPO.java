@@ -29,10 +29,10 @@ public class PatientPO {
     @Column(name = "STATUS", nullable = false)
     private PatientStatus status;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "patient")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "patient", cascade = CascadeType.ALL)
     private List<PrescriptionPO> prescriptionList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "patient")
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     private List<EventPO> eventList = new ArrayList<>();
 
     @ManyToMany

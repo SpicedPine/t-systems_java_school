@@ -16,6 +16,7 @@ public class PrescriptionDTO {
     }
 
     public PrescriptionDTO(PatientPO patient) {
+        this.scratch = new PrescriptionScratch();
         this.patient = patient;
     }
 
