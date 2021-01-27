@@ -27,11 +27,13 @@
         <tr>
             <td>${prescription.prescriptionType.name}</td>
             <td>${prescription.formedPrescription}</td>
+            <td><a href=<c:url value="/patient/profile/${prescription.id}"/>>edit prescription</a></td>
+            <td><a href=<c:url value="/patient/${patient.id}/cancel/${prescription.id}"/>>cancel prescription</td>
         </tr>
     </c:forEach>
     </tbody>
 </table>
+<a href="<c:url value="/patient/${patient.id}/add_prescription"/>">Add prescription</a>
 
-<button id="addPrescription" type="button" onclick="addPrescription.js">Add prescription</button>
 </body>
 </html>

@@ -14,16 +14,17 @@
 <head>
     <title>Title</title>
     <script type="text/javascript">
-        function changeFunc() {
+        function isProcedure() {
             var typeSelectionList = document.getElementById("typeSelectionList");
             var selectedValue = typeSelectionList.options[typeSelectionList.selectedIndex].value;
+            return selectedValue=="procedure";
         }
     </script>
 
     <script type="text/javascript">
         function setProcOrMedPO(){
-            ${prescription.procOrMedicine.type}=${prescription.scratch.type.therapyType};
-            ${prescription.procOrMedicine.name}=${prescription.scratch.type.therapyName};
+            ${prescription.procOrMedicine.type}=${prescription.scratch.typeTherapy};
+            ${prescription.procOrMedicine.name}=${prescription.scratch.typeTherapyName};
         }
     </script>
 </head>
@@ -35,7 +36,7 @@
 <%--
     <form:label path="scratch.type.therapyType" for="typeSelectionList">Choose type of therapy:</form:label>
 --%>
-    <form:select path="scratch.type.therapyType" id="typeSelectionList" name="typeOfTherapy" onchange="changeFunc()">
+    <form:select path="scratch.typeTherapy" id="typeSelectionList" name="typeOfTherapy">
         <c:forEach items="<%=TherapyType.values()%>" var="therapyType">
             <form:option value="${therapyType}">
                 ${therapyType.toString()}
@@ -43,25 +44,25 @@
         </c:forEach>
     </form:select>
 
+    <form:select path="scratch.type.therapyName" id="medicineSelectionList" name="nameOfMedicine" onchange="setProcOrMedPo()">
     <c:choose>
-        <form:select path="scratch.type.therapyName" id="medicineSelectionList" name="nameOfMedicine" onchange="setProcOrMedPo()">
-        <c:when test="selectedValue==<%=TherapyType.MEDICINE.toString()%>">
+        <c:when test="document.getElementById(typeSelectionList).options[typeSelectionList.selectedValue].value == <%=TherapyType.MEDICINE.toString()%>">
                 <c:forEach items="${medicines}" var="medicine">
                     <form:option value="${medicine}">${medicine.name}</form:option>
                 </c:forEach>
         </c:when>
 
-        <c:when test="selectedValue==<%=TherapyType.PROCEDURE.toString()%>">
+        <c:when test="isProcedure()">
                 <c:forEach items="${procedures}" var="procedure">
                     <form:option value="${procedure}">${procedure.name}</form:option>
                 </c:forEach>
         </c:when>
-        </form:select>
 
         <c:otherwise>
-            Please, select type of Therapy
+            <form:option value="">Please, select type of Therapy</form:option>
         </c:otherwise>
     </c:choose>
+    </form:select>
 
     <p>Time Pattern</p>
     <form:label path="scratch.timePatternQuantity" for="quantityInTP">quantity in time pattern:</form:label>
@@ -83,12 +84,13 @@
         </c:forEach>
     </form:select>
 
-    <c:if test="selectedValue==<%=TherapyType.MEDICINE%>">
+    <c:if test="true">
         <p>Dose</p>
         <form:label path="scratch.doseDescription" for="doseInput">dose:</form:label>
         <form:input path="scratch.doseDescription" type="text" id="doseInput" name="dose" placeholder="Enter dose of medicine"/>
     </c:if>
 
+    <br>
     <input id="submitButton" type="submit" value="Submit" onclick="added()"/>
 
     <script>
