@@ -3,13 +3,16 @@ package com.noskov.school.dto;
 import com.noskov.school.persistent.PatientPO;
 import com.noskov.school.persistent.ProcedureAndMedicinePO;
 import com.noskov.school.service.imp.prescription.PrescriptionScratch;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PrescriptionDTO {
     private PrescriptionScratch scratch;
     private PatientPO patient;
     private ProcedureAndMedicinePO procOrMedicine;
 
     public PrescriptionDTO() {
+        this.scratch = new PrescriptionScratch();
     }
 
     public PrescriptionDTO(PatientPO patient) {
