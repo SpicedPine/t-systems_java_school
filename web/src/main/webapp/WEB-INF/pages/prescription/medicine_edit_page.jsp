@@ -71,20 +71,6 @@
     <footer>
         <input id="submitButton" type="submit" value="Submit"/>
     </footer>
-
-    <script>
-        function disableDose(){
-            alert("dose disabled");
-            var therapyType = document.querySelector('#typeSelectionList');
-            var dose = document.querySelector('#doseInput');
-            if (therapyType.value.toString() == 'MEDICINE'){
-                dose.disabled = '';
-            } else {
-                dose.disabled = 'disabled';
-                dose.value = null;
-            }
-        }
-    </script>
 </form:form>
 </body>
 </html>

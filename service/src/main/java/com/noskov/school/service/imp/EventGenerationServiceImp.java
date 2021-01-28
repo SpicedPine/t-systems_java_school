@@ -90,7 +90,7 @@ public class EventGenerationServiceImp implements EventGenerationService {
                     }
                 }
             }
-            date = date.plus(1, ChronoUnit.valueOf(periodTimePeriod.toString().toUpperCase() + "S"));
+            //date = date.plus(1, ChronoUnit.valueOf(periodTimePeriod.toString().toUpperCase() + "S"));
         }
     }
 
