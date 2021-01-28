@@ -35,15 +35,15 @@
             <a href="<c:url value='/event/'/>">all time</a>
         </td>
     </tr>
-    <c:forEach items="${events}" var="event">
+    <c:forEach items="${eventsForDay}" var="event">
         <tr class="table-data">
             <td>${event.patient.lastName}</td>
             <td>${event.patient.firstName}</td>
             <td>${event.dateAndTime}</td>
             <td>${event.status}</td>
             <td>${event.eventType.name}</td>
-            <td><a href="<c:url value="/event/${event.id}/changeToDone"/>">change status to "done"</a></td>
-            <td><a href="<c:url value="/event/${event.id}/changeToCancelled"/>">change status to "canceled"</a></td>
+            <td><button id="cancel" onclick="cancelEvent.js">change status to "cancel"</button></td>
+            <td><button id="done" onclick="doneEvent.js">change status to "done"</button> </td>
         </tr>
     </c:forEach>
     </tbody>

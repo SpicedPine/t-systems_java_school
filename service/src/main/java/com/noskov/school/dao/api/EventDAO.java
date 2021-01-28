@@ -16,4 +16,7 @@ public interface EventDAO {
     void update(EventPO event);
 
     void deleteByPatientAndTherapy(PatientPO patientPO, ProcedureAndMedicinePO therapy);
+
+    void changeStatusToDone(Long id);
+    void changeStatusToCancelled(Long id);
 }

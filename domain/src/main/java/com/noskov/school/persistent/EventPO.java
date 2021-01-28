@@ -38,6 +38,10 @@ public class EventPO {
 
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public PatientPO getPatient() {
         return patient;
     }

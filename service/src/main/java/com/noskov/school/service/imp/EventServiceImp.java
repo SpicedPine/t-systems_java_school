@@ -24,7 +24,7 @@ public class EventServiceImp implements EventService {
     }
 
     @Override
-    public List<EventPO> getEventsForDay() {
+    public List<EventPO> getEventsForHour() {
         List<EventPO> eventList = eventDAO.getAllEvents();
         LocalTime nextHour = LocalTime.now().plusHours(1);
         eventList = eventList.stream()
@@ -34,7 +34,7 @@ public class EventServiceImp implements EventService {
     }
 
     @Override
-    public List<EventPO> getEventsForHour() {
+    public List<EventPO> getEventsForDay() {
         List<EventPO> eventList = eventDAO.getAllEvents();
         LocalDate nextDay = LocalDate.now().plusDays(1);
         eventList = eventList.stream()
@@ -66,5 +66,15 @@ public class EventServiceImp implements EventService {
     @Override
     public void deleteByPatientAndTherapy(PatientPO patientPO, ProcedureAndMedicinePO therapy) {
         eventDAO.deleteByPatientAndTherapy(patientPO,therapy);
+    }
+
+    @Override
+    public void changeStatusToDone(Long id){
+        eventDAO.changeStatusToDone(id);
+    }
+
+    @Override
+    public void changeStatusToCancelled(long id) {
+        eventDAO.changeStatusToCancelled(id);
     }
 }

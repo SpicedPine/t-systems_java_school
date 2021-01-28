@@ -1,6 +1,7 @@
 package com.noskov.school.dao.imp;
 
 import com.noskov.school.dao.api.EventDAO;
+import com.noskov.school.enums.EventStatus;
 import com.noskov.school.persistent.EventPO;
 import com.noskov.school.persistent.PatientPO;
 import com.noskov.school.persistent.ProcedureAndMedicinePO;
@@ -67,5 +68,25 @@ public class EventDAOImp implements EventDAO {
         query.setParameter("patientPO", patientPO);
         query.setParameter("therapy", therapy);
         query.executeUpdate();
+    }
+
+    @Override
+    public void changeStatusToDone(Long id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("from EventPO as e where e.id = :id");
+        query.setParameter("id",id);
+        EventPO event = (EventPO) query.getSingleResult();
+        event.setStatus(EventStatus.DONE);
+        update(event);
+    }
+
+    @Override
+    public void changeStatusToCancelled(Long id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("from EventPO as e where e.id = :id");
+        query.setParameter("id",id);
+        EventPO event = (EventPO) query.getSingleResult();
+        event.setStatus(EventStatus.CANCELED);
+        update(event);
     }
 }

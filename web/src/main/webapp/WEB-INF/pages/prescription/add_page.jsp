@@ -64,7 +64,7 @@
     <form:label path="scratch.timePatternQuantity" for="quantityInTP">quantity in time pattern:</form:label>
     <form:input path="scratch.timePatternQuantity" type="text" id="quantityInTP" name="timePatternQuantity" placeholder="Enter time pattern quantity"/>
     at
-    <form:select path="scratch.timePatternTimePeriod" id="timePeriodSelectionListInTP" name="timePatternTimePeriod">
+    <form:select path="scratch.timePatternTimePeriod" id="timePeriodSelectionListInTP" name="timePatternTimePeriod" onchange="disablePeriodTimePeriod()">
         <c:forEach items="<%=TimePeriods.values()%>" var="timePeriod">
             <form:option value="${timePeriod}">${timePeriod}</form:option>
         </c:forEach>
@@ -99,23 +99,27 @@
     </script>
     <script>
         function disableDose(){
-            alert("dose disabled");
             var therapyType = document.querySelector('#typeSelectionList');
             var dose = document.querySelector('#doseInput');
             if (therapyType.value.toString() == 'MEDICINE'){
                 dose.disabled = '';
             } else {
                 dose.disabled = 'disabled';
+                alert("dose disabled");
                 dose.value = null;
             }
         }
     </script>
+
     <script>
-        function setProcOrMedPO(){
-            alert("name changed");
-            ${prescription.procOrMedicine.type}=${prescription.scratch.typeTherapy};
-            ${prescription.procOrMedicine.name}=${prescription.scratch.typeTherapyName};
-            ${prescription.patient}=${patient};
+        function disablePeriodTimePeriod(){
+            alert("period timePeriod disabled");
+            var timePatternTimePeriod = document.querySelector('#timePeriodSelectionListInTP');
+            var periodTimePeriod = document.querySelector('#timePeriodSelectionListInP');
+            if (timePatternTimePeriod.value.toString() == 'WEEK'){
+                periodTimePeriod.childNodes[0].disabled = 'disabled';
+            } else {
+            }
         }
     </script>
 </form:form>
