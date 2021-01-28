@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -11,6 +12,7 @@
             <tr>
                 <th>Name</th>
                 <th>Surname</th>
+                <th>Physician</th>
                 <th>Diagnose</th>
                 <th>Social number</th>
                 <th>Status</th>
@@ -21,14 +23,19 @@
             <tr>
                 <td>${patient.firstName}</td>
                 <td>${patient.lastName}</td>
+                <td>${patient.physician.toString()}</td>
                 <td>${patient.diagnose}</td>
                 <td>${patient.socialNumber}</td>
                 <td>${patient.status}</td>
-                <td><button id="release" onclick="releasePatient.js">release</button></td>
-                <td><button id="peek" onclick="toProfile.js">profile</button></td>
+                <td><a href="<c:url value='/patient/${patient.id}/release'/>">release</a></td>
+                <td><a href="<c:url value="/patient/${patient.id}"/>">profile</a></td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
+
+    <p>
+        <a href="<c:url value='/patient/add'/>">Add new patient</a>
+    </p>
 </body>
 </html>

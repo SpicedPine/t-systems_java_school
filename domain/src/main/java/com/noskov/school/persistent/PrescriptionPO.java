@@ -1,6 +1,8 @@
 package com.noskov.school.persistent;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "PRESCRIPTIONS")
@@ -20,6 +22,9 @@ public class PrescriptionPO {
 
     @Column(name = "FORMED_PRESCRIPTION",nullable = false)
     private String formedPrescription;
+
+    /*@OneToMany(mappedBy = "prescription", cascade = CascadeType.ALL)
+    private List<EventPO> eventList = new ArrayList<>();*/
 
     public Long getId() {
         return id;
@@ -54,6 +59,13 @@ public class PrescriptionPO {
     }
 
     public PrescriptionPO(PatientPO patient, ProcedureAndMedicinePO prescriptionType, String formedPrescription) {
+        this.patient = patient;
+        this.prescriptionType = prescriptionType;
+        this.formedPrescription = formedPrescription;
+    }
+
+    public PrescriptionPO(Long id, PatientPO patient, ProcedureAndMedicinePO prescriptionType, String formedPrescription) {
+        this.id = id;
         this.patient = patient;
         this.prescriptionType = prescriptionType;
         this.formedPrescription = formedPrescription;

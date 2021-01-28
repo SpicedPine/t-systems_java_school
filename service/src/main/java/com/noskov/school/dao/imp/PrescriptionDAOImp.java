@@ -24,7 +24,7 @@ public class PrescriptionDAOImp implements PrescriptionDAO {
     @Override
     public void deleteById(Long id) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("delete from PrescriptionPO where id = :id").setParameter("id", id);
+        Query query = session.createQuery("delete from PrescriptionPO as p where p.id = :id").setParameter("id", id);
         query.executeUpdate();
     }
 

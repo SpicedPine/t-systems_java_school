@@ -10,6 +10,10 @@ public class PrescriptionScratch {
     private Dose dose;
 
     public PrescriptionScratch() {
+        this.type = new Type();
+        this.timePattern = new TimePattern();
+        this.period = new Period();
+        this.dose = new Dose();
     }
 
     public PrescriptionScratch(Type type, TimePattern timePattern, Period period, Dose dose) {
@@ -53,23 +57,23 @@ public class PrescriptionScratch {
 
     public String getTimePatternAdditionalInformation(){ return timePattern.getAdditionalInformation(); }
 
-    /*public void setTimePatternQuantity(int quantity) { timePattern.setQuantity(quantity); }
+    public void setTimePatternQuantity(int quantity) { timePattern.setQuantity(quantity); }
 
     public void setTimePatternTimePeriod(TimePeriods timePeriod){ timePattern.setFrequency(timePeriod); }
 
     public void setTimePatternAdditionalInformation(String additionalInformation){ timePattern.setAdditionalInformation(additionalInformation); }
-*/
+
     public TimePeriods getPeriodTimePeriod(){ return period.getTimePeriod(); }
 
     public int getPeriodsQuantity(){ return period.getQuantity(); }
 
-    /*public void setPeriodTimePeriod(TimePeriods timePeriod){ period.setTimePeriod(timePeriod); }
+    public void setPeriodTimePeriod(TimePeriods timePeriod){ period.setTimePeriod(timePeriod); }
 
     public void setPeriodsQuantity(int quantity){ period.setQuantity(quantity); }
-*/
+
     public String getDoseDescription(){ return dose.getDose(); }
 
-    /*public void setDoseDescription(String doseDescription){ dose.setDose(doseDescription); }
+    public void setDoseDescription(String doseDescription){ dose.setDose(doseDescription); }
 
     public TherapyType getTypeTherapy(){ return type.getTherapyType();}
 
@@ -77,7 +81,7 @@ public class PrescriptionScratch {
 
     public void setTypeTherapy(TherapyType therapyType){ type.setTherapyType(therapyType);}
 
-    public void setTypeTherapyName(String therapyName){ type.setTherapyName(therapyName);}*/
+    public void setTypeTherapyName(String therapyName){ type.setTherapyName(therapyName);}
 
     class Type{
         private TherapyType therapyType;
@@ -87,6 +91,10 @@ public class PrescriptionScratch {
         public Type(TherapyType therapyType, String therapyName) {
             this.therapyType = therapyType;
             this.therapyName = therapyName;
+        }
+
+        public Type() {
+
         }
 
         @Override
@@ -122,9 +130,17 @@ public class PrescriptionScratch {
             this.additionalInformation = additionalInformation;
         }
 
+        public TimePattern() {
+
+        }
+
         @Override
         public String toString(){
-            return quantity + " " + frequency.toString() + " " + additionalInformation;
+            if(additionalInformation==null || additionalInformation.isEmpty()){
+                return quantity + " " + frequency.toString();
+            }else{
+                return quantity + " " + frequency.toString() + " " + additionalInformation;
+            }
         }
 
         public void setQuantity(int quantity) {
@@ -165,6 +181,10 @@ public class PrescriptionScratch {
             this.timePeriod = timePeriod;
         }
 
+        public Period() {
+
+        }
+
         @Override
         public String toString(){
             return quantity + " " + timePeriod.toString();
@@ -192,6 +212,10 @@ public class PrescriptionScratch {
 
         public Dose(String dose) {
             this.dose = dose;
+        }
+
+        public Dose() {
+
         }
 
         @Override

@@ -1,6 +1,7 @@
 package com.noskov.school.dao.imp;
 
 import com.noskov.school.dao.api.MedicalStaffDAO;
+import com.noskov.school.enums.StaffPost;
 import com.noskov.school.persistent.MedicalStaffPO;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -8,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.management.Query;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 @Transactional

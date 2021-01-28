@@ -67,37 +67,45 @@ public class EventGenerationServiceImp implements EventGenerationService {
     private void addEventsForMonth(LocalDate date, List<EventPO> generatedEvents, ProcedureAndMedicinePO therapyType, PatientPO patient, int periodsQuantity, int quantityInPeriod, TimePeriods periodTimePeriod, List<LocalTime> timeList) {
         for (int i = 0; i < periodsQuantity; i++) {
             addEventsByQuantity(date, generatedEvents, therapyType, patient, quantityInPeriod, periodTimePeriod, timeList);
+            date = date.plusMonths(1);
         }
     }
 
     private void addEventsForDay(LocalDate date, List<EventPO> generatedEvents, ProcedureAndMedicinePO therapyType, PatientPO patient, int periodsQuantity, int quantityInPeriod, TimePeriods periodTimePeriod, List<LocalTime> timeList) {
         for (int i = 0; i < periodsQuantity; i++) {
-            for (int j = 0; j < quantityInPeriod; j++) {
+            for (int k = 0; k < periodTimePeriod.getDaysInPeriod(); k++) {
                 LocalDate dayDate = date.plus(1, ChronoUnit.DAYS);
-                if(timeList.isEmpty()){
-                    LocalTime time = LocalTime.of(9+j*3,0);
-                    LocalDateTime dateTime = LocalDateTime.of(dayDate,time);
-                    EventPO event = new EventPO(patient,dateTime,EventStatus.PLANNED, therapyType);
-                    generatedEvents.add(event);
-                } else {
-                    if(timeList.size()== quantityInPeriod) {
-                        addEventsFromTimeList(generatedEvents, timeList, patient, dayDate, therapyType);
-                        j+= quantityInPeriod;
+                date = date.plus(1, ChronoUnit.DAYS);
+                for (int j = 0; j < quantityInPeriod; j++) {
+                    if (timeList.isEmpty()) {
+                        LocalTime time = LocalTime.of(9 + j * 3, 0);
+                        LocalDateTime dateTime = LocalDateTime.of(dayDate, time);
+                        EventPO event = new EventPO(patient, dateTime, EventStatus.PLANNED, therapyType);
+                        generatedEvents.add(event);
+                    } else {
+                        if (timeList.size() == quantityInPeriod) {
+                            addEventsFromTimeList(generatedEvents, timeList, patient, dayDate, therapyType);
+                            j += quantityInPeriod;
+                        }
                     }
                 }
             }
-            date = date.plus(1, ChronoUnit.valueOf(periodTimePeriod.toString().toUpperCase() + "s"));
+            //date = date.plus(1, ChronoUnit.valueOf(periodTimePeriod.toString().toUpperCase() + "S"));
         }
     }
 
     private void addEventsForWeek(LocalDate date, List<EventPO> generatedEvents, ProcedureAndMedicinePO therapyType, PatientPO patient, int periodsQuantity, int quantityInPeriod, TimePeriods periodTimePeriod, TimePeriods timePatternTimePeriod, String additionalInformation, List<LocalTime> timeList) {
         Set<String> weekDaysSet = WeekDayParser.parseWeekDays(additionalInformation);
         for (int i = 0; i < periodsQuantity; i++) {
-            if (weekDaysSet.isEmpty()){
-                addEventsByQuantity(date, generatedEvents, therapyType, patient, quantityInPeriod, timePatternTimePeriod, timeList);
-            } else {
-                addEventsByWeekDaysSet(date, generatedEvents, therapyType, patient, timeList, weekDaysSet);
-                date = date.plus(1, ChronoUnit.valueOf(periodTimePeriod.toString().toUpperCase()+"s"));
+            int nSteps = periodTimePeriod.getDaysInPeriod()/ timePatternTimePeriod.getDaysInPeriod();
+            for (int k = 0; k < nSteps; k++) {
+                if (weekDaysSet.isEmpty()) {
+                    addEventsByQuantity(date, generatedEvents, therapyType, patient, quantityInPeriod, timePatternTimePeriod, timeList);
+                    date = date.plus(1, ChronoUnit.valueOf(timePatternTimePeriod.toString().toUpperCase() + "S"));
+                } else {
+                    addEventsByWeekDaysSet(date, generatedEvents, therapyType, patient, timeList, weekDaysSet);
+                    date = date.plus(1, ChronoUnit.valueOf(timePatternTimePeriod.toString().toUpperCase() + "S"));
+                }
             }
         }
     }
@@ -115,7 +123,9 @@ public class EventGenerationServiceImp implements EventGenerationService {
 
     private void addEventsByQuantity(LocalDate date, List<EventPO> generatedEvents, ProcedureAndMedicinePO therapyType, PatientPO patient, int quantityInPeriod, TimePeriods timePatternTimePeriod, List<LocalTime> timeList) {
         for (int j = 0; j < quantityInPeriod; j++) {
-            LocalDate nextDate = date.plus(timePatternTimePeriod.getDaysInPeriod() / quantityInPeriod, ChronoUnit.DAYS);
+            int daysToAdd = timePatternTimePeriod.getDaysInPeriod()/quantityInPeriod;
+            LocalDate nextDate = date.plus(daysToAdd, ChronoUnit.DAYS);
+            date = date.plus(daysToAdd, ChronoUnit.DAYS);
             if (timeList.isEmpty()) {
                 addSingleEventWithDefaultTime(generatedEvents, therapyType, patient, nextDate);
             } else {

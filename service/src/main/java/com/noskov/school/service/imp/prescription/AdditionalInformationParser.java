@@ -7,16 +7,16 @@ import java.util.stream.Collectors;
 public class AdditionalInformationParser {
     static String MORNING_BEFORE_MEAL = "07:45:00";
     static String EVENING_BEFORE_MEAL = "17:45:00";
-    static String MORNING_AFTER_MEAL = "8:40:00";
+    static String MORNING_AFTER_MEAL = "08:40:00";
     static String EVENING_AFTER_MEAL = "18:40:00";
-    static String MORNING = "9:00:00";
+    static String MORNING = "09:00:00";
     static String EVENING = "20:00:00";
 
-    static String MORNING_PATTERN = ".* morning.*";
-    static String EVENING_PATTERN = ".* evening.*";
-    static String BEFORE_MEAL_PATTERN = ".* before meal.*";
-    static String AFTER_MEAL_PATTERN = ".* after meal.*";
-    static String MORNING_PLUS_EVENING_PATTERN = ".* morning and evening.*";
+    static String MORNING_PATTERN = "morning";
+    static String EVENING_PATTERN = "evening";
+    static String BEFORE_MEAL_PATTERN = "before meal";
+    static String AFTER_MEAL_PATTERN = "after meal";
+    static String MORNING_PLUS_EVENING_PATTERN = "morning and evening";
     
     static Map<String, List<String>> MAP_OF_DAY_TIMES = Map.of(
             "ME_B", List.of(MORNING_BEFORE_MEAL, EVENING_BEFORE_MEAL),
@@ -25,6 +25,7 @@ public class AdditionalInformationParser {
             "M_A", List.of(MORNING_AFTER_MEAL),
             "E_B", List.of(EVENING_BEFORE_MEAL),
             "E_A", List.of(EVENING_AFTER_MEAL),
+            "ME", List.of(MORNING, EVENING),
             "M", List.of(MORNING),
             "E", List.of(EVENING)
     );
@@ -44,7 +45,7 @@ public class AdditionalInformationParser {
             throw new RuntimeException("additionalInformation parsing exception");
         } else {
             StringJoiner additionalInformation = new StringJoiner(" "," ","");
-            list.stream().limit(lastIndex).forEach(additionalInformation::add);
+            list.stream().skip(4).limit(lastIndex-4).forEach(additionalInformation::add);
             return additionalInformation.toString();
         }
     }
@@ -52,9 +53,12 @@ public class AdditionalInformationParser {
     public static List<LocalTime> parseDayTime(String additionalInformation){
        String keyForPattern = extractPatterns(additionalInformation);
 
-        return MAP_OF_DAY_TIMES.get(keyForPattern).stream()
-                .map(LocalTime::parse)
-                .collect(Collectors.toList());
+       if(!keyForPattern.isEmpty()){
+           return MAP_OF_DAY_TIMES.get(keyForPattern).stream()
+                   .map(LocalTime::parse)
+                   .collect(Collectors.toList());
+       }
+       return new ArrayList<>();
     }
 
     private static String extractPatterns(String additionalInformation) {
@@ -65,7 +69,7 @@ public class AdditionalInformationParser {
             key.add("M");
         }  else if (additionalInformation.contains(EVENING_PATTERN)) {
             key.add("E");
-        } else throw new RuntimeException("dayTime parsing exception");
+        }
 
         if (additionalInformation.contains(BEFORE_MEAL_PATTERN)) {
             key.add("B");

@@ -17,11 +17,14 @@ public class QuantityParser {
     public static int parsePeriodQuantity(String prescription){
         List<String> list = Arrays.asList(prescription.split(" "));
         int quantity;
-        for (int i = 4; i < list.size()-2; i++) {
+        System.out.println("представление list-a:");
+        list.forEach(System.out::println);
+        for (int i = 4; i < list.size()-1; i++) {
             try{
                 quantity = Integer.parseInt(list.get(i));
                 return quantity;
             } catch (NumberFormatException e){
+                System.out.println("!!!!не смог спарсить:!!!!" + list.get(i));
             }
         }
         throw new RuntimeException("periodQuantity parsing exception");

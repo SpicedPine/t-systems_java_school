@@ -2,6 +2,7 @@ package com.noskov.school.service.api;
 
 
 import com.noskov.school.dto.PrescriptionDTO;
+import com.noskov.school.persistent.PrescriptionPO;
 
 import java.util.List;
 
@@ -14,5 +15,9 @@ public interface PrescriptionService {
 
     void delete(Long id);
 
-    void update(PrescriptionDTO prescription);
+    void update(PrescriptionDTO prescription, Long prescriptionId);
+
+    PrescriptionPO convertToPO(PrescriptionDTO prescriptionDTO);
+
+    PrescriptionDTO convertToDTO(PrescriptionPO prescriptionPO);
 }

@@ -31,7 +31,7 @@ public class ProcAndMedDAOImp implements ProcAndMedDAO {
     @Override
     public List<ProcedureAndMedicinePO> getAllProcedures(){
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select ProcedureAndMedicinePO from ProcedureAndMedicinePO where type= :type");
+        Query query = session.createQuery("from ProcedureAndMedicinePO as p where p.type= :type");
         query.setParameter("type", TherapyType.PROCEDURE);
         return query.getResultList();
     }
@@ -39,7 +39,7 @@ public class ProcAndMedDAOImp implements ProcAndMedDAO {
     @Override
     public List<ProcedureAndMedicinePO> getAllMedicines(){
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select ProcedureAndMedicinePO from ProcedureAndMedicinePO where type= :type");
+        Query query = session.createQuery("from ProcedureAndMedicinePO as p where p.type= :type");
         query.setParameter("type", TherapyType.MEDICINE);
         return query.getResultList();
     }
@@ -53,7 +53,7 @@ public class ProcAndMedDAOImp implements ProcAndMedDAO {
     @Override
     public ProcedureAndMedicinePO getById(Long id) {
         Session session = sessionFactory.getCurrentSession();
-        return (ProcedureAndMedicinePO) session.get(ProcedureAndMedicinePO.class, id);
+        return session.get(ProcedureAndMedicinePO.class, id);
     }
 
     @Override
@@ -66,5 +66,13 @@ public class ProcAndMedDAOImp implements ProcAndMedDAO {
     public void update(ProcedureAndMedicinePO procedureOrMedicine) {
         Session session = sessionFactory.getCurrentSession();
         session.update("ProcedureAndMedicinePO", procedureOrMedicine);
+    }
+
+    @Override
+    public ProcedureAndMedicinePO getByName(String name){
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("from ProcedureAndMedicinePO as p where p.name= :name");
+        query.setParameter("name", name);
+        return (ProcedureAndMedicinePO) query.uniqueResult();
     }
 }

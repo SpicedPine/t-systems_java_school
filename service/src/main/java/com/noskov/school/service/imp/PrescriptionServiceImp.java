@@ -5,7 +5,9 @@ import com.noskov.school.dto.PrescriptionDTO;
 import com.noskov.school.persistent.PatientPO;
 import com.noskov.school.persistent.PrescriptionPO;
 import com.noskov.school.persistent.ProcedureAndMedicinePO;
+import com.noskov.school.service.api.EventService;
 import com.noskov.school.service.api.PrescriptionService;
+import com.noskov.school.service.api.ProcAndMedService;
 import com.noskov.school.service.imp.prescription.PrescriptionBuilder;
 import com.noskov.school.service.imp.prescription.PrescriptionScratch;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ import java.util.stream.Collectors;
 public class PrescriptionServiceImp implements PrescriptionService {
     @Autowired
     PrescriptionDAO prescriptionDAO;
+
+    @Autowired
+    EventService eventService;
 
     @Autowired
     PrescriptionBuilder prescriptionBuilder;
@@ -44,15 +49,22 @@ public class PrescriptionServiceImp implements PrescriptionService {
 
     @Override
     public void delete(Long id) {
+        PrescriptionPO prescriptionPO = prescriptionDAO.getById(id);
+        PatientPO patientPO = prescriptionPO.getPatient();
+        ProcedureAndMedicinePO therapy = prescriptionPO.getPrescriptionType();
+        eventService.deleteByPatientAndTherapy(patientPO,therapy);
         prescriptionDAO.deleteById(id);
     }
 
     @Override
-    public void update(PrescriptionDTO prescription) {
-        prescriptionDAO.update(convertToPO(prescription));
+    public void update(PrescriptionDTO prescription, Long prescriptionId) {
+        PrescriptionPO prescriptionPO = convertToPO(prescription);
+        prescriptionPO.setId(prescriptionId);
+        prescriptionDAO.update(prescriptionPO);
     }
 
-    private PrescriptionDTO convertToDTO(PrescriptionPO prescriptionPO){
+    @Override
+    public PrescriptionDTO convertToDTO(PrescriptionPO prescriptionPO){
         PatientPO patient = prescriptionPO.getPatient();
         ProcedureAndMedicinePO procOrMed = prescriptionPO.getPrescriptionType();
         String formedPrescription = prescriptionPO.getFormedPrescription();
@@ -61,7 +73,8 @@ public class PrescriptionServiceImp implements PrescriptionService {
         return new PrescriptionDTO(scratch, patient, procOrMed);
     }
 
-    private PrescriptionPO convertToPO(PrescriptionDTO prescriptionDTO){
+    @Override
+    public PrescriptionPO convertToPO(PrescriptionDTO prescriptionDTO){
         PatientPO patientPO = prescriptionDTO.getPatient();
         ProcedureAndMedicinePO procOrMed = prescriptionDTO.getProcOrMedicine();
         String formedPrescription = prescriptionBuilder.buildPrescription(prescriptionDTO.getScratch());

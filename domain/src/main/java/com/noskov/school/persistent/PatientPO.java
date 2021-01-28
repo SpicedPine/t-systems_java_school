@@ -23,16 +23,16 @@ public class PatientPO {
     @Column(name = "SOCIAL_NUMBER", nullable = false)
     private int socialNumber;
 
-    @Column(name = "PHYSICIAN", nullable = false)
+    @Column(name = "PHYSICIAN", nullable = true)
     private String physician;
 
     @Column(name = "STATUS", nullable = false)
     private PatientStatus status;
 
-    @OneToMany(mappedBy = "patient")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "patient", cascade = CascadeType.ALL)
     private List<PrescriptionPO> prescriptionList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "patient")
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     private List<EventPO> eventList = new ArrayList<>();
 
     @ManyToMany
@@ -40,6 +40,10 @@ public class PatientPO {
             joinColumns = @JoinColumn(name = "PATIENT_ID"),
             inverseJoinColumns = @JoinColumn(name = "MEDICAL_STAFF_ID"))
     private Set<MedicalStaffPO> physicians = new HashSet<>();
+
+    public Long getId() {
+        return id;
+    }
 
     public String getFirstName() {
         return firstName;

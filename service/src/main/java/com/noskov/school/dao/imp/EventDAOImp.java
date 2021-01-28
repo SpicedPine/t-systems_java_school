@@ -1,9 +1,13 @@
 package com.noskov.school.dao.imp;
 
 import com.noskov.school.dao.api.EventDAO;
+import com.noskov.school.enums.EventStatus;
 import com.noskov.school.persistent.EventPO;
+import com.noskov.school.persistent.PatientPO;
+import com.noskov.school.persistent.ProcedureAndMedicinePO;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,5 +52,59 @@ public class EventDAOImp implements EventDAO {
     public void update(EventPO event) {
         Session session = sessionFactory.getCurrentSession();
         session.update("EventPO", event);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("delete from EventPO as e where e.id = :id").setParameter("id",id);
+        query.executeUpdate();
+    }
+
+    @Override
+    public void deleteByPatientAndTherapy(PatientPO patientPO, ProcedureAndMedicinePO therapy) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("delete from EventPO as e where e.patient =:patientPO and e.eventType =:therapy");
+        query.setParameter("patientPO", patientPO);
+        query.setParameter("therapy", therapy);
+        query.executeUpdate();
+    }
+
+    @Override
+    public void changeStatusToDone(Long id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("from EventPO as e where e.id = :id");
+        query.setParameter("id",id);
+        EventPO event = (EventPO) query.getSingleResult();
+        event.setStatus(EventStatus.DONE);
+        update(event);
+    }
+
+    @Override
+    public void changeStatusToCancelled(Long id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("from EventPO as e where e.id = :id");
+        query.setParameter("id",id);
+        EventPO event = (EventPO) query.getSingleResult();
+        event.setStatus(EventStatus.CANCELED);
+        update(event);
+    }
+
+    @Override
+    public void setReasonToCancel(String reason, Long id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("from EventPO as e where e.id = :id");
+        query.setParameter("id",id);
+        EventPO event = (EventPO) query.getSingleResult();
+        event.setReasonToCancel(reason);
+    }
+
+    @Override
+    public String getDoseFromMedicineEvent(String dose, Long id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("from EventPO as e where e.id = :id");
+        query.setParameter("id",id);
+        EventPO event = (EventPO) query.getSingleResult();
+        return event.getDoseDescription();
     }
 }
