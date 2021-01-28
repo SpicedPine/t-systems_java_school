@@ -26,4 +26,8 @@ public interface EventService {
     void changeStatusToDone(Long id);
 
     void changeStatusToCancelled(long id);
+
+    void setReasonToCancel(String reason ,Long id);
+
+    String getDoseFromMedicineEvent(String dose, Long id);
 }

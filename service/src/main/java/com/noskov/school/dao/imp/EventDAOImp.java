@@ -89,4 +89,22 @@ public class EventDAOImp implements EventDAO {
         event.setStatus(EventStatus.CANCELED);
         update(event);
     }
+
+    @Override
+    public void setReasonToCancel(String reason, Long id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("from EventPO as e where e.id = :id");
+        query.setParameter("id",id);
+        EventPO event = (EventPO) query.getSingleResult();
+        event.setReasonToCancel(reason);
+    }
+
+    @Override
+    public String getDoseFromMedicineEvent(String dose, Long id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("from EventPO as e where e.id = :id");
+        query.setParameter("id",id);
+        EventPO event = (EventPO) query.getSingleResult();
+        return event.getDoseDescription();
+    }
 }

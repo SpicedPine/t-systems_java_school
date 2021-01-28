@@ -12,6 +12,12 @@ public class EventPO {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "REASON_TO_CANCEL", nullable = true)
+    private String reasonToCancel;
+
+    @Column(name = "DOSE_DESCRIPTION", nullable = true)
+    private String doseDescription;
+
     @ManyToOne
     @JoinColumn(name = "PATIENT_ID",nullable = false)
     private PatientPO patient;
@@ -72,5 +78,21 @@ public class EventPO {
 
     public void setEventType(ProcedureAndMedicinePO eventType) {
         this.eventType = eventType;
+    }
+
+    public String getReasonToCancel() {
+        return reasonToCancel;
+    }
+
+    public void setReasonToCancel(String reasonToCancel) {
+        this.reasonToCancel = reasonToCancel;
+    }
+
+    public String getDoseDescription() {
+        return doseDescription;
+    }
+
+    public void setDoseDescription(String doseDescription) {
+        this.doseDescription = doseDescription;
     }
 }

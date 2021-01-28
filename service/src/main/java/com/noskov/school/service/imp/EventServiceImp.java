@@ -77,4 +77,14 @@ public class EventServiceImp implements EventService {
     public void changeStatusToCancelled(long id) {
         eventDAO.changeStatusToCancelled(id);
     }
+
+    @Override
+    public void setReasonToCancel(String reason, Long id) {
+        eventDAO.setReasonToCancel(reason, id);
+    }
+
+    @Override
+    public String getDoseFromMedicineEvent(String dose, Long id) {
+        return eventDAO.getDoseFromMedicineEvent(dose, id);
+    }
 }

@@ -19,4 +19,8 @@ public interface EventDAO {
 
     void changeStatusToDone(Long id);
     void changeStatusToCancelled(Long id);
+
+    void setReasonToCancel(String reason ,Long id);
+
+    String getDoseFromMedicineEvent(String dose, Long id);
 }
