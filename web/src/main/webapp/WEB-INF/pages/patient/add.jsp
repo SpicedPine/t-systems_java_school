@@ -1,10 +1,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.noskov.school.enums.PatientStatus" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="com.noskov.school.persistent.PrescriptionPO" %>
 <html>
 <head>
     <title>Adding page</title>
@@ -21,8 +20,14 @@
         <form:input path="diagnose" placeholder="diagnose"/><br>
         <form:label path="socialNumber">Patient's social number:</form:label>
         <form:input path="socialNumber" placeholder="social number"/><br>
+        <form:label path="physician">Physician:</form:label>
+        <form:select path="physician">
+            <c:forEach items="${physicians}" var="physicianVal">
+                <form:option value="${physicianVal}">${physicianVal.toString()}</form:option>
+            </c:forEach>
+        </form:select><br>
 
-        <form:label path="status">Patient's status</form:label><br>
+        <form:label path="status">Patient's status:</form:label><br>
         <form:select path="status">
             <form:option value="<%=PatientStatus.TREATING%>"><%=PatientStatus.TREATING%></form:option>
             <form:option value="<%=PatientStatus.TREATED%>"><%=PatientStatus.TREATED%></form:option>

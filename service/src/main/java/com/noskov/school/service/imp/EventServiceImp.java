@@ -27,8 +27,12 @@ public class EventServiceImp implements EventService {
     public List<EventPO> getEventsForHour() {
         List<EventPO> eventList = eventDAO.getAllEvents();
         LocalTime nextHour = LocalTime.now().plusHours(1);
+        LocalDate nextDate = LocalDate.now().plusDays(1);
+        LocalTime now = LocalTime.now();
         eventList = eventList.stream()
                 .filter(e -> e.getDateAndTime().toLocalTime().isBefore(nextHour))
+                .filter(e -> e.getDateAndTime().toLocalDate().isBefore(nextDate))
+                .filter(e -> e.getDateAndTime().toLocalTime().isAfter(now))
                 .collect(Collectors.toList());
         return eventList;
     }

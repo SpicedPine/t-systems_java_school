@@ -43,5 +43,8 @@
     </tbody>
 </table>
 <a href="<c:url value="/patient/${patient.id}/add_prescription"/>">Add prescription</a>
+<br>
+<br>
+<a href="<c:url value="/patient/"/>">Back to Patients</a>
 </body>
 </html>

@@ -12,6 +12,7 @@
             <tr>
                 <th>Name</th>
                 <th>Surname</th>
+                <th>Physician</th>
                 <th>Diagnose</th>
                 <th>Social number</th>
                 <th>Status</th>
@@ -22,6 +23,7 @@
             <tr>
                 <td>${patient.firstName}</td>
                 <td>${patient.lastName}</td>
+                <td>${patient.physician.toString()}</td>
                 <td>${patient.diagnose}</td>
                 <td>${patient.socialNumber}</td>
                 <td>${patient.status}</td>

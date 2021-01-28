@@ -31,6 +31,9 @@ public class PatientController {
     @Autowired
     EventService eventService;
 
+    @Autowired
+    MedicalStaffService medicalStaffService;
+
     @GetMapping("")
     public String allPatients(Model model){
         model.addAttribute("patients", patientService.getAll());
@@ -40,6 +43,7 @@ public class PatientController {
     @GetMapping("/add")
     public String addPatient(Model model){
         model.addAttribute("patient", new PatientPO());
+        model.addAttribute("physicians", medicalStaffService.getAllPhysicians());
         return "patient/add";
     }
 
@@ -79,8 +83,9 @@ public class PatientController {
                                    @ModelAttribute PrescriptionDTO prescriptionDTO) throws Exception {
         PatientPO patientPO = patientService.getOne(patientId);
         String therapyName = prescriptionDTO.getScratch().getTypeTherapyName();
+        ProcedureAndMedicinePO oldMed = prescriptionService.getOne(prescriptionId).getProcOrMedicine();
         ProcedureAndMedicinePO therapy = procAndMedService.getByName(therapyName);
-        eventService.deleteByPatientAndTherapy(patientPO,therapy);
+        eventService.deleteByPatientAndTherapy(patientPO,oldMed);
         prescriptionDTO.setPatient(patientPO);
         prescriptionDTO.setProcOrMedicine(procAndMedService.getByName(therapyName));
         PrescriptionPO prescriptionPO= prescriptionService.convertToPO(prescriptionDTO);

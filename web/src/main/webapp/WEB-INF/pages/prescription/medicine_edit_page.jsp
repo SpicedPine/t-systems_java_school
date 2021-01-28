@@ -17,7 +17,7 @@
 <body>
 <h1>Prescription editing page</h1>
 <p>Form for editing:</p>
-<form:form modelAttribute="prescription" method="post" action="add_page" id="submitForm">
+<form:form modelAttribute="prescription" method="post" action="${prescriptionId}/edit_medicine" id="submitForm">
     <fieldset>
         <p>Type</p>
             <%--
