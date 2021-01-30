@@ -61,8 +61,9 @@ public class PatientController {
 
     @GetMapping("/{patientId}")
     public String getPatientProfile(@PathVariable("patientId") Long id, Model model){
-        model.addAttribute("patient", patientService.getOne(id));
-        model.addAttribute("prescriptions",patientService.getOne(id).getPrescriptionList());
+        PatientPO patient = patientService.getOne(id);
+        model.addAttribute("patient", patient);
+        model.addAttribute("prescriptions",patient);
         return "patient/profile";
     }
 

@@ -18,7 +18,7 @@ public class EventPO {
     @Column(name = "DOSE_DESCRIPTION", nullable = true)
     private String doseDescription;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PATIENT_ID",nullable = false)
     private PatientPO patient;
 
@@ -29,7 +29,7 @@ public class EventPO {
     @Enumerated(EnumType.STRING)
     private EventStatus status;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PROC_OR_MED_ID",nullable = false)
     private ProcedureAndMedicinePO eventType;
 

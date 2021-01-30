@@ -27,7 +27,10 @@ public class EventDAOImp implements EventDAO {
     @Override
     public List<EventPO> getAllEvents() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from EventPO").list();
+        List<EventPO> eventList = session.createQuery("from EventPO as e " +
+                "join fetch e.patient " +
+                "join fetch e.eventType").list();
+        return eventList;
     }
 
     @Override
