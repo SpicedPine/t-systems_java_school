@@ -27,9 +27,9 @@ public class EventServiceImp implements EventService {
     public List<EventPO> getEventsForHour() {
         List<EventPO> eventList = eventDAO.getAllEvents();
         LocalTime nextHour = LocalTime.now().plusHours(1);
-        LocalDate nextDate = LocalDate.now().plusDays(1);
+        LocalDate nextDate = LocalDate.now().plusDays(1);//why plus day here ?
         LocalTime now = LocalTime.now();
-        eventList = eventList.stream()
+        eventList = eventList.stream() //todo ай ай ай фильтрация в Java !!!
                 .filter(e -> e.getDateAndTime().toLocalTime().isBefore(nextHour))
                 .filter(e -> e.getDateAndTime().toLocalDate().isBefore(nextDate))
                 .filter(e -> e.getDateAndTime().toLocalTime().isAfter(now))
@@ -40,7 +40,7 @@ public class EventServiceImp implements EventService {
     @Override
     public List<EventPO> getEventsForDay() {
         List<EventPO> eventList = eventDAO.getAllEvents();
-        LocalDate nextDay = LocalDate.now().plusDays(1);
+        LocalDate nextDay = LocalDate.now().plusDays(1); //todo ай ай ай фильтрация в Java !!!
         eventList = eventList.stream()
                 .filter(e -> e.getDateAndTime().toLocalDate().isBefore(nextDay))
                 .collect(Collectors.toList());

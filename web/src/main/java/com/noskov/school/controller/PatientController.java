@@ -81,6 +81,8 @@ public class PatientController {
     public String editMedicinePrescription(@PathVariable("patientId") Long patientId,
                                    @PathVariable("prescriptionId") Long prescriptionId,
                                    @ModelAttribute PrescriptionDTO prescriptionDTO) throws Exception {
+        //todo this is controller or service ? A see here business logic
+        //PO in controller
         PatientPO patientPO = patientService.getOne(patientId);
         String therapyName = prescriptionDTO.getScratch().getTypeTherapyName();
         ProcedureAndMedicinePO oldMed = prescriptionService.getOne(prescriptionId).getProcOrMedicine();
@@ -110,10 +112,11 @@ public class PatientController {
     public String editProcedurePrescription(@PathVariable("patientId") Long patientId,
                                             @PathVariable("prescriptionId") Long prescriptionId,
                                             @ModelAttribute PrescriptionDTO prescriptionDTO) throws Exception {
+        //todo this is controller or service ? A see here business logic
         PatientPO patientPO = patientService.getOne(patientId);
         ProcedureAndMedicinePO oldProc = prescriptionService.getOne(prescriptionId).getProcOrMedicine();
         String therapyName = prescriptionDTO.getScratch().getTypeTherapyName();
-        eventService.deleteByPatientAndTherapy(patientPO,oldProc);
+        eventService.deleteByPatientAndTherapy(patientPO,oldProc); //todo duplicate code fragment
         prescriptionDTO.setPatient(patientPO);
         prescriptionDTO.setProcOrMedicine(procAndMedService.getByName(therapyName));
         PrescriptionPO prescriptionPO= prescriptionService.convertToPO(prescriptionDTO);
@@ -129,7 +132,7 @@ public class PatientController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("patient", patient);
         modelAndView.addObject("prescription", new PrescriptionDTO(patient));
-        modelAndView.addObject("medicines",procAndMedService.getAllMedicines());
+        modelAndView.addObject("medicines",procAndMedService.getAllMedicines()); //todo don't like this. I need to think
         modelAndView.addObject("procedures",procAndMedService.getAllProcedures());
         modelAndView.setViewName("prescription/add_page");
         return modelAndView;
@@ -138,6 +141,7 @@ public class PatientController {
     @PostMapping("/{patientId}/add_page")
     public String addPrescription(@PathVariable("patientId") Long id,
                                   @ModelAttribute PrescriptionDTO prescription) throws Exception {
+        //todo this is controller or service ? A see here business logic
         prescription.setPatient(patientService.getOne(id));
         String name = prescription.getScratch().getTypeTherapyName();
         prescription.setProcOrMedicine(procAndMedService.getByName(name));
@@ -151,6 +155,7 @@ public class PatientController {
     @GetMapping("/{patientId}/cancel/{prescriptionId}")
     public String cancelPrescription(@PathVariable("patientId") Long patientId,
                                      @PathVariable("prescriptionId") Long prescriptionId){
+        //todo here OK. No logic in controller ^_^
         prescriptionService.delete(prescriptionId);
         return "redirect:/patient/{patientId}";
     }

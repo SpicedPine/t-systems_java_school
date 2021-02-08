@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/event")
 public class EventController {
 
+    //todo modificator
     @Autowired
     EventService eventService;
 
@@ -51,6 +52,7 @@ public class EventController {
     @PostMapping("/{eventId}/changeToCancelled")
     public String doCancel(@ModelAttribute EventPO eventPO,
                            @PathVariable("eventId") Long eventId){
+        //todo business logic
         EventPO oldEvent = eventService.getOne(eventId);
         String reason = eventPO.getReasonToCancel();
         oldEvent.setReasonToCancel(reason);

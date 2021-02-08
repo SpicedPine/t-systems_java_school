@@ -86,7 +86,7 @@ public class EventDAOImp implements EventDAO {
         Query query = session.createQuery("from EventPO as e where e.id = :id");
         query.setParameter("id",id);
         EventPO event = (EventPO) query.getSingleResult();
-        event.setStatus(EventStatus.CANCELED);
+        event.setStatus(EventStatus.CANCELED); //consider to update entity using SQL
         update(event);
     }
 
@@ -96,7 +96,7 @@ public class EventDAOImp implements EventDAO {
         Query query = session.createQuery("from EventPO as e where e.id = :id");
         query.setParameter("id",id);
         EventPO event = (EventPO) query.getSingleResult();
-        event.setReasonToCancel(reason);
+        event.setReasonToCancel(reason); //consider to update entity using SQL
     }
 
     @Override

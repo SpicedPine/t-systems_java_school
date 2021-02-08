@@ -9,7 +9,7 @@ import java.util.List;
 public interface EventService {
     List<EventPO> getAll();
 
-    List<EventPO> getEventsForDay();
+    List<EventPO> getEventsForDay(); //todo think of passing filter params instead of 3 different methods
 
     List<EventPO> getEventsForHour();
 
@@ -23,9 +23,10 @@ public interface EventService {
 
     void deleteByPatientAndTherapy(PatientPO patientPO, ProcedureAndMedicinePO therapy);
 
+    //todo consider to pass DONE / CANCEL as a status (to reduce methos quantity)
     void changeStatusToDone(Long id);
 
-    void changeStatusToCancelled(long id);
+    void changeStatusToCancelled(long id); //why different long ?
 
     void setReasonToCancel(String reason ,Long id);
 

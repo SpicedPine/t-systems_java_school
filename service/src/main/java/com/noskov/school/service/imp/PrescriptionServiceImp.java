@@ -18,6 +18,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class PrescriptionServiceImp implements PrescriptionService {
+
+    //todo modificators ?
     @Autowired
     PrescriptionDAO prescriptionDAO;
 
@@ -63,6 +65,7 @@ public class PrescriptionServiceImp implements PrescriptionService {
         prescriptionDAO.update(prescriptionPO);
     }
 
+    //todo why public methods ?
     @Override
     public PrescriptionDTO convertToDTO(PrescriptionPO prescriptionPO){
         PatientPO patient = prescriptionPO.getPatient();
@@ -73,6 +76,7 @@ public class PrescriptionServiceImp implements PrescriptionService {
         return new PrescriptionDTO(scratch, patient, procOrMed);
     }
 
+    //todo why public methods ?
     @Override
     public PrescriptionPO convertToPO(PrescriptionDTO prescriptionDTO){
         PatientPO patientPO = prescriptionDTO.getPatient();

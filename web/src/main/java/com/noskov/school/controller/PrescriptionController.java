@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/prescription")
 public class PrescriptionController {
 
+    //fixme modificator ?
+    //fixme write UT (Andrey: field injection)
     @Autowired
     PrescriptionService prescriptionService;
 
+    //todo unused import ?
     @Autowired
     ProcAndMedService procAndMedService;
 
