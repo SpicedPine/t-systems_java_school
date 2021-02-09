@@ -7,67 +7,73 @@ import com.noskov.school.persistent.PatientPO;
 import com.noskov.school.persistent.ProcedureAndMedicinePO;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
+//import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 import java.util.List;
 
 @Repository
 @Transactional
 public class EventDAOImp implements EventDAO {
-    private SessionFactory sessionFactory;
+    private EntityManagerFactory entityManagerFactory;
 
     @Autowired
-    void setSessionFactory(SessionFactory sessionFactory){
-        this.sessionFactory = sessionFactory;
+    void setEntityManagerFactory(EntityManagerFactory entityManagerFactory){
+        this.entityManagerFactory = entityManagerFactory;
     }
 
     @Override
     public List<EventPO> getAllEvents() {
-        Session session = sessionFactory.getCurrentSession();
-        List<EventPO> eventList = session.createQuery("from EventPO as e " +
-                "join fetch e.patient " +
-                "join fetch e.eventType").list();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        List<EventPO> eventList = entityManager.createQuery("select distinct e from EventPO e "
+                + "join fetch e.patient "
+                + "join fetch e.eventType").getResultList();
         return eventList;
     }
 
     @Override
     public void add(EventPO eventPO) {
-        Session session = sessionFactory.getCurrentSession();
-        session.persist("EventPO", eventPO);
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.persist(eventPO);
     }
 
     @Override
     public EventPO getById(Long id) {
-        Session session = sessionFactory.getCurrentSession();
-        return session.get(EventPO.class, id);
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        //entityManager.find(EventPO.class,id);
+        Query query = entityManager.createQuery("select e from EventPO e where e.id = :id");
+        query.setParameter("id", id);
+        return (EventPO) query.getSingleResult();
      }
 
     @Override
     public void delete(EventPO event) {
-        Session session = sessionFactory.getCurrentSession();
-        session.delete("EventPO", event);
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.remove(event);
     }
 
     @Override
     public void update(EventPO event) {
-        Session session = sessionFactory.getCurrentSession();
-        session.update("EventPO", event);
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.merge(event);
     }
 
     @Override
     public void deleteById(Long id) {
-        Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("delete from EventPO as e where e.id = :id").setParameter("id",id);
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Query query = entityManager.createQuery("delete from EventPO e where e.id = :id").setParameter("id", id);
         query.executeUpdate();
     }
 
     @Override
     public void deleteByPatientAndTherapy(PatientPO patientPO, ProcedureAndMedicinePO therapy) {
-        Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("delete from EventPO as e where e.patient =:patientPO and e.eventType =:therapy");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Query query = entityManager.createQuery("delete from EventPO e where e.patient = :patientPO and e.eventType =:therapy");
         query.setParameter("patientPO", patientPO);
         query.setParameter("therapy", therapy);
         query.executeUpdate();
@@ -75,9 +81,9 @@ public class EventDAOImp implements EventDAO {
 
     @Override
     public void changeStatusToDone(Long id) {
-        Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("from EventPO as e where e.id = :id");
-        query.setParameter("id",id);
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Query query = entityManager.createQuery("select e from EventPO e where e.id =:id");
+        query.setParameter("id", id);
         EventPO event = (EventPO) query.getSingleResult();
         event.setStatus(EventStatus.DONE);
         update(event);
@@ -85,9 +91,9 @@ public class EventDAOImp implements EventDAO {
 
     @Override
     public void changeStatusToCancelled(Long id) {
-        Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("from EventPO as e where e.id = :id");
-        query.setParameter("id",id);
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Query query = entityManager.createQuery("select e from EventPO e where e.id = :id");
+        query.setParameter("id", id);
         EventPO event = (EventPO) query.getSingleResult();
         event.setStatus(EventStatus.CANCELED);
         update(event);
@@ -95,18 +101,18 @@ public class EventDAOImp implements EventDAO {
 
     @Override
     public void setReasonToCancel(String reason, Long id) {
-        Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("from EventPO as e where e.id = :id");
-        query.setParameter("id",id);
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Query query = entityManager.createQuery("select e from EventPO e where e.id = :id");
+        query.setParameter("id", id);
         EventPO event = (EventPO) query.getSingleResult();
         event.setReasonToCancel(reason);
     }
 
     @Override
     public String getDoseFromMedicineEvent(String dose, Long id) {
-        Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("from EventPO as e where e.id = :id");
-        query.setParameter("id",id);
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Query query = entityManager.createQuery("select e from EventPO e where e.id = :id");
+        query.setParameter("id", id);
         EventPO event = (EventPO) query.getSingleResult();
         return event.getDoseDescription();
     }

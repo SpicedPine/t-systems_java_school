@@ -2,7 +2,8 @@ package com.noskov.school.dao.imp;
 
 import com.noskov.school.persistent.PatientPO;
 import com.noskov.school.dao.api.PatientDAO;
-import org.hibernate.query.Query;
+import javax.persistence.Query;
+//import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.internal.QueryImpl;
@@ -10,31 +11,38 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import java.util.List;
 
 @Repository
 @Transactional
 public class PatientDAOImp implements PatientDAO {
-    private SessionFactory sessionFactory;
+    private EntityManagerFactory entityManagerFactory;
+
+    @Autowired
+    void setEntityManagerFactory(EntityManagerFactory entityManagerFactory){
+        this.entityManagerFactory = entityManagerFactory;
+    }
+
+    /*private SessionFactory sessionFactory;
 
     @Autowired
     public void setSessionFactory(SessionFactory sessionFactory){
         this.sessionFactory = sessionFactory;
-    }
+    }*/
 
     @Override
     public List<PatientPO> getAllPatients() {
-        Session session = sessionFactory.getCurrentSession();
-        //List<PatientPO> list = session.createQuery("from PatientPO as p join fetch p.prescriptionList").list();
-        List<PatientPO> patientList = session.createQuery("from PatientPO as p").list();
-
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        List<PatientPO> patientList = entityManager.createQuery("select p from PatientPO p").getResultList();
         return patientList;
     }
 
     @Override
     public PatientPO getById(Long id) throws NullPointerException {
-        Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("from PatientPO as p join fetch p.prescriptionList where p.id = :id");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Query query = entityManager.createQuery("select p from PatientPO p join fetch p.prescriptionList where p.id = :id");
         query.setParameter("id", id);
         PatientPO patient = (PatientPO) query.getSingleResult();
         if(patient != null){
@@ -46,26 +54,26 @@ public class PatientDAOImp implements PatientDAO {
 
     @Override
     public void delete(PatientPO patient) {
-        Session session = sessionFactory.getCurrentSession();
-        session.delete("PatientPO", patient);
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.remove(patient);
     }
 
     @Override
     public void add(PatientPO patient) {
-        Session session = sessionFactory.getCurrentSession();
-        session.persist(patient);
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.persist(patient);
     }
 
     @Override
     public void update(PatientPO patient) {
-        Session session = sessionFactory.getCurrentSession();
-        session.update("PatientPO", patient);
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.refresh(patient);
     }
 
     @Override
     public void deleteById(Long id) {
-        Session session = sessionFactory.getCurrentSession();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         PatientPO patient = getById(id);
-        session.delete("PatientPO",patient);
+        entityManager.remove(patient);
     }
 }
