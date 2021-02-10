@@ -3,6 +3,8 @@ package com.noskov.school.service.imp.prescription;
 import com.noskov.school.enums.TherapyType;
 import com.noskov.school.enums.TimePeriods;
 
+//todo separate to single classes
+//todo move to correct package
 public class PrescriptionScratch {
     private Type type;
     private TimePattern timePattern;
@@ -204,31 +206,6 @@ public class PrescriptionScratch {
 
         public TimePeriods getTimePeriod() {
             return timePeriod;
-        }
-    }
-
-    class Dose{
-        private String dose;
-
-        public Dose(String dose) {
-            this.dose = dose;
-        }
-
-        public Dose() {
-
-        }
-
-        @Override
-        public String toString(){
-            return dose;
-        }
-
-        public void setDose(String dose) {
-            this.dose = dose;
-        }
-
-        public String getDose() {
-            return dose;
         }
     }
 }
