@@ -20,16 +20,19 @@ import java.util.List;
 @Repository
 @Transactional
 public class EventDAOImp implements EventDAO {
-    private EntityManagerFactory entityManagerFactory;
+//    private EntityManagerFactory entityManagerFactory;
 
     @Autowired
-    void setEntityManagerFactory(EntityManagerFactory entityManagerFactory){
-        this.entityManagerFactory = entityManagerFactory;
-    }
+    private EntityManager entityManager;
+
+//    @Autowired
+//    void setEntityManagerFactory(EntityManagerFactory entityManagerFactory){
+//        this.entityManagerFactory = entityManagerFactory;
+//    }
 
     @Override
     public List<EventPO> getAllEvents() {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+//        EntityManager entityManager = entityManagerFactory.createEntityManager();
         List<EventPO> eventList = entityManager.createQuery("select distinct e from EventPO e "
                 + "join fetch e.patient "
                 + "join fetch e.eventType").getResultList();
@@ -38,13 +41,13 @@ public class EventDAOImp implements EventDAO {
 
     @Override
     public void add(EventPO eventPO) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+//        EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.persist(eventPO);
     }
 
     @Override
     public EventPO getById(Long id) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+//        EntityManager entityManager = entityManagerFactory.createEntityManager();
         //entityManager.find(EventPO.class,id);
         Query query = entityManager.createQuery("select e from EventPO e where e.id = :id");
         query.setParameter("id", id);
@@ -53,26 +56,26 @@ public class EventDAOImp implements EventDAO {
 
     @Override
     public void delete(EventPO event) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+//        EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.remove(event);
     }
 
     @Override
     public void update(EventPO event) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+//        EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.merge(event);
     }
 
     @Override
     public void deleteById(Long id) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+//        EntityManager entityManager = entityManagerFactory.createEntityManager();
         Query query = entityManager.createQuery("delete from EventPO e where e.id = :id").setParameter("id", id);
         query.executeUpdate();
     }
 
     @Override
     public void deleteByPatientAndTherapy(PatientPO patientPO, ProcedureAndMedicinePO therapy) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+//        EntityManager entityManager = entityManagerFactory.createEntityManager();
         Query query = entityManager.createQuery("delete from EventPO e where e.patient = :patientPO and e.eventType =:therapy");
         query.setParameter("patientPO", patientPO);
         query.setParameter("therapy", therapy);
@@ -81,7 +84,7 @@ public class EventDAOImp implements EventDAO {
 
     @Override
     public void changeStatusToDone(Long id) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+//        EntityManager entityManager = entityManagerFactory.createEntityManager();
         Query query = entityManager.createQuery("select e from EventPO e where e.id =:id");
         query.setParameter("id", id);
         EventPO event = (EventPO) query.getSingleResult();
@@ -91,7 +94,7 @@ public class EventDAOImp implements EventDAO {
 
     @Override
     public void changeStatusToCancelled(Long id) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+//        EntityManager entityManager = entityManagerFactory.createEntityManager();
         Query query = entityManager.createQuery("select e from EventPO e where e.id = :id");
         query.setParameter("id", id);
         EventPO event = (EventPO) query.getSingleResult();
@@ -101,7 +104,7 @@ public class EventDAOImp implements EventDAO {
 
     @Override
     public void setReasonToCancel(String reason, Long id) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+//        EntityManager entityManager = entityManagerFactory.createEntityManager();
         Query query = entityManager.createQuery("select e from EventPO e where e.id = :id");
         query.setParameter("id", id);
         EventPO event = (EventPO) query.getSingleResult();
@@ -110,7 +113,7 @@ public class EventDAOImp implements EventDAO {
 
     @Override
     public String getDoseFromMedicineEvent(String dose, Long id) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+//        EntityManager entityManager = entityManagerFactory.createEntityManager();
         Query query = entityManager.createQuery("select e from EventPO e where e.id = :id");
         query.setParameter("id", id);
         EventPO event = (EventPO) query.getSingleResult();
