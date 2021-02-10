@@ -5,11 +5,13 @@ import com.noskov.school.persistent.ProcedureAndMedicinePO;
 import com.noskov.school.service.api.ProcAndMedService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Access;
 import java.util.List;
 
 @Service
+@Transactional
 public class ProcAndMedServiceImp implements ProcAndMedService {
     @Autowired
     ProcAndMedDAO procAndMedDAO;

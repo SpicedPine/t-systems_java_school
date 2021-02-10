@@ -7,6 +7,7 @@ import com.noskov.school.persistent.ProcedureAndMedicinePO;
 import com.noskov.school.service.api.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class EventServiceImp implements EventService {
     @Autowired
     EventDAO eventDAO;
