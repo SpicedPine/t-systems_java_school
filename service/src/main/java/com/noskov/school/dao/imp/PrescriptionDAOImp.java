@@ -1,6 +1,7 @@
 package com.noskov.school.dao.imp;
 
 import com.noskov.school.dao.api.PrescriptionDAO;
+import com.noskov.school.persistent.PatientPO;
 import com.noskov.school.persistent.PrescriptionPO;
 
 import javax.persistence.PersistenceContext;
@@ -16,6 +17,8 @@ import java.util.List;
 public class PrescriptionDAOImp implements PrescriptionDAO {
     @PersistenceContext
     private EntityManager entityManager;
+
+
 
     @Override
     public void deleteById(Long id) {
@@ -52,5 +55,13 @@ public class PrescriptionDAOImp implements PrescriptionDAO {
     @Override
     public void update(PrescriptionPO prescription) {
         entityManager.merge(prescription);
+    }
+
+    @Override
+    public List<PrescriptionPO> getPrescriptionsByPatient(PatientPO patient){
+        Query query = entityManager.createQuery("select p from PrescriptionPO p " +
+                "join fetch p.prescriptionType where p.patient = :patient");
+        query.setParameter("patient", patient);
+        return query.getResultList();
     }
 }

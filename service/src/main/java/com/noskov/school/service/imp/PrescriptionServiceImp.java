@@ -83,5 +83,12 @@ public class PrescriptionServiceImp implements PrescriptionService {
 
         return new PrescriptionPO(patientPO,procOrMed,formedPrescription);
     }
+
+    @Override
+    public List<PrescriptionPO> getPrescriptionsByPatient(PatientPO patient) {
+        /*List<PrescriptionPO> poList = prescriptionDAO.getPrescriptionsByPatient(patient);
+        return poList.stream().map(this::convertToDTO).collect(Collectors.toList());*/
+        return prescriptionDAO.getPrescriptionsByPatient(patient);
+    }
 }
 

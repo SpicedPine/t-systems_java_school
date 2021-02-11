@@ -23,7 +23,7 @@
     </tr>
     </thead>
     <tbody>
-    <c:forEach items="${patient.prescriptionList}" var="prescription">
+    <c:forEach items="${prescriptions}" var="prescription">
         <tr>
             <td>${prescription.prescriptionType.name}</td>
             <td>${prescription.formedPrescription}</td>

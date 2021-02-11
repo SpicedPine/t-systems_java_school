@@ -63,7 +63,7 @@ public class PatientController {
     public String getPatientProfile(@PathVariable("patientId") Long id, Model model){
         PatientPO patient = patientService.getOne(id);
         model.addAttribute("patient", patient);
-        model.addAttribute("prescriptions",patient);
+        model.addAttribute("prescriptions",prescriptionService.getPrescriptionsByPatient(patient));
         return "patient/profile";
     }
 

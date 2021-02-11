@@ -12,11 +12,11 @@ public class PrescriptionPO {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PATIENT_ID", nullable = false)
     private PatientPO patient;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PROC_OR_MED_ID", nullable = false)
     private ProcedureAndMedicinePO prescriptionType;
 
