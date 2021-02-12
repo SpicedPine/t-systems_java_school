@@ -1,10 +1,15 @@
 package com.noskov.school.service.imp;
 
 import com.noskov.school.dao.api.MedicalStaffDAO;
-import com.noskov.school.enums.StaffPost;
+import com.noskov.school.dao.api.StaffPostDAO;
+import com.noskov.school.enums.Role;
 import com.noskov.school.persistent.MedicalStaffPO;
+import com.noskov.school.persistent.StaffPostPO;
 import com.noskov.school.service.api.MedicalStaffService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +22,9 @@ public class MedicalStaffServiceImp implements MedicalStaffService {
     @Autowired
     MedicalStaffDAO medicalStaffDAO;
 
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Override
     public List<MedicalStaffPO> getAllStaff() {
         return medicalStaffDAO.getAllStaff();
@@ -24,6 +32,7 @@ public class MedicalStaffServiceImp implements MedicalStaffService {
 
     @Override
     public void add(MedicalStaffPO staff) {
+        staff.setPassword(bCryptPasswordEncoder.encode(staff.getPassword()));
         medicalStaffDAO.add(staff);
     }
 
@@ -46,9 +55,50 @@ public class MedicalStaffServiceImp implements MedicalStaffService {
     public List<MedicalStaffPO> getAllPhysicians() {
         List<MedicalStaffPO> medicalStaffPOList = medicalStaffDAO.getAllStaff();
         medicalStaffPOList = medicalStaffPOList.stream()
-                .filter(m -> m.getPost().equals(StaffPost.PHYSITIAN))
+                .filter(m -> m.getPost().toString().equals(Role.PHYSITIAN.toString()))
                 .collect(Collectors.toList());
 
         return medicalStaffPOList;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        return medicalStaffDAO.getByEmail(s);
+    }
+
+    @Override
+    public boolean savePhysician(MedicalStaffPO staff) {
+        MedicalStaffPO staffPOFromDB = medicalStaffDAO.getByEmail(staff.getEmail());
+
+        if (staffPOFromDB!=null){
+            return false;
+        }
+
+        staff.setPost(new StaffPostPO(1L, Role.PHYSITIAN));
+        add(staff);
+        return true;
+    }
+
+    @Override
+    public boolean saveNurse(MedicalStaffPO staff) {
+        MedicalStaffPO staffPOFromDB = medicalStaffDAO.getByEmail(staff.getEmail());
+
+        if (staffPOFromDB!=null){
+            return false;
+        }
+
+        staff.setPost(new StaffPostPO(2L, Role.NURSE));
+        add(staff);
+        return true;
+    }
+
+    @Override
+    public void save(MedicalStaffPO staff) {
+        String postName = staff.getPost().toString();
+        if (postName.equals("physician")){
+            savePhysician(staff);
+        } else if (postName.equals("nurse")){
+            saveNurse(staff);
+        } else throw new RuntimeException("In MedicalStaffServiceImp during saving new staff");
     }
 }
