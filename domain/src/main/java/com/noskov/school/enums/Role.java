@@ -1,12 +1,14 @@
 package com.noskov.school.enums;
 
-public enum StaffPost {
-    PHYSITIAN("physitian"),
-    NURSE("nurse");
+import java.util.Locale;
+
+public enum Role {
+    PHYSITIAN("ROLE_PHYSICIAN"),
+    NURSE("ROLE_NURSE");
 
     private String type;
 
-    StaffPost(String type) {
+    Role(String type) {
         this.type = type;
     }
 
@@ -16,6 +18,6 @@ public enum StaffPost {
 
     @Override
     public String toString(){
-        return type;
+        return type.toLowerCase().substring(5);
     }
 }
