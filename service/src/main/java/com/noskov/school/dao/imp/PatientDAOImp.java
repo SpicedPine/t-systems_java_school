@@ -19,13 +19,13 @@ public class PatientDAOImp implements PatientDAO {
 
     @Override
     public List<PatientPO> getAllPatients() {
-        List<PatientPO> patientList = entityManager.createQuery("select p from PatientPO p").getResultList();
+        List<PatientPO> patientList = entityManager.createQuery("select p from PatientPO p",PatientPO.class).getResultList();
         return patientList;
     }
 
     @Override
     public PatientPO getById(Long id) throws NullPointerException {
-        Query query = entityManager.createQuery("select p from PatientPO as p left join fetch p.prescriptionList where p.id = :id");
+        Query query = entityManager.createQuery("select p from PatientPO as p where p.id = :id");
         //Query query = entityManager.createQuery("select p from PatientPO p join fetch p.prescriptionList where p.id = :id");
         query.setParameter("id", id);
         PatientPO patient = (PatientPO) query.getSingleResult();

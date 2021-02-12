@@ -1,6 +1,8 @@
 package com.noskov.school.service.api;
 
+import com.noskov.school.dto.PatientProfileDTO;
 import com.noskov.school.persistent.PatientPO;
+import com.noskov.school.persistent.PrescriptionPO;
 
 import java.util.List;
 
@@ -14,4 +16,6 @@ public interface PatientService {
     void delete(Long id);
 
     void update(PatientPO patient);
+
+    PatientProfileDTO getPatientProfile(Long id);
 }

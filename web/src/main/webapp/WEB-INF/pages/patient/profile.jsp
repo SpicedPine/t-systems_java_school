@@ -13,8 +13,7 @@
     <title>Patient Profile</title>
 </head>
 <body>
-<h1>${patient.firstName} ${patient.lastName} profile</h1>
-
+<h1>${patientProfile.patientPO.firstName} ${patientProfile.patientPO.lastName} profile</h1>
 <table>
     <thead>
     <tr>
@@ -23,26 +22,26 @@
     </tr>
     </thead>
     <tbody>
-    <c:forEach items="${prescriptions}" var="prescription">
+    <c:forEach items="${patientProfile.prescriptionPOList}" var="prescription">
         <tr>
             <td>${prescription.prescriptionType.name}</td>
             <td>${prescription.formedPrescription}</td>
             <td>
                 <c:choose>
                     <c:when test="${prescription.prescriptionType.type.toString() == 'medicine'}">
-                        <a href=<c:url value="/patient/${patient.id}/medicine/${prescription.id}"/>>edit prescription</a>
+                        <a href=<c:url value="/patient/${patientProfile.patientPO.id}/medicine/${prescription.id}"/>>edit prescription</a>
                     </c:when>
                     <c:when test="${prescription.prescriptionType.type.toString() == 'procedure'}">
-                        <a href=<c:url value="/patient/${patient.id}/procedure/${prescription.id}"/>>edit prescription</a>
+                        <a href=<c:url value="/patient/${patientProfile.patientPO.id}/procedure/${prescription.id}"/>>edit prescription</a>
                     </c:when>
                 </c:choose>
             </td>
-            <td><a href=<c:url value="/patient/${patient.id}/cancel/${prescription.id}"/>>cancel prescription</td>
+            <td><a href=<c:url value="/patient/${patientProfile.patientPO.id}/cancel/${prescription.id}"/>>cancel prescription</td>
         </tr>
     </c:forEach>
     </tbody>
 </table>
-<a href="<c:url value="/patient/${patient.id}/add_prescription"/>">Add prescription</a>
+<a href="<c:url value="/patient/${patientProfile.patientPO.id}/add_prescription"/>">Add prescription</a>
 <br>
 <br>
 <a href="<c:url value="/patient/"/>">Back to Patients</a>
