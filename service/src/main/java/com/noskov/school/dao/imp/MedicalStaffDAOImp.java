@@ -38,6 +38,13 @@ public class MedicalStaffDAOImp implements MedicalStaffDAO {
 
     @Override
     public List<MedicalStaffPO> getAllStaff() {
-        return entityManager.createQuery("select s from MedicalStaffPO s").getResultList();
+        return entityManager.createQuery("select s from MedicalStaffPO s", MedicalStaffPO.class).getResultList();
+    }
+
+    @Override
+    public MedicalStaffPO getByEmail(String email) {
+        Query query = entityManager.createQuery("select s from MedicalStaffPO as s where s.email = :email", MedicalStaffPO.class);
+        query.setParameter("email", email);
+        return (MedicalStaffPO) query.getSingleResult();
     }
 }

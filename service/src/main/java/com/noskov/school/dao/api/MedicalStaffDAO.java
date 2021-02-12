@@ -10,4 +10,5 @@ public interface MedicalStaffDAO {
     MedicalStaffPO getById(Long id);
     void delete(MedicalStaffPO staff);
     void update(MedicalStaffPO staff);
+    MedicalStaffPO getByEmail(String email);
 }
