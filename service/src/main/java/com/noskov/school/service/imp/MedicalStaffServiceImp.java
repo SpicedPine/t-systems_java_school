@@ -92,13 +92,10 @@ public class MedicalStaffServiceImp implements MedicalStaffService {
         return true;
     }
 
-    @Override
-    public void save(MedicalStaffPO staff) {
-        String postName = staff.getPost().toString();
-        if (postName.equals("physician")){
-            savePhysician(staff);
-        } else if (postName.equals("nurse")){
-            saveNurse(staff);
-        } else throw new RuntimeException("In MedicalStaffServiceImp during saving new staff");
-    }
+    /*@Override
+    public MedicalStaffPO getByEmailAndPassword(String email, String password){
+        password = bCryptPasswordEncoder.encode(password);
+        MedicalStaffPO staff = medicalStaffDAO.getByEmail(email);
+        if
+    }*/
 }

@@ -26,12 +26,13 @@ public class LoginController {
         return "/login";
     }
 
-    @PostMapping("/login")
+    /*@PostMapping("/login")
     public String login(@ModelAttribute("staff") MedicalStaffPO staff){
+        staff = medicalStaffService.getByEmailAndPassword(staff.getEmail());
         if(staff.getAuthorities().contains(staffPostService.getPhysician())){
             return "redirect:event/";
         } else if (staff.getAuthorities().contains(staffPostService.getNurse())){
             return "redirect:patient/";
         } else throw new RuntimeException("No staff post during logging");
-    }
+    }*/
 }

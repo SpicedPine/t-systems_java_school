@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
@@ -43,8 +44,16 @@ public class MedicalStaffDAOImp implements MedicalStaffDAO {
 
     @Override
     public MedicalStaffPO getByEmail(String email) {
-        Query query = entityManager.createQuery("select s from MedicalStaffPO as s where s.email = :email", MedicalStaffPO.class);
+        Query query = entityManager.createQuery("select s from MedicalStaffPO as s " +
+                "left join fetch s.post " +
+                "left join fetch s.patients " +
+                "where s.email = :email", MedicalStaffPO.class);
         query.setParameter("email", email);
-        return (MedicalStaffPO) query.getSingleResult();
+        try {
+            MedicalStaffPO medicalStaff = (MedicalStaffPO) query.getSingleResult();
+            return medicalStaff;
+        } catch (NoResultException e){
+            return null;
+        }
     }
 }

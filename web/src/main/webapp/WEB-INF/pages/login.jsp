@@ -12,7 +12,7 @@
     <title>Logging page</title>
 </head>
 <body>
-<form:form method="post" action="login" modelAttribute="staff">
+<form:form method="post" action="login/authenticating" modelAttribute="staff">
     <form:label path="email">Enter your email:</form:label>
     <form:input path="email" placeholder="email" /><br>
     <form:label path="password">Enter your password:</form:label>

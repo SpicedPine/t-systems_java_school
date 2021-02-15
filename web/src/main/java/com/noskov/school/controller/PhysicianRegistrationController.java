@@ -10,11 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/")
-public class RegistrationController {
+@RequestMapping("/physician")
+public class PhysicianRegistrationController {
 
     @Autowired
     MedicalStaffService medicalStaffService;
@@ -26,22 +25,22 @@ public class RegistrationController {
     public String registration(Model model) {
         model.addAttribute("staff", new MedicalStaffPO());
         model.addAttribute("staffPosts", staffPostService.getAllPosts());
-        return "registration";
+        return "physician/registration";
     }
 
     @PostMapping("/registration")
-    public String addPhysician(@ModelAttribute(name = "staff") MedicalStaffPO staff, Model model) {
+    public String signUp(@ModelAttribute(name = "staff") MedicalStaffPO staff, Model model) {
 
         if (!staff.getPassword().equals(staff.getPasswordConfirm())){
             model.addAttribute("passwordError", "Passwords doesn't match");
-            return "registration";
+            return "physician/registration";
         }
         if (!medicalStaffService.savePhysician(staff)){
             model.addAttribute("usernameError", "Пользователь с таким именем уже существует");
-            return "registration";
+            return "physician/registration";
         }
 
-        medicalStaffService.save(staff);
-        return "redirect:/index";
+        medicalStaffService.savePhysician(staff);
+        return "redirect:/";
     }
 }

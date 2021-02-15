@@ -1,4 +1,5 @@
 <%@ page import="java.util.List" %>
+<%@ page import="com.noskov.school.persistent.StaffPostPO" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
@@ -14,6 +15,7 @@
     <title>Title</title>
 </head>
 <body>
+<h1>Physician registration form:</h1>
 <form:form method="post" action="registration" modelAttribute="staff">
     <fieldset>
         <form:label path="firstName">First name:</form:label>
@@ -26,12 +28,6 @@
         <form:input path="password" placeholder="password"/><br>
         <form:label path="passwordConfirm">Confirm your password:</form:label>
         <form:input path="passwordConfirm" placeholder="password"/><br>
-
-        <form:select path="post">
-            <c:forEach items="${staffPosts}" var="postName">
-                <form:option value="${postName}">${postName.toString()}</form:option>
-            </c:forEach>
-        </form:select><br>
     </fieldset>
     <footer>
         <input type="submit" value="Submit"/>
