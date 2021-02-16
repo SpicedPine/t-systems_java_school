@@ -17,13 +17,13 @@ import java.util.List;
 @Transactional
 public class PatientServiceImp implements PatientService {
     @Autowired
-    PatientDAO patientDAO;
+    private PatientDAO patientDAO;
 
     @Autowired
-    PrescriptionDAO prescriptionDAO;
+    private PrescriptionDAO prescriptionDAO;
 
     @Autowired
-    PatientServiceConverter converter;
+    private PatientServiceConverter converter;
 
     @Override
     public List<PatientPO> getAll() {

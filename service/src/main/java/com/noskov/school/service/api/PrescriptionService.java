@@ -12,15 +12,17 @@ public interface PrescriptionService {
 
     PrescriptionDTO getOne(Long id);
 
-    void add(PrescriptionDTO prescription);
+    void add(PrescriptionDTO prescription, Long patientId) throws Exception;
 
     void delete(Long id);
 
     void update(PrescriptionDTO prescription, Long prescriptionId);
 
-    PrescriptionPO convertToPO(PrescriptionDTO prescriptionDTO);
+    /*PrescriptionPO convertToPO(PrescriptionDTO prescriptionDTO);
 
-    PrescriptionDTO convertToDTO(PrescriptionPO prescriptionPO);
+    PrescriptionDTO convertToDTO(PrescriptionPO prescriptionPO);*/
+
+    void editPrescription(Long patientId, Long prescriptionId, PrescriptionDTO prescriptionDTO) throws Exception;
 
     List<PrescriptionPO> getPrescriptionsByPatient(PatientPO patient);
 }

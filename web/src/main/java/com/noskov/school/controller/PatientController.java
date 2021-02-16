@@ -17,22 +17,22 @@ import org.springframework.web.servlet.ModelAndView;
 public class PatientController {
 
     @Autowired
-    PatientService patientService;
+    private PatientService patientService;
 
     @Autowired
-    PrescriptionService prescriptionService;
+    private PrescriptionService prescriptionService;
 
     @Autowired
-    ProcAndMedService procAndMedService;
+    private ProcAndMedService procAndMedService;
 
     @Autowired
-    EventGenerationService eventGenerationService;
+    private EventGenerationService eventGenerationService;
 
     @Autowired
-    EventService eventService;
+    private EventService eventService;
 
     @Autowired
-    MedicalStaffService medicalStaffService;
+    private MedicalStaffService medicalStaffService;
 
     @GetMapping("")
     public String allPatients(Model model){
@@ -62,9 +62,6 @@ public class PatientController {
     @GetMapping("/{patientId}")
     public String getPatientProfile(@PathVariable("patientId") Long id, Model model){
         model.addAttribute("patientProfile",patientService.getPatientProfile(id));
-        /*PatientPO patient = patientService.getOne(id);
-        model.addAttribute("patient", patient);
-        model.addAttribute("prescriptions",prescriptionService.getPrescriptionsByPatient(patient));*/
         return "patient/profile";
     }
 
@@ -83,17 +80,7 @@ public class PatientController {
     public String editMedicinePrescription(@PathVariable("patientId") Long patientId,
                                    @PathVariable("prescriptionId") Long prescriptionId,
                                    @ModelAttribute PrescriptionDTO prescriptionDTO) throws Exception {
-        PatientPO patientPO = patientService.getOne(patientId);
-        String therapyName = prescriptionDTO.getScratch().getTypeTherapyName();
-        ProcedureAndMedicinePO oldMed = prescriptionService.getOne(prescriptionId).getProcOrMedicine();
-        ProcedureAndMedicinePO therapy = procAndMedService.getByName(therapyName);
-        eventService.deleteByPatientAndTherapy(patientPO,oldMed);
-        prescriptionDTO.setPatient(patientPO);
-        prescriptionDTO.setProcOrMedicine(procAndMedService.getByName(therapyName));
-        PrescriptionPO prescriptionPO= prescriptionService.convertToPO(prescriptionDTO);
-        eventGenerationService.generateEvents(prescriptionPO);
-
-        prescriptionService.update(prescriptionDTO, prescriptionId);
+        prescriptionService.editPrescription(patientId, prescriptionId, prescriptionDTO);
         return "redirect:/patient/{patientId}";
     }
 
@@ -112,16 +99,7 @@ public class PatientController {
     public String editProcedurePrescription(@PathVariable("patientId") Long patientId,
                                             @PathVariable("prescriptionId") Long prescriptionId,
                                             @ModelAttribute PrescriptionDTO prescriptionDTO) throws Exception {
-        PatientPO patientPO = patientService.getOne(patientId);
-        ProcedureAndMedicinePO oldProc = prescriptionService.getOne(prescriptionId).getProcOrMedicine();
-        String therapyName = prescriptionDTO.getScratch().getTypeTherapyName();
-        eventService.deleteByPatientAndTherapy(patientPO,oldProc);
-        prescriptionDTO.setPatient(patientPO);
-        prescriptionDTO.setProcOrMedicine(procAndMedService.getByName(therapyName));
-        PrescriptionPO prescriptionPO= prescriptionService.convertToPO(prescriptionDTO);
-        eventGenerationService.generateEvents(prescriptionPO);
-
-        prescriptionService.update(prescriptionDTO, prescriptionId);
+        prescriptionService.editPrescription(patientId, prescriptionId, prescriptionDTO);
         return "redirect:/patient/{patientId}";
     }
 
@@ -140,13 +118,7 @@ public class PatientController {
     @PostMapping("/{patientId}/add_page")
     public String addPrescription(@PathVariable("patientId") Long id,
                                   @ModelAttribute PrescriptionDTO prescription) throws Exception {
-        prescription.setPatient(patientService.getOne(id));
-        String name = prescription.getScratch().getTypeTherapyName();
-        prescription.setProcOrMedicine(procAndMedService.getByName(name));
-        PrescriptionPO prescriptionPO= prescriptionService.convertToPO(prescription);
-        eventGenerationService.generateEvents(prescriptionPO);
-
-        prescriptionService.add(prescription);
+        prescriptionService.add(prescription, id);
         return "redirect:/patient/{patientId}";
     }
 

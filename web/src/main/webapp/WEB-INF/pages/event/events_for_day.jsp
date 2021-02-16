@@ -42,8 +42,8 @@
             <td>${event.dateAndTime}</td>
             <td>${event.status}</td>
             <td>${event.eventType.name}</td>
-            <td><button id="cancel" onclick="cancelEvent.js">change status to "cancel"</button></td>
-            <td><button id="done" onclick="doneEvent.js">change status to "done"</button> </td>
+            <td><a href="<c:url value="/event/${event.id}/changeToDone"/>">change status to "done"</a></td>
+            <td><a href="<c:url value="/event/${event.id}/changeToCancelled"/>">change status to "canceled"</a></td>
         </tr>
     </c:forEach>
     </tbody>

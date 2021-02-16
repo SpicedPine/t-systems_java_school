@@ -1,5 +1,6 @@
 package com.noskov.school.controller;
 
+import com.noskov.school.enums.EventStatus;
 import com.noskov.school.persistent.EventPO;
 import com.noskov.school.service.api.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class EventController {
 
     @Autowired
-    EventService eventService;
+    private EventService eventService;
 
     @GetMapping("/")
     public String allEvents(Model model){
@@ -35,7 +36,7 @@ public class EventController {
 
     @GetMapping("/{eventId}/changeToDone")
     public String doEvent(@PathVariable("eventId") Long eventId){
-        eventService.changeStatusToDone(eventId);
+        eventService.changeStatus(eventId,EventStatus.DONE);
         return "redirect:/event/";
     }
 
@@ -44,17 +45,14 @@ public class EventController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("event",eventService.getOne(eventId));
         modelAndView.setViewName("event/why_cancelled");
-        eventService.changeStatusToCancelled(eventId);
+        eventService.changeStatus(eventId, EventStatus.CANCELED);
         return modelAndView;
     }
 
     @PostMapping("/{eventId}/changeToCancelled")
     public String doCancel(@ModelAttribute EventPO eventPO,
                            @PathVariable("eventId") Long eventId){
-        EventPO oldEvent = eventService.getOne(eventId);
-        String reason = eventPO.getReasonToCancel();
-        oldEvent.setReasonToCancel(reason);
-        eventService.update(oldEvent);
+        eventService.setReasonToCancel(eventPO.getReasonToCancel(), eventId);
 
         return "redirect:/event/";
     }

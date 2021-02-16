@@ -14,7 +14,7 @@ import java.util.List;
 @Transactional
 public class ProcAndMedServiceImp implements ProcAndMedService {
     @Autowired
-    ProcAndMedDAO procAndMedDAO;
+    private ProcAndMedDAO procAndMedDAO;
 
     @Override
     public List<ProcedureAndMedicinePO> getAllProceduresAndMedicines() {

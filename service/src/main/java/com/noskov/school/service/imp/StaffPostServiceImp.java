@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class StaffPostServiceImp implements StaffPostService {
     @Autowired
-    StaffPostDAO staffPostDAO;
+    private StaffPostDAO staffPostDAO;
 
     @Override
     public List<StaffPostPO> getAllPosts() {

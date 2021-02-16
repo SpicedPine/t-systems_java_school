@@ -15,24 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class LoginController {
     @Autowired
-    MedicalStaffService medicalStaffService;
+    private MedicalStaffService medicalStaffService;
 
     @Autowired
-    StaffPostService staffPostService;
+    private StaffPostService staffPostService;
 
     @GetMapping("/login")
     public String login(Model model){
         model.addAttribute("staff", new MedicalStaffPO());
         return "/login";
     }
-
-    /*@PostMapping("/login")
-    public String login(@ModelAttribute("staff") MedicalStaffPO staff){
-        staff = medicalStaffService.getByEmailAndPassword(staff.getEmail());
-        if(staff.getAuthorities().contains(staffPostService.getPhysician())){
-            return "redirect:event/";
-        } else if (staff.getAuthorities().contains(staffPostService.getNurse())){
-            return "redirect:patient/";
-        } else throw new RuntimeException("No staff post during logging");
-    }*/
 }

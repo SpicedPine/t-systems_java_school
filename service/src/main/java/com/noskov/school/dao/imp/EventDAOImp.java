@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -23,8 +24,34 @@ public class EventDAOImp implements EventDAO {
     public List<EventPO> getAllEvents() {
         List<EventPO> eventList = entityManager.createQuery("select distinct e from EventPO e "
                 + "join fetch e.patient "
-                + "join fetch e.eventType").getResultList();
+                + "join fetch e.eventType", EventPO.class).getResultList();
         return eventList;
+    }
+
+    @Override
+    public List<EventPO> getEventsForDay() {
+        Query query = entityManager.createQuery("select distinct e from EventPO as e " +
+                "join fetch e.patient " +
+                "join fetch e.eventType " +
+                "where e.dateAndTime <: tomorrow " +
+                "and e.dateAndTime >: yesterday", EventPO.class);
+        query.setParameter("tomorrow", LocalDateTime.now().plusDays(1));
+        query.setParameter("yesterday", LocalDateTime.now().minusDays(1));
+        List<EventPO> poList = query.getResultList();
+        return poList;
+    }
+
+    @Override
+    public List<EventPO> getEventsFotHour() {
+        Query query = entityManager.createQuery("select distinct e from EventPO as e " +
+                "join fetch e.patient " +
+                "join fetch e.eventType " +
+                "where e.dateAndTime <: nextHour " +
+                "and e.dateAndTime >: now", EventPO.class);
+        query.setParameter("nextHour", LocalDateTime.now().plusHours(1));
+        query.setParameter("now", LocalDateTime.now());
+        List<EventPO> poList = query.getResultList();
+        return poList;
     }
 
     @Override
@@ -62,29 +89,19 @@ public class EventDAOImp implements EventDAO {
     }
 
     @Override
-    public void changeStatusToDone(Long id) {
-        Query query = entityManager.createQuery("select e from EventPO e where e.id =:id");
+    public void changeStatus(Long id, EventStatus status) {
+        Query query = entityManager.createQuery("update EventPO as e set e.status =: status where e.id =: id");
         query.setParameter("id", id);
-        EventPO event = (EventPO) query.getSingleResult();
-        event.setStatus(EventStatus.DONE);
-        update(event);
-    }
-
-    @Override
-    public void changeStatusToCancelled(Long id) {
-        Query query = entityManager.createQuery("select e from EventPO e where e.id = :id");
-        query.setParameter("id", id);
-        EventPO event = (EventPO) query.getSingleResult();
-        event.setStatus(EventStatus.CANCELED);
-        update(event);
+        query.setParameter("status", status);
+        query.executeUpdate();
     }
 
     @Override
     public void setReasonToCancel(String reason, Long id) {
-        Query query = entityManager.createQuery("select e from EventPO e where e.id = :id");
+        Query query = entityManager.createQuery("update EventPO as e set e.reasonToCancel =:reason where e.id =:id");
         query.setParameter("id", id);
-        EventPO event = (EventPO) query.getSingleResult();
-        event.setReasonToCancel(reason);
+        query.setParameter("reason", reason);
+        query.executeUpdate();
     }
 
     @Override

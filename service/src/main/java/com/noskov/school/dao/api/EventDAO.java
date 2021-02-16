@@ -1,5 +1,6 @@
 package com.noskov.school.dao.api;
 
+import com.noskov.school.enums.EventStatus;
 import com.noskov.school.persistent.EventPO;
 import com.noskov.school.persistent.PatientPO;
 import com.noskov.school.persistent.PrescriptionPO;
@@ -9,6 +10,8 @@ import java.util.List;
 
 public interface EventDAO {
     List<EventPO> getAllEvents();
+    List<EventPO> getEventsForDay();
+    List<EventPO> getEventsFotHour();
     void add(EventPO eventPO);
     EventPO getById(Long id);
     void delete(EventPO event);
@@ -17,8 +20,7 @@ public interface EventDAO {
 
     void deleteByPatientAndTherapy(PatientPO patientPO, ProcedureAndMedicinePO therapy);
 
-    void changeStatusToDone(Long id);
-    void changeStatusToCancelled(Long id);
+    void changeStatus(Long id, EventStatus status);
 
     void setReasonToCancel(String reason ,Long id);
 

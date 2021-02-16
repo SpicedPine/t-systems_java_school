@@ -1,6 +1,7 @@
 package com.noskov.school.service.imp;
 
 import com.noskov.school.dao.api.EventDAO;
+import com.noskov.school.enums.EventStatus;
 import com.noskov.school.persistent.EventPO;
 import com.noskov.school.persistent.PatientPO;
 import com.noskov.school.persistent.ProcedureAndMedicinePO;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class EventServiceImp implements EventService {
     @Autowired
-    EventDAO eventDAO;
+    private EventDAO eventDAO;
 
     @Override
     public List<EventPO> getAll() {
@@ -27,26 +28,12 @@ public class EventServiceImp implements EventService {
 
     @Override
     public List<EventPO> getEventsForHour() {
-        List<EventPO> eventList = eventDAO.getAllEvents();
-        LocalTime nextHour = LocalTime.now().plusHours(1);
-        LocalDate nextDate = LocalDate.now().plusDays(1);
-        LocalTime now = LocalTime.now();
-        eventList = eventList.stream()
-                .filter(e -> e.getDateAndTime().toLocalTime().isBefore(nextHour))
-                .filter(e -> e.getDateAndTime().toLocalDate().isBefore(nextDate))
-                .filter(e -> e.getDateAndTime().toLocalTime().isAfter(now))
-                .collect(Collectors.toList());
-        return eventList;
+        return eventDAO.getEventsFotHour();
     }
 
     @Override
     public List<EventPO> getEventsForDay() {
-        List<EventPO> eventList = eventDAO.getAllEvents();
-        LocalDate nextDay = LocalDate.now().plusDays(1);
-        eventList = eventList.stream()
-                .filter(e -> e.getDateAndTime().toLocalDate().isBefore(nextDay))
-                .collect(Collectors.toList());
-        return eventList;
+        return eventDAO.getEventsForDay();
     }
 
     @Override
@@ -75,13 +62,8 @@ public class EventServiceImp implements EventService {
     }
 
     @Override
-    public void changeStatusToDone(Long id){
-        eventDAO.changeStatusToDone(id);
-    }
-
-    @Override
-    public void changeStatusToCancelled(long id) {
-        eventDAO.changeStatusToCancelled(id);
+    public void changeStatus(Long id, EventStatus status) {
+        eventDAO.changeStatus(id, status);
     }
 
     @Override

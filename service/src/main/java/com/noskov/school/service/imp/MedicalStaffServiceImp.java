@@ -20,10 +20,10 @@ import java.util.stream.Collectors;
 @Transactional
 public class MedicalStaffServiceImp implements MedicalStaffService {
     @Autowired
-    MedicalStaffDAO medicalStaffDAO;
+    private MedicalStaffDAO medicalStaffDAO;
 
     @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public List<MedicalStaffPO> getAllStaff() {

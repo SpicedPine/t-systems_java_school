@@ -19,10 +19,6 @@
         <h2><a href="<c:url value='physician/registration'/>">Physician's registration page</a></h2>
         <h2><a href="<c:url value='nurse/registration'/>">Nurse's registration page</a></h2>
     </sec:authorize>
-    <%--<h2><a href="<c:url value='/login'/>">Log in</a></h2>
-    <h2><a href="<c:url value='/physician/registration'/>">Physician's registration page</a></h2>
-    <h2><a href="<c:url value='/nurse/registration'/>">Nurse's registration page</a></h2>
-    --%>
     <sec:authorize access="isAuthenticated()">
         <h2><a href="<c:url value='/logout'/>">Log out</a></h2>
     </sec:authorize>
