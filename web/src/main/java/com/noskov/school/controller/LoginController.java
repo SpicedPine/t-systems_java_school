@@ -14,12 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/")
 public class LoginController {
-    @Autowired
-    private MedicalStaffService medicalStaffService;
-
-    @Autowired
-    private StaffPostService staffPostService;
-
     @GetMapping("/login")
     public String login(Model model){
         model.addAttribute("staff", new MedicalStaffPO());

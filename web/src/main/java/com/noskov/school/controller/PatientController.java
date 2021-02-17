@@ -16,23 +16,21 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/patient")
 public class PatientController {
 
-    @Autowired
-    private PatientService patientService;
+    private final PatientService patientService;
+
+    private final PrescriptionService prescriptionService;
+
+    private final ProcAndMedService procAndMedService;
+
+    private final MedicalStaffService medicalStaffService;
 
     @Autowired
-    private PrescriptionService prescriptionService;
-
-    @Autowired
-    private ProcAndMedService procAndMedService;
-
-    @Autowired
-    private EventGenerationService eventGenerationService;
-
-    @Autowired
-    private EventService eventService;
-
-    @Autowired
-    private MedicalStaffService medicalStaffService;
+    public PatientController(PatientService patientService, PrescriptionService prescriptionService, ProcAndMedService procAndMedService, MedicalStaffService medicalStaffService) {
+        this.patientService = patientService;
+        this.prescriptionService = prescriptionService;
+        this.procAndMedService = procAndMedService;
+        this.medicalStaffService = medicalStaffService;
+    }
 
     @GetMapping("")
     public String allPatients(Model model){

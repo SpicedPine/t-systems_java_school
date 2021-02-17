@@ -5,9 +5,8 @@ import com.noskov.school.dao.api.PatientDAO;
 
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -26,7 +25,6 @@ public class PatientDAOImp implements PatientDAO {
     @Override
     public PatientPO getById(Long id) throws NullPointerException {
         Query query = entityManager.createQuery("select p from PatientPO as p where p.id = :id");
-        //Query query = entityManager.createQuery("select p from PatientPO p join fetch p.prescriptionList where p.id = :id");
         query.setParameter("id", id);
         PatientPO patient = (PatientPO) query.getSingleResult();
         if(patient != null){

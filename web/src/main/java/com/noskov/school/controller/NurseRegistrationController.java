@@ -14,11 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/nurse")
 public class NurseRegistrationController {
-    @Autowired
-    private MedicalStaffService medicalStaffService;
+    private final MedicalStaffService medicalStaffService;
+
+    private final StaffPostService staffPostService;
 
     @Autowired
-    private StaffPostService staffPostService;
+    public NurseRegistrationController(MedicalStaffService medicalStaffService, StaffPostService staffPostService) {
+        this.medicalStaffService = medicalStaffService;
+        this.staffPostService = staffPostService;
+    }
 
     @GetMapping("/registration")
     public String registration(Model model) {

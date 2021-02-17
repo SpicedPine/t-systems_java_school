@@ -13,8 +13,12 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/event")
 public class EventController {
 
+    private final EventService eventService;
+
     @Autowired
-    private EventService eventService;
+    public EventController(EventService eventService) {
+        this.eventService = eventService;
+    }
 
     @GetMapping("/")
     public String allEvents(Model model){
