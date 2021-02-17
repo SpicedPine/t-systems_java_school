@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: Igor
@@ -20,7 +21,9 @@
         <h2><a href="<c:url value='nurse/registration'/>">Nurse's registration page</a></h2>
     </sec:authorize>
     <sec:authorize access="isAuthenticated()">
-        <h2><a href="<c:url value='/logout'/>">Log out</a></h2>
+        <form:form action="${pageContext.request.contextPath}/logout" method="POST">
+            <input type="submit" value="Logout" />
+        </form:form>
     </sec:authorize>
     <sec:authorize access="hasRole('PHYSICIAN')">
         <h2><a href="<c:url value='patient/'/>">Patients page (only for physicians)</a></h2>
