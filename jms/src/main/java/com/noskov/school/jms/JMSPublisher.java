@@ -8,7 +8,7 @@ import javax.jms.TextMessage;
 
 @Component
 public class JMSPublisher {
-    private static String UPDATE_ALL_DAY = "update all day";
+    private static String ALL_DAY_PROPERTY = "all_day";
 
     private final JmsTemplate jmsTemplate;
 
@@ -20,7 +20,7 @@ public class JMSPublisher {
     public void sendUpdateMessage(){
         jmsTemplate.send(session -> {
             TextMessage message = session.createTextMessage("schedule updated");
-            message.setStringProperty("All_day", UPDATE_ALL_DAY );
+            message.setStringProperty(ALL_DAY_PROPERTY, "all day");
             return message;
         });
     }
