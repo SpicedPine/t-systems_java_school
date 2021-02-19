@@ -6,9 +6,8 @@ import com.noskov.school.persistent.PrescriptionPO;
 
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -29,7 +28,7 @@ public class PrescriptionDAOImp implements PrescriptionDAO {
 
     @Override
     public List<PrescriptionPO> getAllPrescriptions() {
-        return entityManager.createQuery("select p from PrescriptionPO p").getResultList();
+        return entityManager.createQuery("select p from PrescriptionPO p", PrescriptionPO.class).getResultList();
     }
 
     @Override

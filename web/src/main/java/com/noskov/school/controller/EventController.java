@@ -2,6 +2,7 @@ package com.noskov.school.controller;
 
 import com.noskov.school.enums.EventStatus;
 import com.noskov.school.persistent.EventPO;
+import com.noskov.school.service.api.EventScheduleService;
 import com.noskov.school.service.api.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,9 +16,12 @@ public class EventController {
 
     private final EventService eventService;
 
+    private final EventScheduleService eventScheduleService;
+
     @Autowired
-    public EventController(EventService eventService) {
+    public EventController(EventService eventService, EventScheduleService eventScheduleService) {
         this.eventService = eventService;
+        this.eventScheduleService = eventScheduleService;
     }
 
     @GetMapping("/")
@@ -41,6 +45,7 @@ public class EventController {
     @GetMapping("/{eventId}/changeToDone")
     public String doEvent(@PathVariable("eventId") Long eventId){
         eventService.changeStatus(eventId,EventStatus.DONE);
+        eventScheduleService.updateSchedule();
         return "redirect:/event/";
     }
 

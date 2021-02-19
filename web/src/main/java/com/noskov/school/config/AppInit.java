@@ -1,6 +1,7 @@
 package com.noskov.school.config;
 
 
+import com.noskov.school.dao.config.AppConfig;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 

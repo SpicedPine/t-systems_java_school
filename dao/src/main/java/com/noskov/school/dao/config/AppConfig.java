@@ -1,4 +1,4 @@
-package com.noskov.school.config;
+package com.noskov.school.dao.config;
 
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
