@@ -1,6 +1,8 @@
 package com.noskov.school.service.imp;
 
+import com.noskov.school.converters.EventServiceConverter;
 import com.noskov.school.dao.api.EventDAO;
+import com.noskov.school.dto.EventDTO;
 import com.noskov.school.enums.EventStatus;
 import com.noskov.school.persistent.EventPO;
 import com.noskov.school.persistent.PatientPO;
@@ -11,11 +13,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
 @Transactional
 public class EventServiceImp implements EventService {
+    @Autowired
+    private EventServiceConverter converter;
+
     @Autowired
     private EventDAO eventDAO;
 
@@ -72,5 +78,14 @@ public class EventServiceImp implements EventService {
     @Override
     public String getDoseFromMedicineEvent(String dose, Long id) {
         return eventDAO.getDoseFromMedicineEvent(dose, id);
+    }
+
+    @Override
+    public List<EventDTO> getEventsForDayExternal() {
+        List<EventPO> eventPOList = getEventsForDay();
+        List<EventDTO> eventDTOList = eventPOList.stream()
+                .map(e -> converter.convertToDTO(e))
+                .collect(Collectors.toList());
+        return eventDTOList;
     }
 }

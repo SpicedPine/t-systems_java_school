@@ -37,6 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeRequests()
+                .antMatchers("/schedule/**").permitAll()
                 .antMatchers("/physician/registration").not().fullyAuthenticated()
                 .antMatchers("/nurse/registration").not().fullyAuthenticated()
                 .antMatchers("/patient/**").hasRole("PHYSICIAN")

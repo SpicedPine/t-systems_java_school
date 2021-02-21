@@ -1,6 +1,6 @@
 package com.noskov.school.controller;
 
-import com.noskov.school.persistent.EventPO;
+import com.noskov.school.dto.EventDTO;
 import com.noskov.school.service.api.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +21,8 @@ public class ScheduleController {
     }
 
     @GetMapping("/events")
-    public List<EventPO> events(){
-        return eventService.getEventsForDay();
+    public List<EventDTO> events(){
+        List<EventDTO> eventDTOList = eventService.getEventsForDayExternal();
+        return eventDTOList;
     }
 }

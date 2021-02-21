@@ -33,8 +33,8 @@ public class EventDAOImp implements EventDAO {
                 "join fetch e.eventType " +
                 "where e.dateAndTime <: tomorrow " +
                 "and e.dateAndTime >: yesterday", EventPO.class);
-        query.setParameter("tomorrow", LocalDateTime.now().plusDays(1));
-        query.setParameter("yesterday", LocalDateTime.now().minusDays(1));
+        query.setParameter("tomorrow", LocalDateTime.now().plusDays(1).withHour(0));
+        query.setParameter("yesterday", LocalDateTime.now().withHour(0));
         List<EventPO> poList = query.getResultList();
         return poList;
     }
