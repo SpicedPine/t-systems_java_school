@@ -1,7 +1,6 @@
 package com.noskov.school.service.imp;
 
 import com.noskov.school.dao.api.EventDAO;
-import com.noskov.school.dao.api.PrescriptionDAO;
 import com.noskov.school.enums.EventStatus;
 import com.noskov.school.enums.TimePeriods;
 import com.noskov.school.persistent.EventPO;
@@ -30,9 +29,6 @@ import java.util.Set;
 @Service
 @Transactional
 public class EventGenerationServiceImp implements EventGenerationService {
-
-    @Autowired
-    private PrescriptionDAO prescriptionDAO;
 
     @Autowired
     private EventDAO eventDAO;
@@ -103,11 +99,10 @@ public class EventGenerationServiceImp implements EventGenerationService {
             for (int k = 0; k < nSteps; k++) {
                 if (weekDaysSet.isEmpty()) {
                     addEventsByQuantity(date, generatedEvents, therapyType, patient, quantityInPeriod, timePatternTimePeriod, timeList);
-                    date = date.plus(1, ChronoUnit.valueOf(timePatternTimePeriod.toString().toUpperCase() + "S"));
                 } else {
                     addEventsByWeekDaysSet(date, generatedEvents, therapyType, patient, timeList, weekDaysSet);
-                    date = date.plus(1, ChronoUnit.valueOf(timePatternTimePeriod.toString().toUpperCase() + "S"));
                 }
+                date = date.plus(1, ChronoUnit.valueOf(timePatternTimePeriod.toString().toUpperCase() + "S"));
             }
         }
     }

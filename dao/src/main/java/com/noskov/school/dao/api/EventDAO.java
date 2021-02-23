@@ -25,4 +25,8 @@ public interface EventDAO {
     void setReasonToCancel(String reason ,Long id);
 
     String getDoseFromMedicineEvent(String dose, Long id);
+
+    void deleteEventsFromNowForPatient(PatientPO patientPO);
+
+    void deleteFromNowByPatientAndTherapy(PatientPO patient, ProcedureAndMedicinePO therapy);
 }

@@ -11,4 +11,6 @@ public interface PatientDAO {
     void deleteById(Long id);
     void delete(PatientPO patient);
     void update(PatientPO patient);
+
+    PatientPO getBySocialNumber(int socialNumber);
 }

@@ -35,12 +35,13 @@ public class PhysicianRegistrationController {
     @PostMapping("/registration")
     public String signUp(@ModelAttribute(name = "staff") MedicalStaffPO staff, Model model) {
 
-        if (!staff.getPassword().equals(staff.getPasswordConfirm())){
-            model.addAttribute("passwordError", "Passwords doesn't match");
+        if (!medicalStaffService.savePhysician(staff)){
+            model.addAttribute("usernameError", "Physician with provided email already exist");
             return "physician/registration";
         }
-        if (!medicalStaffService.savePhysician(staff)){
-            model.addAttribute("usernameError", "Пользователь с таким именем уже существует");
+
+        if (!staff.getPassword().equals(staff.getPasswordConfirm())){
+            model.addAttribute("passwordError", "Passwords doesn't match");
             return "physician/registration";
         }
 

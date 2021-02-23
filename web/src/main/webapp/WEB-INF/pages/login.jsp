@@ -1,4 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Igor
@@ -12,11 +13,14 @@
     <title>Logging page</title>
 </head>
 <body>
+<c:if test="${login_fail}">
+    <h2>Wrong email or password</h2>
+</c:if>
 <form:form method="post" action="login/authenticating" modelAttribute="staff">
     <form:label path="email">Enter your email:</form:label>
     <form:input path="email" placeholder="email" /><br>
     <form:label path="password">Enter your password:</form:label>
-    <form:input path="password" placeholder="password"/><br>
+    <form:password path="password" placeholder="password"/><br>
     <footer>
         <input type="submit" value="Log in"/>
     </footer>

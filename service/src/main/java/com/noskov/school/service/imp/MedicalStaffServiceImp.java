@@ -4,8 +4,10 @@ import com.noskov.school.dao.api.MedicalStaffDAO;
 import com.noskov.school.dao.api.StaffPostDAO;
 import com.noskov.school.enums.Role;
 import com.noskov.school.persistent.MedicalStaffPO;
+import com.noskov.school.persistent.PatientPO;
 import com.noskov.school.persistent.StaffPostPO;
 import com.noskov.school.service.api.MedicalStaffService;
+import com.noskov.school.service.api.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,6 +21,9 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class MedicalStaffServiceImp implements MedicalStaffService {
+    @Autowired
+    private PatientService patientService;
+
     @Autowired
     private MedicalStaffDAO medicalStaffDAO;
 
@@ -92,10 +97,12 @@ public class MedicalStaffServiceImp implements MedicalStaffService {
         return true;
     }
 
-    /*@Override
-    public MedicalStaffPO getByEmailAndPassword(String email, String password){
-        password = bCryptPasswordEncoder.encode(password);
-        MedicalStaffPO staff = medicalStaffDAO.getByEmail(email);
-        if
-    }*/
+    @Override
+    public void addPatientToPhysician(PatientPO patientPO, MedicalStaffPO physician) {
+        int socialNumber = patientPO.getSocialNumber();
+        patientService.addIfNotExist(patientPO);
+        PatientPO patient = patientService.getBySocialNumber(socialNumber);
+        patient.getPhysicians().add(physician);
+        physician.getPatients().add(patient);
+    }
 }

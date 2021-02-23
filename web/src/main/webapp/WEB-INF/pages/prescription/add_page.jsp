@@ -12,17 +12,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Add prescription</title>
 </head>
 <body>
 <h1>Page for prescription adding</h1>
-<p><b>Form:</b></p>
 <form:form modelAttribute="prescription" method="post" action="add_page" id="submitForm">
     <fieldset>
     <p>Type</p>
-<%--
-    <form:label path="scratch.type.therapyType" for="typeSelectionList">Choose type of therapy:</form:label>
---%>
+
     <form:select path="scratch.typeTherapy" id="typeSelectionList" name="typeOfTherapy" onchange="disableDose()">
         <c:forEach items="<%=TherapyType.values()%>" var="therapyType">
             <form:option value="${therapyType}" id="${therapyType}">
@@ -42,23 +39,6 @@
                 <form:option value="${procedure.name}">${procedure.name}</form:option>
             </c:forEach>
         </optgroup>
-        <%--<c:choose>
-            <c:when test="document.getElementById(typeSelectionList).options[typeSelectionList.selectedValue].value == <%=TherapyType.MEDICINE.toString()%>">
-                <c:forEach items="${medicines}" var="medicine">
-                    <form:option value="${medicine}">${medicine.name}</form:option>
-                </c:forEach>
-            </c:when>
-
-            <c:when test="" >
-                <c:forEach items="${procedures}" var="procedure">
-                    <form:option value="${procedure}">${procedure.name}</form:option>
-                </c:forEach>
-            </c:when>
-
-            <c:otherwise>
-                <form:option value="">Please, select type of Therapy</form:option>
-            </c:otherwise>
-        </c:choose>--%>
     </form:select>
     <p>Time Pattern</p>
     <form:label path="scratch.timePatternQuantity" for="quantityInTP">quantity in time pattern:</form:label>

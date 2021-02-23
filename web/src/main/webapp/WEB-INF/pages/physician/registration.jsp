@@ -12,10 +12,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Physician registration page</title>
 </head>
 <body>
 <h1>Physician registration form:</h1>
+<c:if test="${usernameError!=null}">
+    <h3>${usernameError}</h3>
+</c:if>
+<c:if test="${passwordError!=null}">
+    <h3>${passwordError}</h3>
+</c:if>
 <form:form method="post" action="registration" modelAttribute="staff">
     <fieldset>
         <form:label path="firstName">First name:</form:label>
@@ -25,9 +31,9 @@
         <form:label path="email">Email:</form:label>
         <form:input path="email" placeholder="enter your email"/><br>
         <form:label path="password">Password:</form:label>
-        <form:input path="password" placeholder="password"/><br>
+        <form:password path="password" placeholder="password"/><br>
         <form:label path="passwordConfirm">Confirm your password:</form:label>
-        <form:input path="passwordConfirm" placeholder="password"/><br>
+        <form:password path="passwordConfirm" placeholder="password"/><br>
     </fieldset>
     <footer>
         <input type="submit" value="Submit"/>

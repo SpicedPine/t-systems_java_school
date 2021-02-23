@@ -18,4 +18,12 @@ public interface PatientService {
     void update(PatientPO patient);
 
     PatientProfileDTO getPatientProfile(Long id);
+
+    void addIfNotExist(PatientPO patientPO);
+
+    boolean checkExistenceBySocialNumber(int socialNumber);
+
+    PatientPO getBySocialNumber(int socialNumber);
+
+    void release(Long id);
 }

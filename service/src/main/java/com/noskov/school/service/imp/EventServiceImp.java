@@ -2,10 +2,13 @@ package com.noskov.school.service.imp;
 
 import com.noskov.school.converters.EventServiceConverter;
 import com.noskov.school.dao.api.EventDAO;
+import com.noskov.school.dao.api.PatientDAO;
+import com.noskov.school.dao.api.PrescriptionDAO;
 import com.noskov.school.dto.EventDTO;
 import com.noskov.school.enums.EventStatus;
 import com.noskov.school.persistent.EventPO;
 import com.noskov.school.persistent.PatientPO;
+import com.noskov.school.persistent.PrescriptionPO;
 import com.noskov.school.persistent.ProcedureAndMedicinePO;
 import com.noskov.school.service.api.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,12 @@ public class EventServiceImp implements EventService {
 
     @Autowired
     private EventDAO eventDAO;
+
+    @Autowired
+    private PatientDAO patientDAO;
+
+    @Autowired
+    private PrescriptionDAO prescriptionDAO;
 
     @Override
     public List<EventPO> getAll() {
@@ -87,5 +96,12 @@ public class EventServiceImp implements EventService {
                 .map(e -> converter.convertToDTO(e))
                 .collect(Collectors.toList());
         return eventDTOList;
+    }
+
+    @Override
+    public void cancelFromNowByPatientAndPrescription(Long patientId, Long prescriptionId) {
+        PatientPO patient = patientDAO.getById(patientId);
+        ProcedureAndMedicinePO therapy = prescriptionDAO.getById(prescriptionId).getPrescriptionType();
+        eventDAO.deleteFromNowByPatientAndTherapy(patient, therapy);
     }
 }

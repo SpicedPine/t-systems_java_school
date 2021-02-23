@@ -20,11 +20,8 @@ public class PatientPO {
     @Column(name = "DIAGNOSE", nullable = false)
     private String diagnose;
 
-    @Column(name = "SOCIAL_NUMBER", nullable = false)
+    @Column(name = "SOCIAL_NUMBER", nullable = false, unique = true)
     private int socialNumber;
-
-    @Column(name = "PHYSICIAN", nullable = true)
-    private String physician;
 
     @Column(name = "STATUS", nullable = false)
     private PatientStatus status;
@@ -75,14 +72,6 @@ public class PatientPO {
 
     public void setSocialNumber(int socialNumber) {
         this.socialNumber = socialNumber;
-    }
-
-    public String getPhysician() {
-        return physician;
-    }
-
-    public void setPhysician(String physician) {
-        this.physician = physician;
     }
 
     public PatientStatus getStatus() {

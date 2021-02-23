@@ -14,4 +14,6 @@ public interface PrescriptionDAO {
     void update(PrescriptionPO prescription);
     void deleteById(Long id);
     List<PrescriptionPO> getPrescriptionsByPatient(PatientPO patient);
+    void deletePrescriptionsByPatient(PatientPO patient);
+
 }

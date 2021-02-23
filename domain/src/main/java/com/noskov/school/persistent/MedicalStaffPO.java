@@ -36,10 +36,10 @@ public class MedicalStaffPO implements UserDetails {
     @Transient
     private String passwordConfirm;
 
-    @ManyToMany
-    @JoinTable(name = "PATIENT_MEDICAL_STAFF",
+    @ManyToMany(mappedBy = "physicians")
+    /*@JoinTable(name = "PATIENT_MEDICAL_STAFF",
             joinColumns = @JoinColumn(name = "MEDICAL_STAFF_ID"),
-            inverseJoinColumns = @JoinColumn(name = "PATIENT_ID"))
+            inverseJoinColumns = @JoinColumn(name = "PATIENT_ID"))*/
     private Set<PatientPO> patients = new HashSet<>();
 
 

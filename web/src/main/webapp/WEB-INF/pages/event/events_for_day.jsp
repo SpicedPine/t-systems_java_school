@@ -9,10 +9,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Events</title>
 </head>
 <body>
 <h1>Events page</h1>
+<p>
+    <a href="<c:url value='/'/>">Back to personal cabinet</a>
+</p>
 
 <table id="eventsTable">
     <thead>

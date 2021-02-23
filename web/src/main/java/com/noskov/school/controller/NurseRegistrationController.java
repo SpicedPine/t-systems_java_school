@@ -34,14 +34,16 @@ public class NurseRegistrationController {
     @PostMapping("/registration")
     public String signUp(@ModelAttribute(name = "staff") MedicalStaffPO staff, Model model) {
 
+        if (!medicalStaffService.saveNurse(staff)){
+            model.addAttribute("usernameError", "Nurse with provided email already exist");
+            return "nurse/registration";
+        }
+
         if (!staff.getPassword().equals(staff.getPasswordConfirm())){
             model.addAttribute("passwordError", "Passwords doesn't match");
             return "nurse/registration";
         }
-        if (!medicalStaffService.saveNurse(staff)){
-            model.addAttribute("usernameError", "Пользователь с таким именем уже существует");
-            return "nurse/registration";
-        }
+
 
         medicalStaffService.saveNurse(staff);
         return "redirect:/";

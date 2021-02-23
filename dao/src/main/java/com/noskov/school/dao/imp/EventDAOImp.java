@@ -109,4 +109,26 @@ public class EventDAOImp implements EventDAO {
         EventPO event = (EventPO) query.getSingleResult();
         return event.getDoseDescription();
     }
+
+    @Override
+    public void deleteEventsFromNowForPatient(PatientPO patientPO) {
+        Query query = entityManager.createQuery("delete from EventPO e " +
+                "where e.patient = :patiemt " +
+                "and e.dateAndTime >= :now");
+        query.setParameter("patiemt", patientPO);
+        query.setParameter("now", LocalDateTime.now());
+        query.executeUpdate();
+    }
+
+    @Override
+    public void deleteFromNowByPatientAndTherapy(PatientPO patient, ProcedureAndMedicinePO therapy) {
+        Query query = entityManager.createQuery("delete from EventPO e " +
+                "where e.patient = :patient " +
+                "and e.eventType = :therapy " +
+                "and e.dateAndTime >= :now");
+        query.setParameter("patient", patient);
+        query.setParameter("therapy", therapy);
+        query.setParameter("now", LocalDateTime.now());
+        query.executeUpdate();
+    }
 }

@@ -3,6 +3,7 @@ package com.noskov.school.dao.imp;
 import com.noskov.school.persistent.PatientPO;
 import com.noskov.school.dao.api.PatientDAO;
 
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
@@ -30,7 +31,7 @@ public class PatientDAOImp implements PatientDAO {
         if(patient != null){
             return patient;
         } else{
-            throw new NullPointerException("from getById in PatientServiceImp");
+            throw new RuntimeException("from getById in PatientServiceImp");
         }
     }
 
@@ -53,5 +54,17 @@ public class PatientDAOImp implements PatientDAO {
     public void deleteById(Long id) {
         PatientPO patient = getById(id);
         entityManager.remove(patient);
+    }
+
+    @Override
+    public PatientPO getBySocialNumber(int socialNumber) {
+        Query query = entityManager.createQuery("select p from PatientPO as p where p.socialNumber = :socialNumber");
+        query.setParameter("socialNumber", socialNumber);
+        try{
+            PatientPO patientPO = (PatientPO) query.getSingleResult();
+            return patientPO;
+        } catch (NoResultException e){
+            return null;
+        }
     }
 }

@@ -3,16 +3,18 @@ services:
   my-sql:
     image: mysql/mysql-server:5.5
     environment:
+      - MYSQL_DATABASE=newdb
       - MYSQL_ROOT_PASSWORD=1235
-      - NYSQL_USER=root
+      - MYSQL_USER=root
       - MYSQL_PASSWORD=1235
     container_name: mysql
     volumes:
-    - ?.sql:/docker-entrypoint-initdb.d/?.sql
+      - ./sql_scripts:/docker-entrypoint-initdb.d/
     networks:
       - reha-network
     ports:
     - 3306:3306
+
 
 
   active-mq:
@@ -25,10 +27,12 @@ services:
       - 8161:8161
 
   reha:
-    image: noskov/reha
+    image: spicedpine/reha:v2
     environment:
-      - MY_SQL_USERNAME=root
-      - MY_SQL_PASSWORD=1235
+      - MYSQL_ROOT_PASSWORD=1235
+      - MYSQL_DATABASE=newdb
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=1235
       - ACTIVE_MQ_USERNAME=admin
       - ACTIVE_MQ_PASSWOED=admin
       - ACTIVE_MQ_TOPIC_NAME=eventsTopic
@@ -42,7 +46,7 @@ services:
       - active-mq
 
   scheduler:
-    image: noskov/schedule
+    image: spicedpine/schedule:v5
     environment:
       - ACTIVE_MQ_USERNAME=admin
       - ACTIVE_MQ_PASSWOED=admin

@@ -21,6 +21,7 @@
         <h2><a href="<c:url value='nurse/registration'/>">Nurse's registration page</a></h2>
     </sec:authorize>
     <sec:authorize access="isAuthenticated()">
+        <h2>Hello, ${pageContext.request.userPrincipal.name}</h2>
         <form:form action="${pageContext.request.contextPath}/logout" method="POST">
             <input type="submit" value="Logout" />
         </form:form>

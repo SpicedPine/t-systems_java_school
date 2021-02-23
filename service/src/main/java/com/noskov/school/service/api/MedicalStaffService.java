@@ -1,6 +1,7 @@
 package com.noskov.school.service.api;
 
 import com.noskov.school.persistent.MedicalStaffPO;
+import com.noskov.school.persistent.PatientPO;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
@@ -14,5 +15,5 @@ public interface MedicalStaffService extends UserDetailsService {
     void delete(MedicalStaffPO staff);
     void update(MedicalStaffPO staff);
     List<MedicalStaffPO> getAllPhysicians();
-    //MedicalStaffPO getByEmailAndPassword(String email, String password);
+    void addPatientToPhysician(PatientPO patientPO, MedicalStaffPO physician);
 }

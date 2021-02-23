@@ -63,4 +63,12 @@ public class PrescriptionDAOImp implements PrescriptionDAO {
         query.setParameter("patient", patient);
         return query.getResultList();
     }
+
+    @Override
+    public void deletePrescriptionsByPatient(PatientPO patient) {
+        Query query = entityManager.createQuery("delete from PrescriptionPO p " +
+                " where p.patient = :patient");
+        query.setParameter("patient", patient);
+        query.executeUpdate();
+    }
 }

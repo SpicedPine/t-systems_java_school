@@ -32,4 +32,6 @@ public interface EventService {
     void setReasonToCancel(String reason ,Long id);
 
     String getDoseFromMedicineEvent(String dose, Long id);
+
+    void cancelFromNowByPatientAndPrescription(Long patientId, Long prescriptionId);
 }
