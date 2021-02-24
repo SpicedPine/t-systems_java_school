@@ -26,7 +26,7 @@ services:
       - 8161:8161
 
   reha:
-    image: spicedpine/reha:v2
+    image: spicedpine/reha:latest
     environment:
       - MYSQL_ROOT_PASSWORD=1235
       - MYSQL_DATABASE=newdb
@@ -39,7 +39,7 @@ services:
     networks:
       - reha-network
     ports:
-      - 8081:8081
+      - 9081:8080
     links:
       - my-sql
       - active-mq
@@ -55,7 +55,7 @@ services:
     networks:
       - reha-network
     ports:
-      - 8080:8080
+      - 9080:8080
     links:
       - reha
       - active-mq
