@@ -54,17 +54,19 @@ public class PatientController {
     @PostMapping("/add")
     public String addPatient(@ModelAttribute(name = "patient") PatientPO patient){
         MedicalStaffPO physician = (MedicalStaffPO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        LOGGER.info("Trying to add patient to physician with email:{}", physician.getEmail());
+
         patientService.addIfNotExist(patient);
         medicalStaffService.addPatientToPhysician(patient, physician);
-
-        LOGGER.info("patient was added to physician with email:{}", physician.getEmail());
 
         return "redirect:/patient/";
     }
 
     @GetMapping("/{id}/release")
     public String releasePatient(@PathVariable("id") Long id){
-        //patientService.delete(id);
+        LOGGER.info("Trying to release patient with id = {}", id);
+
         patientService.release(id);
         return "redirect:/patient/";
     }
@@ -90,6 +92,8 @@ public class PatientController {
     public String editMedicinePrescription(@PathVariable("patientId") Long patientId,
                                    @PathVariable("prescriptionId") Long prescriptionId,
                                    @ModelAttribute PrescriptionDTO prescriptionDTO) throws Exception {
+        LOGGER.info("Trying to edit medicine prescription");
+
         prescriptionService.editPrescription(patientId, prescriptionId, prescriptionDTO);
         return "redirect:/patient/{patientId}";
     }
@@ -109,6 +113,8 @@ public class PatientController {
     public String editProcedurePrescription(@PathVariable("patientId") Long patientId,
                                             @PathVariable("prescriptionId") Long prescriptionId,
                                             @ModelAttribute PrescriptionDTO prescriptionDTO) throws Exception {
+        LOGGER.info("Trying to edit procedure prescription");
+
         prescriptionService.editPrescription(patientId, prescriptionId, prescriptionDTO);
         return "redirect:/patient/{patientId}";
     }
@@ -128,6 +134,8 @@ public class PatientController {
     @PostMapping("/{patientId}/add_page")
     public String addPrescription(@PathVariable("patientId") Long id,
                                   @ModelAttribute PrescriptionDTO prescription) throws Exception {
+        LOGGER.info("Trying to add prescription");
+
         prescriptionService.add(prescription, id);
         return "redirect:/patient/{patientId}";
     }
@@ -135,6 +143,8 @@ public class PatientController {
     @GetMapping("/{patientId}/cancel/{prescriptionId}")
     public String cancelPrescription(@PathVariable("patientId") Long patientId,
                                      @PathVariable("prescriptionId") Long prescriptionId){
+        LOGGER.info("Trying to cancel prescription");
+
         eventService.cancelFromNowByPatientAndPrescription(patientId, prescriptionId);
         prescriptionService.delete(prescriptionId);
         return "redirect:/patient/{patientId}";

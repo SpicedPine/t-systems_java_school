@@ -17,6 +17,7 @@ public class LoginController {
         LOGGER.info("login page is uploaded");
 
         if(Boolean.TRUE.equals(fail)){
+            LOGGER.info("There were errors in login data");
             model.addAttribute("login_fail", fail);
         }
         model.addAttribute("staff", new MedicalStaffPO());

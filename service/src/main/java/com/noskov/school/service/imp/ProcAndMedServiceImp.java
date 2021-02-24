@@ -3,6 +3,8 @@ package com.noskov.school.service.imp;
 import com.noskov.school.dao.api.ProcAndMedDAO;
 import com.noskov.school.persistent.ProcedureAndMedicinePO;
 import com.noskov.school.service.api.ProcAndMedService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,8 +15,14 @@ import java.util.List;
 @Service
 @Transactional
 public class ProcAndMedServiceImp implements ProcAndMedService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProcAndMedServiceImp.class);
+
+    private final ProcAndMedDAO procAndMedDAO;
+
     @Autowired
-    private ProcAndMedDAO procAndMedDAO;
+    public ProcAndMedServiceImp(ProcAndMedDAO procAndMedDAO) {
+        this.procAndMedDAO = procAndMedDAO;
+    }
 
     @Override
     public List<ProcedureAndMedicinePO> getAllProceduresAndMedicines() {

@@ -1,10 +1,13 @@
 package com.noskov.school.dao.imp;
 
 import com.noskov.school.dao.api.EventDAO;
+import com.noskov.school.dao.config.AppConfig;
 import com.noskov.school.enums.EventStatus;
 import com.noskov.school.persistent.EventPO;
 import com.noskov.school.persistent.PatientPO;
 import com.noskov.school.persistent.ProcedureAndMedicinePO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -15,6 +18,9 @@ import java.util.List;
 
 @Repository
 public class EventDAOImp implements EventDAO {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(EventDAOImp.class);
+
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -23,6 +29,8 @@ public class EventDAOImp implements EventDAO {
         List<EventPO> eventList = entityManager.createQuery("select distinct e from EventPO e "
                 + "join fetch e.patient "
                 + "join fetch e.eventType", EventPO.class).getResultList();
+
+        LOGGER.debug("return event list");
         return eventList;
     }
 
@@ -36,6 +44,8 @@ public class EventDAOImp implements EventDAO {
         query.setParameter("tomorrow", LocalDateTime.now().plusDays(1).withHour(0));
         query.setParameter("yesterday", LocalDateTime.now().withHour(0));
         List<EventPO> poList = query.getResultList();
+
+        LOGGER.debug("return ivent list for day");
         return poList;
     }
 
@@ -49,12 +59,16 @@ public class EventDAOImp implements EventDAO {
         query.setParameter("nextHour", LocalDateTime.now().plusHours(1));
         query.setParameter("now", LocalDateTime.now());
         List<EventPO> poList = query.getResultList();
+
+        LOGGER.debug("return events for hour");
         return poList;
     }
 
     @Override
     public void add(EventPO eventPO) {
         entityManager.persist(eventPO);
+
+        LOGGER.debug("EventPO on {} was persisted", eventPO.getDateAndTime());
     }
 
     @Override
@@ -65,17 +79,23 @@ public class EventDAOImp implements EventDAO {
     @Override
     public void delete(EventPO event) {
         entityManager.remove(event);
+
+        LOGGER.debug("EventPO on {} was removed", event.getDateAndTime());
     }
 
     @Override
     public void update(EventPO event) {
         entityManager.merge(event);
+
+        LOGGER.debug("EventPO on {} was merged", event.getDateAndTime());
     }
 
     @Override
     public void deleteById(Long id) {
         Query query = entityManager.createQuery("delete from EventPO e where e.id = :id").setParameter("id", id);
         query.executeUpdate();
+
+        LOGGER.debug("EventPO with id={} was deleted", id);
     }
 
     @Override
@@ -84,6 +104,8 @@ public class EventDAOImp implements EventDAO {
         query.setParameter("patientPO", patientPO);
         query.setParameter("therapy", therapy);
         query.executeUpdate();
+
+        LOGGER.debug("EventPO with patient = {} and therapy = {} was deleted", patientPO.getLastName(), therapy.getName());
     }
 
     @Override
@@ -92,6 +114,8 @@ public class EventDAOImp implements EventDAO {
         query.setParameter("id", id);
         query.setParameter("status", status);
         query.executeUpdate();
+
+        LOGGER.debug("EventPO with id = {}, status was changed on {}", id, status.getStatus());
     }
 
     @Override
@@ -100,6 +124,8 @@ public class EventDAOImp implements EventDAO {
         query.setParameter("id", id);
         query.setParameter("reason", reason);
         query.executeUpdate();
+
+        LOGGER.debug("EventPO with id = {}, reason to cancel was set  {}", id, reason);
     }
 
     @Override
@@ -118,6 +144,8 @@ public class EventDAOImp implements EventDAO {
         query.setParameter("patiemt", patientPO);
         query.setParameter("now", LocalDateTime.now());
         query.executeUpdate();
+
+        LOGGER.debug("EventPO for patient {} from {} were deleted", patientPO.getLastName(), LocalDateTime.now());
     }
 
     @Override
@@ -130,5 +158,7 @@ public class EventDAOImp implements EventDAO {
         query.setParameter("therapy", therapy);
         query.setParameter("now", LocalDateTime.now());
         query.executeUpdate();
+
+        LOGGER.debug("EventPOs for patient {} and therapy {} were deleted" , patient.getLastName(), therapy.getName());
     }
 }

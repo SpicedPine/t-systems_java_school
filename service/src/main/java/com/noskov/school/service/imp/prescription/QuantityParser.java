@@ -1,15 +1,21 @@
 package com.noskov.school.service.imp.prescription;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Arrays;
 import java.util.List;
 
 public class QuantityParser {
+    private static final Logger LOGGER = LoggerFactory.getLogger(QuantityParser.class);
+
     public static int parseTimePatternQuantity(String prescription){
         List<String> list = Arrays.asList(prescription.split(" "));
         String quantity = list.get(2);
         try{
             return Integer.parseInt(quantity);
         } catch (NumberFormatException e){
+            LOGGER.error("Couldn't parse timePatternQuantity: {}", quantity);
             throw new RuntimeException("timePatternQuantity parsing exception");
         }
     }
@@ -17,16 +23,15 @@ public class QuantityParser {
     public static int parsePeriodQuantity(String prescription){
         List<String> list = Arrays.asList(prescription.split(" "));
         int quantity;
-        System.out.println("представление list-a:");
-        list.forEach(System.out::println);
         for (int i = 4; i < list.size()-1; i++) {
             try{
                 quantity = Integer.parseInt(list.get(i));
                 return quantity;
             } catch (NumberFormatException e){
-                System.out.println("!!!!не смог спарсить:!!!!" + list.get(i));
+                LOGGER.debug("Couldn't parse as period quantity: {}", list.get(i));
             }
         }
+        LOGGER.error("Couldn't parse periodQuantity");
         throw new RuntimeException("periodQuantity parsing exception");
     }
 }

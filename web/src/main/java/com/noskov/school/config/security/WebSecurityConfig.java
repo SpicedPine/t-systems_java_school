@@ -2,6 +2,8 @@ package com.noskov.school.config.security;
 
 import com.noskov.school.security.AuthProvider;
 import com.noskov.school.service.api.MedicalStaffService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -16,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 @ComponentScan("com.noskov.school")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    private static final Logger LOGGER = LoggerFactory.getLogger(WebSecurityConfig.class);
 
     @Autowired
     MedicalStaffService medicalStaffService;
@@ -35,6 +38,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
+        LOGGER.info("Security config are applying...");
+
         httpSecurity
                 .authorizeRequests()
                 .antMatchers("/schedule/**").permitAll()
@@ -53,12 +58,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .permitAll()
-                .logoutSuccessUrl("/");
+                .logoutSuccessUrl("/")
+                .and()
+                .exceptionHandling().accessDeniedPage("/exceptions/forbidden_page");
     }
 
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder.userDetailsService(medicalStaffService)
                 .passwordEncoder(bCryptPasswordEncoder());
+        LOGGER.info("bCryptEncoder was added");
     }
 }

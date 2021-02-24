@@ -2,6 +2,8 @@ package com.noskov.school.dao.imp;
 
 import com.noskov.school.dao.api.StaffPostDAO;
 import com.noskov.school.persistent.StaffPostPO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -11,6 +13,8 @@ import java.util.List;
 
 @Repository
 public class StaffPostDAOImp implements StaffPostDAO {
+    private static final Logger LOGGER = LoggerFactory.getLogger(StaffPostDAOImp.class);
+
     @PersistenceContext
     EntityManager entityManager;
 

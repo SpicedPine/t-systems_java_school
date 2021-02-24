@@ -9,6 +9,8 @@ import com.noskov.school.enums.PatientStatus;
 import com.noskov.school.persistent.PatientPO;
 import com.noskov.school.persistent.PrescriptionPO;
 import com.noskov.school.service.api.PatientService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,18 +20,24 @@ import java.util.List;
 @Service
 @Transactional
 public class PatientServiceImp implements PatientService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PatientServiceImp.class);
+
+
+    private final EventDAO eventDAO;
+
+    private final PatientDAO patientDAO;
+
+    private final PrescriptionDAO prescriptionDAO;
+
+    private final PatientServiceConverter converter;
 
     @Autowired
-    private EventDAO eventDAO;
-
-    @Autowired
-    private PatientDAO patientDAO;
-
-    @Autowired
-    private PrescriptionDAO prescriptionDAO;
-
-    @Autowired
-    private PatientServiceConverter converter;
+    public PatientServiceImp(EventDAO eventDAO, PatientDAO patientDAO, PrescriptionDAO prescriptionDAO, PatientServiceConverter converter) {
+        this.eventDAO = eventDAO;
+        this.patientDAO = patientDAO;
+        this.prescriptionDAO = prescriptionDAO;
+        this.converter = converter;
+    }
 
     @Override
     public List<PatientPO> getAll() {
@@ -60,6 +68,7 @@ public class PatientServiceImp implements PatientService {
     public PatientProfileDTO getPatientProfile(Long id){
         PatientPO patientPO = getOne(id);
         List<PrescriptionPO> prescriptionPOList = prescriptionDAO.getPrescriptionsByPatient(patientPO);
+        LOGGER.info("Got patient's profile");
         return converter.patientProfile(patientPO,prescriptionPOList);
     }
 
@@ -73,6 +82,7 @@ public class PatientServiceImp implements PatientService {
 
     @Override
     public boolean checkExistenceBySocialNumber(int socialNumber) {
+        LOGGER.info("Checking for existence by social number");
         if (patientDAO.getBySocialNumber(socialNumber)!=null){
             return true;
         } else return false;
@@ -83,7 +93,10 @@ public class PatientServiceImp implements PatientService {
         PatientPO patientPO = patientDAO.getBySocialNumber(socialNumber);
         if (patientPO!=null){
             return patientPO;
-        } else throw new RuntimeException("during get patient by social number in service");
+        } else {
+            LOGGER.error("Couldn't found patient by social number");
+            throw new RuntimeException("during get patient by social number in service");
+        }
     }
 
     @Override
@@ -92,5 +105,6 @@ public class PatientServiceImp implements PatientService {
         patientPO.setStatus(PatientStatus.TREATED);
         eventDAO.deleteEventsFromNowForPatient(patientPO);
         prescriptionDAO.deletePrescriptionsByPatient(patientPO);
+        LOGGER.error("Release patient by id");
     }
 }

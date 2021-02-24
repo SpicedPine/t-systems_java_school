@@ -6,6 +6,9 @@ import com.noskov.school.persistent.PrescriptionPO;
 
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 
@@ -14,6 +17,8 @@ import java.util.List;
 
 @Repository
 public class PrescriptionDAOImp implements PrescriptionDAO {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PrescriptionDAOImp.class);
+
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -24,6 +29,8 @@ public class PrescriptionDAOImp implements PrescriptionDAO {
         Query query = entityManager.createQuery("delete from PrescriptionPO p where p.id = :id");
         query.setParameter("id", id);
         query.executeUpdate();
+
+        LOGGER.debug("deleted prescription with id = {}{", id);
     }
 
     @Override
@@ -34,14 +41,19 @@ public class PrescriptionDAOImp implements PrescriptionDAO {
     @Override
     public void add(PrescriptionPO prescription) {
         entityManager.persist(prescription);
+
+        LOGGER.debug("added prescription: {}", prescription.getFormedPrescription());
     }
 
     @Override
     public PrescriptionPO getById(Long id) {
         PrescriptionPO prescription = entityManager.find(PrescriptionPO.class,id);
         if(prescription != null){
+            LOGGER.debug("returned prescription with id = {}", id);
+
             return prescription;
         } else{
+            LOGGER.error("Couldn't find prescription with id = {}", id);
             throw new NullPointerException("from getById in PrescriptionServiceImp");
         }
     }
@@ -49,6 +61,7 @@ public class PrescriptionDAOImp implements PrescriptionDAO {
     @Override
     public void delete(PrescriptionPO prescription) {
         entityManager.remove(prescription);
+        LOGGER.debug("deleted prescription: {}", prescription.getFormedPrescription());
     }
 
     @Override
@@ -61,6 +74,7 @@ public class PrescriptionDAOImp implements PrescriptionDAO {
         Query query = entityManager.createQuery("select p from PrescriptionPO p " +
                 "join fetch p.prescriptionType where p.patient = :patient");
         query.setParameter("patient", patient);
+        LOGGER.debug("returne prescriptions for patient {}", patient.getLastName());
         return query.getResultList();
     }
 
@@ -70,5 +84,7 @@ public class PrescriptionDAOImp implements PrescriptionDAO {
                 " where p.patient = :patient");
         query.setParameter("patient", patient);
         query.executeUpdate();
+
+        LOGGER.debug("deleted prescriptions for patient {}", patient.getLastName());
     }
 }

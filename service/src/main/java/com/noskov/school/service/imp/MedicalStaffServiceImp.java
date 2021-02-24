@@ -8,6 +8,8 @@ import com.noskov.school.persistent.PatientPO;
 import com.noskov.school.persistent.StaffPostPO;
 import com.noskov.school.service.api.MedicalStaffService;
 import com.noskov.school.service.api.PatientService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,14 +23,20 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class MedicalStaffServiceImp implements MedicalStaffService {
-    @Autowired
-    private PatientService patientService;
+    private static final Logger LOGGER = LoggerFactory.getLogger(MedicalStaffServiceImp.class);
+
+    private final PatientService patientService;
+
+    private final MedicalStaffDAO medicalStaffDAO;
+
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    private MedicalStaffDAO medicalStaffDAO;
-
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    public MedicalStaffServiceImp(PatientService patientService, MedicalStaffDAO medicalStaffDAO, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.patientService = patientService;
+        this.medicalStaffDAO = medicalStaffDAO;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 
     @Override
     public List<MedicalStaffPO> getAllStaff() {
@@ -39,6 +47,7 @@ public class MedicalStaffServiceImp implements MedicalStaffService {
     public void add(MedicalStaffPO staff) {
         staff.setPassword(bCryptPasswordEncoder.encode(staff.getPassword()));
         medicalStaffDAO.add(staff);
+        LOGGER.info("Add staff");
     }
 
     @Override
@@ -49,6 +58,7 @@ public class MedicalStaffServiceImp implements MedicalStaffService {
     @Override
     public void delete(MedicalStaffPO staff) {
         medicalStaffDAO.delete(staff);
+        LOGGER.info("delete staff");
     }
 
     @Override
@@ -68,6 +78,7 @@ public class MedicalStaffServiceImp implements MedicalStaffService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        LOGGER.info("load staff by email");
         return medicalStaffDAO.getByEmail(s);
     }
 
@@ -81,6 +92,7 @@ public class MedicalStaffServiceImp implements MedicalStaffService {
 
         staff.setPost(new StaffPostPO(1L, Role.PHYSITIAN));
         add(staff);
+        LOGGER.info("Save physician");
         return true;
     }
 
@@ -94,6 +106,7 @@ public class MedicalStaffServiceImp implements MedicalStaffService {
 
         staff.setPost(new StaffPostPO(2L, Role.NURSE));
         add(staff);
+        LOGGER.info("Save nurse");
         return true;
     }
 
@@ -104,5 +117,7 @@ public class MedicalStaffServiceImp implements MedicalStaffService {
         PatientPO patient = patientService.getBySocialNumber(socialNumber);
         patient.getPhysicians().add(physician);
         physician.getPatients().add(patient);
+
+        LOGGER.info("Added patient to physician");
     }
 }

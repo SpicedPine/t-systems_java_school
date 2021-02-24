@@ -1,10 +1,15 @@
 package com.noskov.school.service.imp.prescription;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class AdditionalInformationParser {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdditionalInformationParser.class);
+
     static String MORNING_BEFORE_MEAL = "07:45:00";
     static String EVENING_BEFORE_MEAL = "17:45:00";
     static String MORNING_AFTER_MEAL = "08:40:00";
@@ -39,13 +44,16 @@ public class AdditionalInformationParser {
                 lastIndex = i;
                 break;
             } catch (NumberFormatException e){
+                LOGGER.debug("trying to find additional information...");
             }
         }
         if (lastIndex == -1){
+            LOGGER.error("Couldn't parse additional information for prescription: {}", prescription);
             throw new RuntimeException("additionalInformation parsing exception");
         } else {
             StringJoiner additionalInformation = new StringJoiner(" "," ","");
             list.stream().skip(4).limit(lastIndex-4).forEach(additionalInformation::add);
+            LOGGER.info("Parsed additional information: {}", additionalInformation.toString());
             return additionalInformation.toString();
         }
     }
@@ -54,10 +62,12 @@ public class AdditionalInformationParser {
        String keyForPattern = extractPatterns(additionalInformation);
 
        if(!keyForPattern.isEmpty()){
+           LOGGER.info("Key for pattern: {}", keyForPattern);
            return MAP_OF_DAY_TIMES.get(keyForPattern).stream()
                    .map(LocalTime::parse)
                    .collect(Collectors.toList());
        }
+       LOGGER.info("Key for pattern was empty");
        return new ArrayList<>();
     }
 

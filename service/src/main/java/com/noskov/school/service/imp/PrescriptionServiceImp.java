@@ -15,6 +15,8 @@ import com.noskov.school.service.api.PrescriptionService;
 import com.noskov.school.service.api.ProcAndMedService;
 import com.noskov.school.service.imp.prescription.PrescriptionBuilder;
 import com.noskov.school.service.imp.prescription.PrescriptionScratch;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,23 +27,29 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class PrescriptionServiceImp implements PrescriptionService {
-    @Autowired
-    private PrescriptionDAO prescriptionDAO;
+    private static final Logger LOGGER = LoggerFactory.getLogger(PrescriptionServiceImp.class);
+
+    private final PrescriptionDAO prescriptionDAO;
+
+    private final PatientDAO patientDAO;
+
+    private final ProcAndMedDAO procAndMedDAO;
+
+    private final EventDAO eventDAO;
+
+    private final EventGenerationService eventGenerationService;
+
+    private final PrescriptionServiceConverter converter;
 
     @Autowired
-    private PatientDAO patientDAO;
-
-    @Autowired
-    private ProcAndMedDAO procAndMedDAO;
-
-    @Autowired
-    private EventDAO eventDAO;
-
-    @Autowired
-    private EventGenerationService eventGenerationService;
-
-    @Autowired
-    private PrescriptionServiceConverter converter;
+    public PrescriptionServiceImp(PrescriptionDAO prescriptionDAO, PatientDAO patientDAO, ProcAndMedDAO procAndMedDAO, EventDAO eventDAO, EventGenerationService eventGenerationService, PrescriptionServiceConverter converter) {
+        this.prescriptionDAO = prescriptionDAO;
+        this.patientDAO = patientDAO;
+        this.procAndMedDAO = procAndMedDAO;
+        this.eventDAO = eventDAO;
+        this.eventGenerationService = eventGenerationService;
+        this.converter = converter;
+    }
 
     @Override
     public List<PrescriptionDTO> getAll() {
@@ -66,6 +74,8 @@ public class PrescriptionServiceImp implements PrescriptionService {
         eventGenerationService.generateEvents(prescriptionPO);
 
         prescriptionDAO.add(prescriptionPO);
+
+        LOGGER.info("Added prescription");
     }
 
     @Override
@@ -75,6 +85,8 @@ public class PrescriptionServiceImp implements PrescriptionService {
         ProcedureAndMedicinePO therapy = prescriptionPO.getPrescriptionType();
         eventDAO.deleteByPatientAndTherapy(patientPO,therapy);
         prescriptionDAO.deleteById(id);
+
+        LOGGER.info("Deleted prescription");
     }
 
     @Override
@@ -82,43 +94,14 @@ public class PrescriptionServiceImp implements PrescriptionService {
         PrescriptionPO prescriptionPO = converter.convertToPO(prescription);
         prescriptionPO.setId(prescriptionId);
         prescriptionDAO.update(prescriptionPO);
+
+        LOGGER.info("Updated prescription");
     }
-
-    /*@Override
-    public PrescriptionDTO convertToDTO(PrescriptionPO prescriptionPO){
-        PatientPO patient = prescriptionPO.getPatient();
-        ProcedureAndMedicinePO procOrMed = prescriptionPO.getPrescriptionType();
-        String formedPrescription = prescriptionPO.getFormedPrescription();
-        PrescriptionScratch scratch = prescriptionBuilder.parsePrescription(formedPrescription);
-
-        return new PrescriptionDTO(scratch, patient, procOrMed);
-    }
-
-    @Override
-    public PrescriptionPO convertToPO(PrescriptionDTO prescriptionDTO){
-        PatientPO patientPO = prescriptionDTO.getPatient();
-        ProcedureAndMedicinePO procOrMed = prescriptionDTO.getProcOrMedicine();
-        String formedPrescription = prescriptionBuilder.buildPrescription(prescriptionDTO.getScratch());
-
-        return new PrescriptionPO(patientPO,procOrMed,formedPrescription);
-    }*/
 
     @Override
     public List<PrescriptionPO> getPrescriptionsByPatient(PatientPO patient) {
-        /*List<PrescriptionPO> poList = prescriptionDAO.getPrescriptionsByPatient(patient);
-        return poList.stream().map(this::convertToDTO).collect(Collectors.toList());*/
         return prescriptionDAO.getPrescriptionsByPatient(patient);
     }
-
-    /*@Override
-    public void editMedicinePrescription(Long patientId, Long prescriptionId, PrescriptionDTO prescriptionDTO) throws Exception {
-        editPrescription(patientId, prescriptionId, prescriptionDTO);
-    }
-
-    @Override
-    public void editProcedurePrescription(Long patientId, Long prescriptionId, PrescriptionDTO prescriptionDTO) throws Exception {
-        editPrescription(patientId, prescriptionId, prescriptionDTO);
-    }*/
 
     @Override
     public void editPrescription(Long patientId, Long prescriptionId, PrescriptionDTO prescriptionDTO) throws Exception {
@@ -132,6 +115,7 @@ public class PrescriptionServiceImp implements PrescriptionService {
         eventGenerationService.generateEvents(prescriptionPO);
 
         update(prescriptionDTO, prescriptionId);
+        LOGGER.info("Edited prescription");
     }
 }
 
