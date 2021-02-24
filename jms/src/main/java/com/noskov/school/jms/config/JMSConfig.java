@@ -12,7 +12,7 @@ import java.util.Collections;
 @EnableJms
 public class JMSConfig {
 
-    private static final String MESSAGE_BROKER_URL = "tcp://localhost:61616";
+    private static final String MESSAGE_BROKER_URL = "tcp://active-mq:61616";
     private static final String USERNAME = "admin";
     private static final String PASSWORD = "admin";
     private static final String TOPIC_NAME = "eventsTopic";

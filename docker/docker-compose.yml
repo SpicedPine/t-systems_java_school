@@ -16,7 +16,6 @@ services:
     - 3306:3306
 
 
-
   active-mq:
     image: symptoma/activemq:5.16.1
     container_name: activemq
