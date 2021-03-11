@@ -1,5 +1,7 @@
 package com.noskov.school.service.api;
 
+import com.noskov.school.dto.EventDTO;
+import com.noskov.school.enums.EventStatus;
 import com.noskov.school.persistent.EventPO;
 import com.noskov.school.persistent.PatientPO;
 import com.noskov.school.persistent.ProcedureAndMedicinePO;
@@ -10,6 +12,8 @@ public interface EventService {
     List<EventPO> getAll();
 
     List<EventPO> getEventsForDay();
+
+    List<EventDTO> getEventsForDayExternal();
 
     List<EventPO> getEventsForHour();
 
@@ -23,11 +27,11 @@ public interface EventService {
 
     void deleteByPatientAndTherapy(PatientPO patientPO, ProcedureAndMedicinePO therapy);
 
-    void changeStatusToDone(Long id);
-
-    void changeStatusToCancelled(long id);
+    void changeStatus(Long id, EventStatus status);
 
     void setReasonToCancel(String reason ,Long id);
 
     String getDoseFromMedicineEvent(String dose, Long id);
+
+    void cancelFromNowByPatientAndPrescription(Long patientId, Long prescriptionId);
 }

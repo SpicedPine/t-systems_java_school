@@ -5,22 +5,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "PRESCRIPTIONS")
+@Table(name = "prescriptions")
 public class PrescriptionPO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "PATIENT_ID", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "patient_id", nullable = false)
     private PatientPO patient;
 
-    @ManyToOne
-    @JoinColumn(name = "PROC_OR_MED_ID", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "proc_or_med_id", nullable = false)
     private ProcedureAndMedicinePO prescriptionType;
 
-    @Column(name = "FORMED_PRESCRIPTION",nullable = false)
+    @Column(name = "formed_prescription",nullable = false)
     private String formedPrescription;
 
     /*@OneToMany(mappedBy = "prescription", cascade = CascadeType.ALL)

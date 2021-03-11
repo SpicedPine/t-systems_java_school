@@ -1,0 +1,68 @@
+version: "3.8"
+services:
+  my-sql:
+    image: mysql/mysql-server:5.5
+    environment:
+      - MYSQL_DATABASE=newdb
+      - MYSQL_ROOT_PASSWORD=1235
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=1235
+    container_name: mysql
+    volumes:
+      - ./sql-inserts:/docker-entrypoint-initdb.d/
+    networks:
+      - reha-network
+    ports:
+    - 3306:3306
+
+
+
+  active-mq:
+    image: symptoma/activemq:5.16.1
+    container_name: activemq
+    networks:
+      - reha-network
+    ports:
+      - 61616:61616
+      - 8161:8161
+
+  reha:
+    image: spicedpine/reha:v6
+    environment:
+      - MYSQL_ROOT_PASSWORD=1235
+      - MYSQL_DATABASE=newdb
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=1235
+      - ACTIVE_MQ_USERNAME=admin
+      - ACTIVE_MQ_PASSWOED=admin
+      - ACTIVE_MQ_TOPIC_NAME=eventsTopic
+    container_name: reha
+    networks:
+      - reha-network
+    ports:
+      - 8081:8080
+    links:
+      - my-sql
+      - active-mq
+
+  scheduler:
+    image: spicedpine/schedule:v13
+    environment:
+      - WILDFLY_PASSWOER=admin
+      - ACTIVE_MQ_USERNAME=admin
+      - ACTIVE_MQ_PASSWOED=admin
+      - ACTIVE_MQ_TOPIC_NAME=eventsTopic
+      - REHA_EVENTS_URL=localhost:8081/scheduler/events
+    container_name: schedule
+    networks:
+      - reha-network
+    ports:
+      - 9990:9990
+      - 8080:8080
+    links:
+      - reha
+      - active-mq
+
+networks:
+  reha-network:
+    driver: bridge

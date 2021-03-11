@@ -7,16 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "PROC_AND_MED")
+@Table(name = "proc_and_med")
 public class ProcedureAndMedicinePO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "NAME",nullable = false)
+    @Column(name = "name",nullable = false)
     private String name;
 
-    @Column(name = "TYPE",nullable = false)
+    @Column(name = "type",nullable = false)
     private TherapyType type;
 
     /**

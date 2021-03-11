@@ -9,16 +9,19 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
+        <module>app</module>
         <module>domain</module>
         <module>service</module>
         <module>web</module>
-        <module>app</module>
+        <module>dao</module>
+        <module>jms</module>
     </modules>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
 
+        <spring-security.version>5.3.8.RELEASE</spring-security.version>
         <spring.version>5.2.12.RELEASE</spring.version>
         <hibernate.version>5.4.27.Final</hibernate.version>
         <hibernate-jpa-api.version>1.0.2.Final</hibernate-jpa-api.version>
@@ -27,20 +30,46 @@
         <jstl.version>1.2</jstl.version>
         <junit.version>4.12</junit.version>
         <mysql-connector.version>8.0.22</mysql-connector.version>
+        <slf4j.version>1.7.30</slf4j.version>
+        <log4j.version>1.2.17</log4j.version>
+        <junit.version>5.3.2</junit.version>
 
         <failOnMissingWebXml>false</failOnMissingWebXml>
     </properties>
 
     <dependencies>
         <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.30</version>
+            <version>${slf4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>1.7.30</version>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.10.19</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

@@ -6,31 +6,31 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "EVENTS")
+@Table(name = "events")
 public class EventPO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "REASON_TO_CANCEL", nullable = true)
+    @Column(name = "reason_to_cancel", nullable = true)
     private String reasonToCancel;
 
-    @Column(name = "DOSE_DESCRIPTION", nullable = true)
+    @Column(name = "dose_description", nullable = true)
     private String doseDescription;
 
-    @ManyToOne
-    @JoinColumn(name = "PATIENT_ID",nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "patient_id",nullable = false)
     private PatientPO patient;
 
-    @Column(name = "DATE_AND_TIME",  nullable = false)
+    @Column(name = "date_and_time",  nullable = false)
     private LocalDateTime dateAndTime;
 
-    @Column(name = "STATUS", nullable = false)
+    @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private EventStatus status;
 
-    @ManyToOne
-    @JoinColumn(name = "PROC_OR_MED_ID",nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "proc_or_med_id",nullable = false)
     private ProcedureAndMedicinePO eventType;
 
     public EventPO(PatientPO patient, LocalDateTime dateAndTime, EventStatus status, ProcedureAndMedicinePO eventType) {

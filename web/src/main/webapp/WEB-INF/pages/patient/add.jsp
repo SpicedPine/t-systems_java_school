@@ -10,6 +10,7 @@
 </head>
 <body>
 <h1>Adding page</h1>
+<h3>Physician: ${pageContext.request.userPrincipal.name}</h3>
 <form:form method="POST" action="add" modelAttribute="patient">
     <fieldset>
         <form:label path="firstName">Patient's first name:</form:label>
@@ -20,12 +21,13 @@
         <form:input path="diagnose" placeholder="diagnose"/><br>
         <form:label path="socialNumber">Patient's social number:</form:label>
         <form:input path="socialNumber" placeholder="social number"/><br>
-        <form:label path="physician">Physician:</form:label>
+        <%--<form:label path="physician">Physician: </form:label>
         <form:select path="physician">
+            <form:option value="${pageContext.request.userPrincipal.name}">${pageContext.request.userPrincipal.name}</form:option>
             <c:forEach items="${physicians}" var="physicianVal">
                 <form:option value="${physicianVal}">${physicianVal.toString()}</form:option>
             </c:forEach>
-        </form:select><br>
+        </form:select><br>--%>
 
         <form:label path="status">Patient's status:</form:label><br>
         <form:select path="status">

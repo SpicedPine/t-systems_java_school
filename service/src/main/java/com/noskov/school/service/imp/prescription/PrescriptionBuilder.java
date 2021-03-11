@@ -2,6 +2,8 @@ package com.noskov.school.service.imp.prescription;
 
 import com.noskov.school.enums.TherapyType;
 import com.noskov.school.service.api.time.TimeManagement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -10,6 +12,8 @@ import java.util.StringJoiner;
 
 @Service
 public class PrescriptionBuilder implements TimeManagement {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PrescriptionBuilder.class);
+
     @Override
     public String buildPrescription(PrescriptionScratch scratch) {
         StringJoiner stringPrescription = new StringJoiner(" ");
@@ -25,6 +29,7 @@ public class PrescriptionBuilder implements TimeManagement {
             stringPrescription.add(scratch.getDose().toString());
         }
 
+        LOGGER.info("Builded prescription: {}", stringPrescription.toString());
         return stringPrescription.toString();
     }
 
@@ -33,26 +38,37 @@ public class PrescriptionBuilder implements TimeManagement {
         PrescriptionScratch scratch = null;
         TherapyType therapyType = extractType(prescription);
         if(therapyType == TherapyType.PROCEDURE){
+            LOGGER.info("Started to parse procedure...");
             scratch = ProcedureParser.parseProcedure(prescription);
         } else if (therapyType == TherapyType.MEDICINE){
+            LOGGER.info("Started to parse medicine...");
             scratch = MedicineParser.parseMedicine(prescription);
         }
         if (scratch != null){
+            LOGGER.info("Prescription parsed");
             return scratch;
-        } else throw new RuntimeException("prescription parsing exception");
+        } else {
+            LOGGER.error("Couldn't parse prescription: {}", prescription);
+            throw new RuntimeException("prescription parsing exception");
+        }
     }
 
     private static TherapyType extractType(String prescription) {
         List<String> list = getPrescriptionStringList(prescription);
         String type = list.get(0);
         if (type.equals(TherapyType.PROCEDURE.toString())){
+            LOGGER.info("Prescription type = procedure");
             return TherapyType.PROCEDURE;
         } else if (type.equals(TherapyType.MEDICINE.toString())){
+            LOGGER.info("Prescription type = medicine");
             return TherapyType.MEDICINE;
-        } else throw new RuntimeException("type parsing Exception");
+        } else {
+            LOGGER.error("Couldn't parse therapy type: {}", type);
+            throw new RuntimeException("type parsing Exception");
+        }
     }
 
-    public static List<String> getPrescriptionStringList(String prescrition){
+    private static List<String> getPrescriptionStringList(String prescrition){
         return Arrays.asList(prescrition.split(" "));
     }
 }
