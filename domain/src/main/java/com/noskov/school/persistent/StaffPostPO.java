@@ -7,13 +7,13 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "STAFF_POSTS")
+@Table(name = "staff_posts")
 public class StaffPostPO implements GrantedAuthority {
 
     @Id
     private Long id;
 
-    @Column(name = "STAFF_POST")
+    @Column(name = "staff_post")
     private Role role;
 
     @Transient

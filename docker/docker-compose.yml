@@ -9,7 +9,7 @@ services:
       - MYSQL_PASSWORD=1235
     container_name: mysql
     volumes:
-      - ./sql_scripts:/docker-entrypoint-initdb.d/
+      - ./sql-inserts:/docker-entrypoint-initdb.d/
     networks:
       - reha-network
     ports:
@@ -27,7 +27,7 @@ services:
       - 8161:8161
 
   reha:
-    image: spicedpine/reha:v2
+    image: spicedpine/reha:v6
     environment:
       - MYSQL_ROOT_PASSWORD=1235
       - MYSQL_DATABASE=newdb
@@ -40,22 +40,24 @@ services:
     networks:
       - reha-network
     ports:
-      - 8081:8081
+      - 8081:8080
     links:
       - my-sql
       - active-mq
 
   scheduler:
-    image: spicedpine/schedule:v5
+    image: spicedpine/schedule:v13
     environment:
+      - WILDFLY_PASSWOER=admin
       - ACTIVE_MQ_USERNAME=admin
       - ACTIVE_MQ_PASSWOED=admin
       - ACTIVE_MQ_TOPIC_NAME=eventsTopic
       - REHA_EVENTS_URL=localhost:8081/scheduler/events
-    container_name: scheduler
+    container_name: schedule
     networks:
       - reha-network
     ports:
+      - 9990:9990
       - 8080:8080
     links:
       - reha

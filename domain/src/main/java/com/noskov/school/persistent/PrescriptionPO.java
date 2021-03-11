@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "PRESCRIPTIONS")
+@Table(name = "prescriptions")
 public class PrescriptionPO {
 
     @Id
@@ -13,14 +13,14 @@ public class PrescriptionPO {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PATIENT_ID", nullable = false)
+    @JoinColumn(name = "patient_id", nullable = false)
     private PatientPO patient;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PROC_OR_MED_ID", nullable = false)
+    @JoinColumn(name = "proc_or_med_id", nullable = false)
     private ProcedureAndMedicinePO prescriptionType;
 
-    @Column(name = "FORMED_PRESCRIPTION",nullable = false)
+    @Column(name = "formed_prescription",nullable = false)
     private String formedPrescription;
 
     /*@OneToMany(mappedBy = "prescription", cascade = CascadeType.ALL)

@@ -120,4 +120,15 @@ public class MedicalStaffServiceImp implements MedicalStaffService {
 
         LOGGER.info("Added patient to physician");
     }
+
+    @Override
+    public boolean checkExistence(MedicalStaffPO staffPO) {
+        MedicalStaffPO staffPOFromDB = medicalStaffDAO.getByEmail(staffPO.getEmail());
+
+        if (staffPOFromDB!=null){
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

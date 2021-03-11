@@ -5,25 +5,25 @@ import com.noskov.school.enums.PatientStatus;
 import javax.persistence.*;
 import java.util.*;
 @Entity
-@Table(name = "PATIENTS")
+@Table(name = "patients")
 public class PatientPO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "FIRST_NAME", nullable = false)
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(name = "LAST_NAME", nullable = false)
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(name = "DIAGNOSE", nullable = false)
+    @Column(name = "diagnose", nullable = false)
     private String diagnose;
 
-    @Column(name = "SOCIAL_NUMBER", nullable = false, unique = true)
+    @Column(name = "social_number", nullable = false, unique = true)
     private int socialNumber;
 
-    @Column(name = "STATUS", nullable = false)
+    @Column(name = "status", nullable = false)
     private PatientStatus status;
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
@@ -33,9 +33,9 @@ public class PatientPO {
     private List<EventPO> eventList = new ArrayList<>();
 
     @ManyToMany
-    @JoinTable(name = "PATIENT_MEDICAL_STAFF",
-            joinColumns = @JoinColumn(name = "PATIENT_ID"),
-            inverseJoinColumns = @JoinColumn(name = "MEDICAL_STAFF_ID"))
+    @JoinTable(name = "patient_medical_staff",
+            joinColumns = @JoinColumn(name = "patient_id"),
+            inverseJoinColumns = @JoinColumn(name = "medical_staff_id"))
     private Set<MedicalStaffPO> physicians = new HashSet<>();
 
     public Long getId() {

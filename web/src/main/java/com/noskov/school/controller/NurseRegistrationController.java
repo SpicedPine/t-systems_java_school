@@ -38,7 +38,9 @@ public class NurseRegistrationController {
     @PostMapping("/registration")
     public String signUp(@ModelAttribute(name = "staff") MedicalStaffPO staff, Model model) {
 
-        if (!medicalStaffService.saveNurse(staff)){
+        LOGGER.info("Trying to save nurse...");
+
+        if (!medicalStaffService.checkExistence(staff)){
             LOGGER.info("There was try to create nurse with already exist email");
 
             model.addAttribute("usernameError", "Nurse with provided email already exist");
@@ -51,8 +53,6 @@ public class NurseRegistrationController {
             model.addAttribute("passwordError", "Passwords doesn't match");
             return "nurse/registration";
         }
-
-        LOGGER.info("Trying to save nurse...");
 
         medicalStaffService.saveNurse(staff);
         return "redirect:/";

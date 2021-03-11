@@ -11,26 +11,26 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "STAFF")
+@Table(name = "staff")
 public class MedicalStaffPO implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(name = "EMAIL", nullable = false)
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "FIRST_NAME", nullable = false)
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(name = "LAST_NAME", nullable = false)
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "POST_ID", nullable = false)
+    @JoinColumn(name = "post_id", nullable = false)
     private StaffPostPO post;
 
-    @Column(name = "PASSWORD", nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Transient
