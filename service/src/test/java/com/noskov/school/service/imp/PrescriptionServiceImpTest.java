@@ -9,14 +9,12 @@ import com.noskov.school.dto.PrescriptionDTO;
 import com.noskov.school.persistent.PatientPO;
 import com.noskov.school.persistent.PrescriptionPO;
 import com.noskov.school.persistent.ProcedureAndMedicinePO;
-import com.noskov.school.service.api.EventGenerationService;
-import com.noskov.school.service.imp.prescription.PrescriptionScratch;
+import com.noskov.school.dto.prescription.PrescriptionScratch;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class PrescriptionServiceImpTest {

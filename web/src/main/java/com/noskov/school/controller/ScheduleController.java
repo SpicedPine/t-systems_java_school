@@ -1,6 +1,6 @@
 package com.noskov.school.controller;
 
-import com.noskov.school.dto.EventDTO;
+import com.noskov.school.dto.ExportEventDTO;
 import com.noskov.school.service.api.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,10 +24,10 @@ public class ScheduleController {
     }
 
     @GetMapping("/events")
-    public List<EventDTO> events(){
+    public List<ExportEventDTO> events(){
         LOGGER.info("External get request for events on today");
 
-        List<EventDTO> eventDTOList = eventService.getEventsForDayExternal();
+        List<ExportEventDTO> eventDTOList = eventService.getEventsForDayExternal();
         return eventDTOList;
     }
 }

@@ -4,8 +4,8 @@ import com.noskov.school.dto.PrescriptionDTO;
 import com.noskov.school.persistent.PatientPO;
 import com.noskov.school.persistent.PrescriptionPO;
 import com.noskov.school.persistent.ProcedureAndMedicinePO;
-import com.noskov.school.service.imp.prescription.PrescriptionBuilder;
-import com.noskov.school.service.imp.prescription.PrescriptionScratch;
+import com.noskov.school.dto.prescription.PrescriptionBuilder;
+import com.noskov.school.dto.prescription.PrescriptionScratch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

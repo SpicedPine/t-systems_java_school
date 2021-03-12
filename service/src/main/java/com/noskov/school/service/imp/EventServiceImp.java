@@ -4,7 +4,7 @@ import com.noskov.school.converters.EventServiceConverter;
 import com.noskov.school.dao.api.EventDAO;
 import com.noskov.school.dao.api.PatientDAO;
 import com.noskov.school.dao.api.PrescriptionDAO;
-import com.noskov.school.dto.EventDTO;
+import com.noskov.school.dto.ExportEventDTO;
 import com.noskov.school.enums.EventStatus;
 import com.noskov.school.persistent.EventPO;
 import com.noskov.school.persistent.PatientPO;
@@ -104,10 +104,10 @@ public class EventServiceImp implements EventService {
     }
 
     @Override
-    public List<EventDTO> getEventsForDayExternal() {
+    public List<ExportEventDTO> getEventsForDayExternal() {
         LOGGER.info("Getting events for external use");
         List<EventPO> eventPOList = getEventsForDay();
-        List<EventDTO> eventDTOList = eventPOList.stream()
+        List<ExportEventDTO> eventDTOList = eventPOList.stream()
                 .map(e -> converter.convertToDTO(e))
                 .collect(Collectors.toList());
         return eventDTOList;

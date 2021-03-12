@@ -4,7 +4,6 @@ import com.noskov.school.converters.EventServiceConverter;
 import com.noskov.school.dao.api.EventDAO;
 import com.noskov.school.dao.api.PatientDAO;
 import com.noskov.school.dao.api.PrescriptionDAO;
-import com.noskov.school.dto.EventDTO;
 import com.noskov.school.enums.EventStatus;
 import com.noskov.school.persistent.EventPO;
 import com.noskov.school.persistent.PatientPO;
