@@ -1,7 +1,7 @@
 package com.noskov.school.controller;
 
+import com.noskov.school.dto.InnerEventDTO;
 import com.noskov.school.enums.EventStatus;
-import com.noskov.school.persistent.EventPO;
 import com.noskov.school.service.api.EventScheduleService;
 import com.noskov.school.service.api.EventService;
 import org.slf4j.Logger;
@@ -66,7 +66,7 @@ public class EventController {
     }
 
     @PostMapping("/{eventId}/changeToCancelled")
-    public String doCancel(@ModelAttribute EventPO eventPO,
+    public String doCancel(@ModelAttribute InnerEventDTO eventPO,
                            @PathVariable("eventId") Long eventId){
         LOGGER.info("Setting reason to cancel event with id = {}", eventId);
 

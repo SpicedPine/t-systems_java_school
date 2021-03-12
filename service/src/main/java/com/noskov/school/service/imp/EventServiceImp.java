@@ -5,6 +5,7 @@ import com.noskov.school.dao.api.EventDAO;
 import com.noskov.school.dao.api.PatientDAO;
 import com.noskov.school.dao.api.PrescriptionDAO;
 import com.noskov.school.dto.ExportEventDTO;
+import com.noskov.school.dto.InnerEventDTO;
 import com.noskov.school.enums.EventStatus;
 import com.noskov.school.persistent.EventPO;
 import com.noskov.school.persistent.PatientPO;
@@ -43,31 +44,41 @@ public class EventServiceImp implements EventService {
     }
 
     @Override
-    public List<EventPO> getAll() {
-        return eventDAO.getAllEvents();
+    public List<InnerEventDTO> getAll() {
+        List<EventPO> poList = eventDAO.getAllEvents();
+        List<InnerEventDTO> dtoList = poList.stream().map(converter::convertToInnerDTO).collect(Collectors.toList());
+        return dtoList;
     }
 
     @Override
-    public List<EventPO> getEventsForHour() {
-        return eventDAO.getEventsFotHour();
+    public List<InnerEventDTO> getEventsForHour() {
+        List<EventPO> eventsFotHour = eventDAO.getEventsFotHour();
+        List<InnerEventDTO> eventDTOS = eventsFotHour.stream().map(converter::convertToInnerDTO).collect(Collectors.toList());
+        return eventDTOS;
     }
 
     @Override
-    public List<EventPO> getEventsForDay() {
-        return eventDAO.getEventsForDay();
+    public List<InnerEventDTO> getEventsForDay() {
+        List<EventPO> eventsFotDay = eventDAO.getEventsForDay();
+        List<InnerEventDTO> eventDTOS = eventsFotDay.stream().map(converter::convertToInnerDTO).collect(Collectors.toList());
+        return eventDTOS;
     }
 
     @Override
-    public EventPO getOne(Long id) {
+    public InnerEventDTO getOne(Long id) {
         LOGGER.info("Getting EventPO by id: {}", id);
-        return eventDAO.getById(id);
+        EventPO eventPO = eventDAO.getById(id);
+        return converter.convertToInnerDTO(eventPO);
     }
 
-    @Override
-    public void add(EventPO event) {
+    /*@Override
+    public void add(InnerEventDTO event) {
+        PatientPO patientPO = patientDAO.
+        converter.convertToPO(InnerEventDTO event);
+
         eventDAO.add(event);
         LOGGER.info("Added event...");
-    }
+    }*/
 
     @Override
     public void delete(Long id) {
@@ -75,10 +86,10 @@ public class EventServiceImp implements EventService {
         LOGGER.info("Delete event");
     }
 
-    @Override
-    public void update(EventPO event) {
+    /*@Override
+    public void update(InnerEventDTO event) {
         eventDAO.update(event);
-    }
+    }*/
 
     @Override
     public void deleteByPatientAndTherapy(PatientPO patientPO, ProcedureAndMedicinePO therapy) {
@@ -106,9 +117,9 @@ public class EventServiceImp implements EventService {
     @Override
     public List<ExportEventDTO> getEventsForDayExternal() {
         LOGGER.info("Getting events for external use");
-        List<EventPO> eventPOList = getEventsForDay();
+        List<EventPO> eventPOList = eventDAO.getEventsForDay();
         List<ExportEventDTO> eventDTOList = eventPOList.stream()
-                .map(e -> converter.convertToDTO(e))
+                .map(e -> converter.convertToExportDTO(e))
                 .collect(Collectors.toList());
         return eventDTOList;
     }

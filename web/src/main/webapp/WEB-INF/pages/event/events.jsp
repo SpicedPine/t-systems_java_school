@@ -40,11 +40,11 @@
     </tr>
     <c:forEach items="${events}" var="event">
         <tr class="table-data">
-            <td>${event.patient.lastName}</td>
-            <td>${event.patient.firstName}</td>
-            <td>${event.dateAndTime}</td>
-            <td>${event.status}</td>
-            <td>${event.eventType.name}</td>
+            <td>${event.patientLastName}</td>
+            <td>${event.patientFirstName}</td>
+            <td>${event.dateTime}</td>
+            <td>${event.eventStatus}</td>
+            <td>${event.eventTypeName}</td>
             <td><a href="<c:url value="/event/${event.id}/changeToDone"/>">change status to "done"</a></td>
             <td><a href="<c:url value="/event/${event.id}/changeToCancelled"/>">change status to "canceled"</a></td>
         </tr>

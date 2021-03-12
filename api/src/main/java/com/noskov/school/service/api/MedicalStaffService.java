@@ -16,5 +16,5 @@ public interface MedicalStaffService extends UserDetailsService {
     void update(MedicalStaffPO staff);
     List<MedicalStaffPO> getAllPhysicians();
     void addPatientToPhysician(PatientPO patientPO, MedicalStaffPO physician);
-    boolean checkExistence(MedicalStaffPO staffPO);
+    boolean checkExistence(MedicalStaffPO staffDTO);
 }

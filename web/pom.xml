@@ -86,12 +86,6 @@
         </dependency>
         <dependency>
             <groupId>com.t-systems.jsproject</groupId>
-            <artifactId>domain</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.t-systems.jsproject</groupId>
             <artifactId>jms</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
